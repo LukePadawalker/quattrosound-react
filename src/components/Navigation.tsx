@@ -46,7 +46,7 @@ export default function Navigation({ onCartClick }: NavigationProps) {
               <button onClick={() => scrollToSection('contact')} className="text-gray-400 hover:accent-gold transition-colors px-3 py-2 text-sm font-medium">
                 Contatti
               </button>
-              <button
+              {/* <button
                 onClick={onCartClick}
                 className="relative gradient-gold text-black px-6 py-2 rounded-lg text-sm font-medium transition-all hover:shadow-lg hover:shadow-yellow-500/20 flex items-center gap-2"
               >
@@ -57,7 +57,7 @@ export default function Navigation({ onCartClick }: NavigationProps) {
                     {itemCount}
                   </span>
                 )}
-              </button>
+              </button> */}
             </div>
           </div>
 

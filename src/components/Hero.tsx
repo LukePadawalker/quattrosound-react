@@ -10,7 +10,7 @@ export default function Hero() {
     <section id="home" className="relative min-h-screen flex items-center justify-center overflow-hidden pt-20">
       <div className="absolute inset-0 z-0">
         <img
-          src="/WhatsApp Image 2025-11-07 at 11.18.57.jpeg"
+          src="/impact-herobg.jpeg"
           alt="LED Wall Event"
           className="w-full h-full object-cover"
         />

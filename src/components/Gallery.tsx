@@ -6,55 +6,55 @@ export default function Gallery() {
 
   const projects = [
     {
-      image: '/WhatsApp Image 2025-11-07 at 11.18.56 (3).jpeg',
+      image: '/impact.jpeg',
       title: 'Evento Impactful',
       description: 'Grande schermo LED e regia professionale per evento corporate',
       category: 'Conferenze'
     },
     {
-      image: '/WhatsApp Image 2025-11-02 at 17.29.25 (4).jpeg',
+      image: '/impact2.jpeg',
       title: 'Convention Internazionale',
       description: 'Multiple schermi LED e setup audio completo per evento multi-sala',
       category: 'Eventi Aziendali'
     },
     {
-      image: '/WhatsApp Image 2025-11-07 at 11.17.59.jpeg',
+      image: '/impact3.jpeg',
       title: 'Setup Palco Professionale',
       description: 'Illuminazione, LED wall e impianto audio line array per concerto live',
       category: 'Concerti'
     },
     {
-      image: '/WhatsApp Image 2025-11-02 at 17.29.24 (2).jpeg',
+      image: '/impact4.jpeg',
       title: 'Orchestra Live',
       description: 'Microfonazione orchestrale e impianto audio di precisione',
       category: 'Concerti'
     },
     {
-      image: '/WhatsApp Image 2025-11-02 at 17.29.22.jpeg',
+      image: '/impact5.jpeg',
       title: 'Sistema Lighting Avanzato',
       description: 'Traliccio motorizzato con luci intelligenti e controllo DMX',
       category: 'Lighting'
     },
     {
-      image: '/WhatsApp Image 2025-11-02 at 17.29.24 (1).jpeg',
+      image: '/impact6.jpeg',
       title: 'Evento di Prestigio',
       description: 'Palco completo con LED wall e illuminazione coordinata',
       category: 'Concerti'
     },
     {
-      image: '/WhatsApp Image 2025-11-02 at 17.29.24.jpeg',
+      image: '/impact7.jpeg',
       title: 'Setup Audio Professionale',
       description: 'Sistema audio line array con microfonazione wireless',
       category: 'Audio'
     },
     {
-      image: '/WhatsApp Image 2025-11-02 at 17.29.25 (1).jpeg',
+      image: '/impact8.jpeg',
       title: 'Evento Corporate Premium',
       description: 'LED wall gigante e regia tecnica completa',
       category: 'Eventi Aziendali'
     },
     {
-      image: '/WhatsApp Image 2025-11-02 at 17.29.23.jpeg',
+      image: '/impact9.jpeg',
       title: 'Concerto Live',
       description: 'Setup completo con schermi LED e audio professionale',
       category: 'Concerti'
