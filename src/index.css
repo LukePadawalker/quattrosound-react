@@ -1,0 +1,62 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&family=Stack+Sans+Notch:wght@200..700&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --color-dark: #181818;
+  --color-gold-light: #D4AF37;
+  --color-gold-dark: #AA8C2C;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply text-gray-200;
+    background-color: rgb(24, 24, 24);
+    font-family: 'Roboto', serif;
+    font-size: 16px;
+    line-height: 1.6;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Roboto', serif;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+  }
+
+  h1 {
+    font-size: 3.5rem;
+    font-weight: 900;
+  }
+
+  h2 {
+    font-size: 2.5rem;
+    font-weight: 800;
+  }
+
+  h3 {
+    font-size: 1.875rem;
+    font-weight: 700;
+  }
+}
+
+@layer utilities {
+  .gradient-gold {
+    background: linear-gradient(135deg, #D4AF37 0%, #AA8C2C 100%);
+  }
+
+  .text-gradient-gold {
+    background: linear-gradient(135deg, #D4AF37 0%, #AA8C2C 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .accent-gold {
+    color: #D4AF37;
+  }
+}
