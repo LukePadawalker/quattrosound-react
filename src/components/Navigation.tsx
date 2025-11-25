@@ -18,11 +18,12 @@ export default function Navigation({ onCartClick }: NavigationProps) {
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 border-gray-800">
-      <div className=" mx-auto px-2 py-1 my-8 sm:mx-8 sm:px-8 md:px-16 md:mx-8 lg:px-16 xl:mx-24 2xl:mx-64 rounded-full bg-gradient-to-r from-blue-900/70 to-cyan-700/70  ">
+      <div className="mx-8 px-8 py-4 my-4 sm:mx-8 sm:pl-4 sm:pr-8 md:px-8 md:mx-8 lg:px-16 xl:mx-24 2xl:mx-64 rounded-full bg-gradient-to-r from-cyan-400/10 to-blue-400/10 backdrop-blur ">
         <div className="flex items-center justify-between h-16">
           <div className="flex-shrink-0">
-            <h1 className="text-3xl font-bold text-white">
-              <span className="text-gradient-blue">QuattroSound</span>
+            <h1 className="flex items-center text-3xl font-bold text-white">
+              <img className="w-24 py-4" src="/logo-prov.png" alt="logo" />
+              {/* <span className="text-gradient-blue">QuattroSound</span> */}
             </h1>
           </div>
 
@@ -67,7 +68,7 @@ export default function Navigation({ onCartClick }: NavigationProps) {
               className="relative text-gray-400 hover:accent-gold transition-colors"
             >
               <ShoppingCart size={24} />
-              {itemCount > 0 && (
+              {~itemCount > 0 && (
                 <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs font-bold w-5 h-5 rounded-full flex items-center justify-center">
                   {itemCount}
                 </span>

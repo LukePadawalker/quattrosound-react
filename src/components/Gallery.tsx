@@ -62,8 +62,8 @@ export default function Gallery() {
   ];
 
   return (
-    <section id="gallery" className="py-24 bg-gray-800">
-      <div className=" mx-auto px-4 sm:px-6 lg:px-8">
+    <section id="gallery" className="py-24 bg-gradient-to-r from-blue-500/20 to-cyan-500/20">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
           <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
             Il Nostro <span className="text-cyan-400">Portfolio</span>

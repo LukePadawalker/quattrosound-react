@@ -45,7 +45,7 @@ export default function Contact() {
 
   return (
     <section id="contact" className="py-24 bg-gray-800">
-      <div className="mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
           <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
             Richiedi un <span className="text-cyan-400">Preventivo</span>
@@ -73,8 +73,8 @@ export default function Contact() {
                 </div>
                 <div>
                   <h4 className="text-white font-semibold mb-1">Telefono</h4>
-                  <a href="tel:+393331234567" className="text-gray-400 hover:text-cyan-400 transition-colors">
-                    +39 333 123 4567
+                  <a href="tel:+393208980405" className="text-gray-400 hover:text-cyan-400 transition-colors">
+                    +39 320 898 0405
                   </a>
                 </div>
               </div>
@@ -85,8 +85,8 @@ export default function Contact() {
                 </div>
                 <div>
                   <h4 className="text-white font-semibold mb-1">WhatsApp</h4>
-                  <a href="https://wa.me/393331234567" className="text-gray-400 hover:text-cyan-400 transition-colors">
-                    +39 333 123 4567
+                  <a href="https://wa.me/393208980405" className="text-gray-400 hover:text-cyan-400 transition-colors">
+                    +39 320 898 0405
                   </a>
                 </div>
               </div>
@@ -97,8 +97,8 @@ export default function Contact() {
                 </div>
                 <div>
                   <h4 className="text-white font-semibold mb-1">Email</h4>
-                  <a href="mailto:info@ledpro.it" className="text-gray-400 hover:text-cyan-400 transition-colors">
-                    info@ledpro.it
+                  <a href="mailto:info@quattrosound.it" className="text-gray-400 hover:text-cyan-400 transition-colors">
+                    info@quattrosound.it
                   </a>
                 </div>
               </div>
@@ -110,8 +110,8 @@ export default function Contact() {
                 <div>
                   <h4 className="text-white font-semibold mb-1">Sede Operativa</h4>
                   <p className="text-gray-400">
-                    Via Roma 123<br />
-                    00100 Roma, Italia
+                    Via Monte Nero 36 <br />
+                    00012 Guidonia Montecelio (RM), Italia
                   </p>
                 </div>
               </div>
