@@ -3,7 +3,7 @@ import { Award, Target, Users, Zap } from 'lucide-react';
 export default function About() {
   return (
     <section id="about" className="py-24 bg-gradient-to-r from-cyan-500/10 to-blue-500/10 ">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
           <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
             Chi <span className="text-cyan-400">Siamo</span>
