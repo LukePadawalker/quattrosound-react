@@ -42,14 +42,6 @@ export default function Services() {
 
   return (
     <section id="services" className="py-24">
-      <div className="absolute inset-0 z-0">
-        <img
-          src="/impact3.jpeg"
-          alt="LED Wall Event"
-          className="w-full h-full object-cover"
-        />
-        <div className="absolute inset-0" style={{ background: 'linear-gradient(to bottom, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.8))' }}></div>
-      </div>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
           <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
