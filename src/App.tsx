@@ -10,6 +10,7 @@ import Navigation from './components/Navigation';
 import Footer from './components/Footer';
 import Cart from './components/Cart';
 import Checkout from './components/Checkout';
+import CookieBanner from './components/CookieBanner';
 import { CartProvider } from './context/CartContext';
 
 function App() {
@@ -43,6 +44,8 @@ function App() {
         {showCheckout && (
           <Checkout onClose={() => setShowCheckout(false)} />
         )}
+
+        <CookieBanner />
       </div>
     </CartProvider>
   );
