@@ -21,7 +21,7 @@ export default function Contact() {
     try {
       await fetch("https://script.google.com/macros/s/AKfycbzThyYaYTkQePH3MdrqZ7dxpARqm2m1mDuqCVY6frN-z-1Of5A2im53AsYMOCbsuiwpvA/exec", {
         method: "POST",
-        body: new FormData(e.target),
+        body: new FormData(e.currentTarget as HTMLFormElement),
       });
 
       setSubmitted(true);
