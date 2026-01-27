@@ -1,65 +1,84 @@
-import { useState } from 'react';
-import { X } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { X, Loader2 } from 'lucide-react';
+import { supabase } from '../lib/supabase';
+
+interface PortfolioItem {
+  id: string;
+  title: string;
+  description: string;
+  category: string;
+  image_url: string;
+}
 
 export default function Gallery() {
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
+  const [projects, setProjects] = useState<PortfolioItem[]>([]);
+  const [loading, setLoading] = useState(true);
 
-  const projects = [
-    {
-      image: '/impact.jpeg',
-      title: 'Evento Impactful',
-      description: 'Grande schermo LED e regia professionale per evento corporate',
-      category: 'Conferenze'
-    },
-    {
-      image: '/impact2.jpeg',
-      title: 'Convention Internazionale',
-      description: 'Multiple schermi LED e setup audio completo per evento multi-sala',
-      category: 'Eventi Aziendali'
-    },
-    {
-      image: '/impact3.jpeg',
-      title: 'Setup Palco Professionale',
-      description: 'Illuminazione, LED wall e impianto audio line array per concerto live',
-      category: 'Concerti'
-    },
-    {
-      image: '/impact4.jpeg',
-      title: 'Orchestra Live',
-      description: 'Microfonazione orchestrale e impianto audio di precisione',
-      category: 'Concerti'
-    },
-    {
-      image: '/impact5.jpeg',
-      title: 'Sistema Lighting Avanzato',
-      description: 'Traliccio motorizzato con luci intelligenti e controllo DMX',
-      category: 'Lighting'
-    },
-    {
-      image: '/impact6.jpeg',
-      title: 'Evento di Prestigio',
-      description: 'Palco completo con LED wall e illuminazione coordinata',
-      category: 'Concerti'
-    },
-    {
-      image: '/impact7.jpeg',
-      title: 'Setup Audio Professionale',
-      description: 'Sistema audio line array con microfonazione wireless',
-      category: 'Audio'
-    },
-    {
-      image: '/impact8.jpeg',
-      title: 'Evento Corporate Premium',
-      description: 'LED wall gigante e regia tecnica completa',
-      category: 'Eventi Aziendali'
-    },
-    {
-      image: '/impact9.jpeg',
-      title: 'Concerto Live',
-      description: 'Setup completo con schermi LED e audio professionale',
-      category: 'Concerti'
+  useEffect(() => {
+    fetchProjects();
+  }, []);
+
+  const fetchProjects = async () => {
+    setLoading(true);
+    const { data, error } = await supabase
+      .from('portfolio_items')
+      .select('*')
+      .order('created_at', { ascending: false });
+
+    if (error) {
+      console.error('Error fetching projects:', error);
+    } else if (data && data.length > 0) {
+      setProjects(data);
+    } else {
+      // Fallback to hardcoded projects if DB is empty
+      setProjects([
+        {
+          id: '1',
+          image_url: '/impact.jpeg',
+          title: 'Evento Impactful',
+          description: 'Grande schermo LED e regia professionale per evento corporate',
+          category: 'Conferenze'
+        },
+        {
+          id: '2',
+          image_url: '/impact2.jpeg',
+          title: 'Convention Internazionale',
+          description: 'Multiple schermi LED e setup audio completo per evento multi-sala',
+          category: 'Eventi Aziendali'
+        },
+        {
+          id: '3',
+          image_url: '/impact3.jpeg',
+          title: 'Setup Palco Professionale',
+          description: 'Illuminazione, LED wall e impianto audio line array per concerto live',
+          category: 'Concerti'
+        },
+        {
+          id: '4',
+          image_url: '/impact4.jpeg',
+          title: 'Orchestra Live',
+          description: 'Microfonazione orchestrale e impianto audio di precisione',
+          category: 'Concerti'
+        },
+        {
+          id: '5',
+          image_url: '/impact5.jpeg',
+          title: 'Sistema Lighting Avanzato',
+          description: 'Traliccio motorizzato con luci intelligenti e controllo DMX',
+          category: 'Lighting'
+        },
+        {
+          id: '6',
+          image_url: '/impact6.jpeg',
+          title: 'Evento di Prestigio',
+          description: 'Palco completo con LED wall e illuminazione coordinata',
+          category: 'Concerti'
+        }
+      ]);
     }
-  ];
+    setLoading(false);
+  };
 
   return (
     <section id="gallery" className="py-24 bg-gradient-to-r from-blue-500/20 to-cyan-500/20">
@@ -74,33 +93,39 @@ export default function Gallery() {
           </p>
         </div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {projects.map((project, index) => (
-            <div
-              key={index}
-              className="group relative overflow-hidden rounded-lg cursor-pointer"
-              onClick={() => setSelectedImage(project.image)}
-            >
-              <div className="aspect-[4/3] overflow-hidden">
-                <img
-                  src={project.image}
-                  alt={project.title}
-                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                />
-              </div>
+        {loading ? (
+          <div className="flex justify-center items-center py-20">
+            <Loader2 className="text-cyan-400 animate-spin" size={48} />
+          </div>
+        ) : (
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {projects.map((project) => (
+              <div
+                key={project.id}
+                className="group relative overflow-hidden rounded-lg cursor-pointer"
+                onClick={() => setSelectedImage(project.image_url)}
+              >
+                <div className="aspect-[4/3] overflow-hidden">
+                  <img
+                    src={project.image_url}
+                    alt={project.title}
+                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                  />
+                </div>
 
-              <div className="absolute inset-0 bg-gradient-to-t from-gray-900 via-gray-900/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                <div className="absolute bottom-0 left-0 right-0 p-6">
-                  <span className="inline-block bg-cyan-500 text-white text-xs font-semibold px-3 py-1 rounded-full mb-3">
-                    {project.category}
-                  </span>
-                  <h3 className="text-xl font-bold text-white mb-2">{project.title}</h3>
-                  <p className="text-gray-300 text-sm">{project.description}</p>
+                <div className="absolute inset-0 bg-gradient-to-t from-gray-900 via-gray-900/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                  <div className="absolute bottom-0 left-0 right-0 p-6">
+                    <span className="inline-block bg-cyan-500 text-white text-xs font-semibold px-3 py-1 rounded-full mb-3">
+                      {project.category}
+                    </span>
+                    <h3 className="text-xl font-bold text-white mb-2">{project.title}</h3>
+                    <p className="text-gray-300 text-sm">{project.description}</p>
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        )}
 
         <div className="mt-16 text-center">
           <p className="text-gray-400 text-lg mb-8">
