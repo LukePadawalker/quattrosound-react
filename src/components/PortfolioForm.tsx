@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { supabase } from '../lib/supabase';
-import { X, Upload, Loader2 } from 'lucide-react';
+import { X, Upload, Loader2, Image as ImageIcon } from 'lucide-react';
 
 interface PortfolioItem {
   id: string;
@@ -19,7 +19,7 @@ interface PortfolioFormProps {
 export default function PortfolioForm({ item, onClose, onSuccess }: PortfolioFormProps) {
   const [title, setTitle] = useState(item?.title || '');
   const [description, setDescription] = useState(item?.description || '');
-  const [category, setCategory] = useState(item?.category || '');
+  const [category, setCategory] = useState(item?.category || 'PRO-SOUND');
   const [imageUrl] = useState(item?.image_url || '');
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [loading, setLoading] = useState(false);
@@ -49,7 +49,7 @@ export default function PortfolioForm({ item, onClose, onSuccess }: PortfolioFor
         .upload(filePath, imageFile);
 
       if (uploadError) {
-        alert('Error uploading image: ' + uploadError.message);
+        alert('Errore durante il caricamento dell\'immagine: ' + uploadError.message);
         setUploading(false);
         setLoading(false);
         return;
@@ -78,7 +78,7 @@ export default function PortfolioForm({ item, onClose, onSuccess }: PortfolioFor
         .update(portfolioData)
         .eq('id', item.id);
 
-      if (error) alert('Error updating item: ' + error.message);
+      if (error) alert('Errore durante l\'aggiornamento: ' + error.message);
       else onSuccess();
     } else {
       // Create
@@ -86,7 +86,7 @@ export default function PortfolioForm({ item, onClose, onSuccess }: PortfolioFor
         .from('portfolio_items')
         .insert([portfolioData]);
 
-      if (error) alert('Error creating item: ' + error.message);
+      if (error) alert('Errore durante la creazione: ' + error.message);
       else onSuccess();
     }
 
@@ -94,65 +94,70 @@ export default function PortfolioForm({ item, onClose, onSuccess }: PortfolioFor
   };
 
   return (
-    <div className="fixed inset-0 bg-black/70 z-50 flex items-center justify-center p-4 backdrop-blur-sm">
-      <div className="bg-gray-800 rounded-2xl w-full max-w-2xl shadow-2xl border border-gray-700 overflow-hidden">
-        <div className="flex items-center justify-between p-6 border-b border-gray-700">
-          <h2 className="text-xl font-bold text-white">
-            {item ? 'Edit Project' : 'Add New Project'}
-          </h2>
+    <div className="fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-4 backdrop-blur-md">
+      <div className="bg-[#111827] rounded-2xl w-full max-w-3xl shadow-2xl border border-gray-800 overflow-hidden animate-in fade-in zoom-in duration-300">
+        <div className="flex items-center justify-between p-6 border-b border-gray-800">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 bg-cyan-500/10 rounded-lg flex items-center justify-center">
+              <ImageIcon className="text-cyan-400" size={24} />
+            </div>
+            <h2 className="text-xl font-bold text-white audiowide-regular uppercase tracking-tight">
+              {item ? 'Modifica Articolo' : 'Nuovo Articolo Portfolio'}
+            </h2>
+          </div>
           <button
             onClick={onClose}
-            className="text-gray-400 hover:text-white transition-colors"
+            className="text-gray-500 hover:text-white transition-colors bg-gray-800 p-2 rounded-full"
           >
-            <X size={24} />
+            <X size={20} />
           </button>
         </div>
 
-        <form onSubmit={handleSubmit} className="p-6 space-y-6">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <form onSubmit={handleSubmit} className="p-8 space-y-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
             <div className="space-y-6">
               <div>
-                <label className="block text-sm font-medium text-gray-400 mb-2">
-                  Project Title
+                <label className="block text-xs font-bold text-gray-500 uppercase tracking-widest mb-3">
+                  Titolo Progetto
                 </label>
                 <input
                   type="text"
                   value={title}
                   onChange={(e) => setTitle(e.target.value)}
-                  className="w-full bg-gray-700 border border-gray-600 text-white px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-500 transition-all"
+                  placeholder="Es: Live Concert Setup"
+                  className="w-full bg-[#1f2937] border border-gray-700 text-white px-4 py-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-cyan-500/50 transition-all font-medium"
                   required
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-400 mb-2">
-                  Category
+                <label className="block text-xs font-bold text-gray-500 uppercase tracking-widest mb-3">
+                  Categoria
                 </label>
                 <select
                   value={category}
                   onChange={(e) => setCategory(e.target.value)}
-                  className="w-full bg-gray-700 border border-gray-600 text-white px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-500 transition-all"
+                  className="w-full bg-[#1f2937] border border-gray-700 text-white px-4 py-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-cyan-500/50 transition-all font-medium appearance-none"
                   required
                 >
-                  <option value="">Select Category</option>
-                  <option value="Conferenze">Conferenze</option>
-                  <option value="Eventi Aziendali">Eventi Aziendali</option>
-                  <option value="Concerti">Concerti</option>
-                  <option value="Lighting">Lighting</option>
-                  <option value="Audio">Audio</option>
-                  <option value="Altro">Altro</option>
+                  <option value="PRO-SOUND">PRO-SOUND</option>
+                  <option value="LIGHTING">LIGHTING</option>
+                  <option value="STAGE">STAGE</option>
+                  <option value="CORPORATE">CORPORATE</option>
+                  <option value="CONCERT">CONCERT</option>
                 </select>
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-400 mb-2">
-                  Description
+                <label className="block text-xs font-bold text-gray-500 uppercase tracking-widest mb-3">
+                  Descrizione
                 </label>
                 <textarea
                   value={description}
                   onChange={(e) => setDescription(e.target.value)}
                   rows={4}
-                  className="w-full bg-gray-700 border border-gray-600 text-white px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-500 transition-all resize-none"
+                  placeholder="Descrivi brevemente il progetto..."
+                  className="w-full bg-[#1f2937] border border-gray-700 text-white px-4 py-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-cyan-500/50 transition-all resize-none font-medium"
                   required
                 />
               </div>
@@ -160,10 +165,10 @@ export default function PortfolioForm({ item, onClose, onSuccess }: PortfolioFor
 
             <div className="space-y-6">
               <div>
-                <label className="block text-sm font-medium text-gray-400 mb-2">
-                  Project Image
+                <label className="block text-xs font-bold text-gray-500 uppercase tracking-widest mb-3">
+                  Immagine Progetto
                 </label>
-                <div className="relative group aspect-video bg-gray-700 rounded-xl border-2 border-dashed border-gray-600 flex flex-center items-center justify-center overflow-hidden">
+                <div className="relative group aspect-[4/3] bg-[#1f2937] rounded-2xl border-2 border-dashed border-gray-700 hover:border-cyan-500/50 flex items-center justify-center overflow-hidden transition-all">
                   {imageFile ? (
                     <img
                       src={URL.createObjectURL(imageFile)}
@@ -177,9 +182,12 @@ export default function PortfolioForm({ item, onClose, onSuccess }: PortfolioFor
                       className="w-full h-full object-cover"
                     />
                   ) : (
-                    <div className="text-center p-4">
-                      <Upload className="mx-auto text-gray-500 mb-2" size={32} />
-                      <p className="text-xs text-gray-500">Click to upload or drag and drop</p>
+                    <div className="text-center p-6">
+                      <div className="w-16 h-16 bg-gray-800 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:bg-cyan-500/10 transition-colors">
+                        <Upload className="text-gray-500 group-hover:text-cyan-400 transition-colors" size={28} />
+                      </div>
+                      <p className="text-sm text-gray-400 font-bold">Carica Immagine</p>
+                      <p className="text-xs text-gray-500 mt-2">Trascina o clicca qui</p>
                     </div>
                   )}
                   <input
@@ -188,34 +196,43 @@ export default function PortfolioForm({ item, onClose, onSuccess }: PortfolioFor
                     onChange={handleImageChange}
                     className="absolute inset-0 opacity-0 cursor-pointer"
                   />
+
+                  {(imageFile || imageUrl) && (
+                    <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                      <p className="text-white text-xs font-bold bg-black/60 px-3 py-1.5 rounded-full backdrop-blur-md">Cambia Immagine</p>
+                    </div>
+                  )}
                 </div>
-                <p className="text-[10px] text-gray-500 mt-2 italic">
-                  * Recommended size: 800x600px. Max 5MB.
-                </p>
+                <div className="mt-4 flex items-start gap-2">
+                  <div className="w-1.5 h-1.5 rounded-full bg-cyan-500 mt-1.5"></div>
+                  <p className="text-[11px] text-gray-500 italic">
+                    Dimensione consigliata: 1200x900px. Formato JPG, PNG o WebP. Max 5MB.
+                  </p>
+                </div>
               </div>
             </div>
           </div>
 
-          <div className="flex justify-end gap-4 pt-4 border-t border-gray-700">
+          <div className="flex justify-end gap-4 pt-8 border-t border-gray-800">
             <button
               type="button"
               onClick={onClose}
-              className="px-6 py-2 text-gray-400 hover:text-white transition-colors"
+              className="px-8 py-3 text-sm font-bold text-gray-400 hover:text-white transition-colors"
             >
-              Cancel
+              Annulla
             </button>
             <button
               type="submit"
               disabled={loading}
-              className="bg-cyan-500 hover:bg-cyan-600 text-white px-8 py-2 rounded-lg font-bold transition-all flex items-center gap-2 disabled:opacity-50"
+              className="bg-cyan-500 hover:bg-cyan-600 text-white px-10 py-3 rounded-xl font-bold transition-all flex items-center gap-2 shadow-[0_0_20px_rgba(6,182,212,0.2)] disabled:opacity-50 disabled:cursor-not-allowed hover:scale-105"
             >
               {loading ? (
                 <>
-                  <Loader2 className="animate-spin" size={20} />
-                  {uploading ? 'Uploading...' : 'Saving...'}
+                  <Loader2 className="animate-spin" size={18} />
+                  {uploading ? 'Caricamento...' : 'Salvataggio...'}
                 </>
               ) : (
-                item ? 'Update Project' : 'Save Project'
+                item ? 'Salva Modifiche' : 'Crea Progetto'
               )}
             </button>
           </div>
