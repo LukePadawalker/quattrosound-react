@@ -78,8 +78,18 @@ export default function PortfolioForm({ item, onClose, onSuccess }: PortfolioFor
         .update(portfolioData)
         .eq('id', item.id);
 
-      if (error) alert('Errore durante l\'aggiornamento: ' + error.message);
-      else onSuccess();
+      if (error) {
+        alert('Errore durante l\'aggiornamento: ' + error.message);
+      } else {
+        // If update successful and we have a new image, delete the old one
+        if (imageFile && item.image_url && item.image_url.includes('/storage/v1/object/public/portfolio/')) {
+          const oldFilePath = item.image_url.split('/portfolio/')[1];
+          if (oldFilePath) {
+            await supabase.storage.from('portfolio').remove([oldFilePath]);
+          }
+        }
+        onSuccess();
+      }
     } else {
       // Create
       const { error } = await supabase
@@ -117,10 +127,11 @@ export default function PortfolioForm({ item, onClose, onSuccess }: PortfolioFor
           <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
             <div className="space-y-6">
               <div>
-                <label className="block text-xs font-bold text-gray-500 uppercase tracking-widest mb-3">
+                <label htmlFor="title" className="block text-xs font-bold text-gray-500 uppercase tracking-widest mb-3">
                   Titolo Progetto
                 </label>
                 <input
+                  id="title"
                   type="text"
                   value={title}
                   onChange={(e) => setTitle(e.target.value)}
@@ -131,10 +142,11 @@ export default function PortfolioForm({ item, onClose, onSuccess }: PortfolioFor
               </div>
 
               <div>
-                <label className="block text-xs font-bold text-gray-500 uppercase tracking-widest mb-3">
+                <label htmlFor="category" className="block text-xs font-bold text-gray-500 uppercase tracking-widest mb-3">
                   Categoria
                 </label>
                 <select
+                  id="category"
                   value={category}
                   onChange={(e) => setCategory(e.target.value)}
                   className="w-full bg-[#1f2937] border border-gray-700 text-white px-4 py-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-cyan-500/50 transition-all font-medium appearance-none"
@@ -149,10 +161,11 @@ export default function PortfolioForm({ item, onClose, onSuccess }: PortfolioFor
               </div>
 
               <div>
-                <label className="block text-xs font-bold text-gray-500 uppercase tracking-widest mb-3">
+                <label htmlFor="description" className="block text-xs font-bold text-gray-500 uppercase tracking-widest mb-3">
                   Descrizione
                 </label>
                 <textarea
+                  id="description"
                   value={description}
                   onChange={(e) => setDescription(e.target.value)}
                   rows={4}
@@ -165,7 +178,7 @@ export default function PortfolioForm({ item, onClose, onSuccess }: PortfolioFor
 
             <div className="space-y-6">
               <div>
-                <label className="block text-xs font-bold text-gray-500 uppercase tracking-widest mb-3">
+                <label htmlFor="image" className="block text-xs font-bold text-gray-500 uppercase tracking-widest mb-3">
                   Immagine Progetto
                 </label>
                 <div className="relative group aspect-[4/3] bg-[#1f2937] rounded-2xl border-2 border-dashed border-gray-700 hover:border-cyan-500/50 flex items-center justify-center overflow-hidden transition-all">
@@ -191,6 +204,7 @@ export default function PortfolioForm({ item, onClose, onSuccess }: PortfolioFor
                     </div>
                   )}
                   <input
+                    id="image"
                     type="file"
                     accept="image/*"
                     onChange={handleImageChange}

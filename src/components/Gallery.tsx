@@ -28,54 +28,8 @@ export default function Gallery() {
 
     if (error) {
       console.error('Error fetching projects:', error);
-    } else if (data && data.length > 0) {
-      setProjects(data);
     } else {
-      // Fallback to hardcoded projects if DB is empty
-      setProjects([
-        {
-          id: '1',
-          image_url: '/impact.jpeg',
-          title: 'Evento Impactful',
-          description: 'Grande schermo LED e regia professionale per evento corporate',
-          category: 'Conferenze'
-        },
-        {
-          id: '2',
-          image_url: '/impact2.jpeg',
-          title: 'Convention Internazionale',
-          description: 'Multiple schermi LED e setup audio completo per evento multi-sala',
-          category: 'Eventi Aziendali'
-        },
-        {
-          id: '3',
-          image_url: '/impact3.jpeg',
-          title: 'Setup Palco Professionale',
-          description: 'Illuminazione, LED wall e impianto audio line array per concerto live',
-          category: 'Concerti'
-        },
-        {
-          id: '4',
-          image_url: '/impact4.jpeg',
-          title: 'Orchestra Live',
-          description: 'Microfonazione orchestrale e impianto audio di precisione',
-          category: 'Concerti'
-        },
-        {
-          id: '5',
-          image_url: '/impact5.jpeg',
-          title: 'Sistema Lighting Avanzato',
-          description: 'Traliccio motorizzato con luci intelligenti e controllo DMX',
-          category: 'Lighting'
-        },
-        {
-          id: '6',
-          image_url: '/impact6.jpeg',
-          title: 'Evento di Prestigio',
-          description: 'Palco completo con LED wall e illuminazione coordinata',
-          category: 'Concerti'
-        }
-      ]);
+      setProjects(data || []);
     }
     setLoading(false);
   };
