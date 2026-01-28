@@ -62,7 +62,7 @@ export default function InventoryForm({ item, onClose, onSuccess }: InventoryFor
       setUploading(true);
       try {
         const fileExt = imageFile.name.split('.').pop();
-        const fileName = `${crypto.randomUUID()}.${fileExt}`;
+        const fileName = `${Math.random().toString(36).substring(2)}-${Date.now()}.${fileExt}`;
         const filePath = `${fileName}`;
 
         const { error: uploadError } = await supabase.storage
@@ -79,7 +79,8 @@ export default function InventoryForm({ item, onClose, onSuccess }: InventoryFor
 
         finalImageUrl = publicUrl;
       } catch (err: any) {
-        alert(err.message);
+        console.error('Upload error:', err);
+        alert('Errore caricamento immagine: ' + (err.message || 'Errore sconosciuto'));
         setUploading(false);
         setLoading(false);
         return;
@@ -130,9 +131,9 @@ export default function InventoryForm({ item, onClose, onSuccess }: InventoryFor
   };
 
   return (
-    <div className="fixed inset-0 bg-[#0a0f18]/90 z-50 flex items-center justify-center p-4 backdrop-blur-xl">
-      <div className="bg-[#111827] rounded-[2rem] w-full max-w-4xl shadow-[0_0_50px_rgba(0,0,0,0.5)] border border-gray-800/50 overflow-hidden animate-in fade-in zoom-in duration-300">
-        <div className="flex items-center justify-between p-8 border-b border-gray-800/50">
+    <div className="fixed inset-0 bg-[#0a0f18]/90 z-50 flex items-center justify-center p-0 md:p-4 backdrop-blur-xl">
+      <div className="bg-[#111827] md:rounded-[2rem] w-full h-full md:h-auto md:max-w-4xl shadow-[0_0_50px_rgba(0,0,0,0.5)] border border-gray-800/50 overflow-hidden animate-in fade-in zoom-in duration-300">
+        <div className="flex items-center justify-between p-6 md:p-8 border-b border-gray-800/50">
           <div className="flex items-center gap-4">
             <div className="w-12 h-12 bg-cyan-500/10 rounded-xl flex items-center justify-center border border-cyan-500/20 shadow-[inset_0_0_10px_rgba(6,182,212,0.1)]">
               <Package className="text-cyan-400" size={24} />
@@ -152,8 +153,8 @@ export default function InventoryForm({ item, onClose, onSuccess }: InventoryFor
           </button>
         </div>
 
-        <form onSubmit={handleSubmit} className="p-10 overflow-y-auto max-h-[80vh]">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
+        <form onSubmit={handleSubmit} className="p-6 md:p-10 overflow-y-auto h-[calc(100%-100px)] md:max-h-[80vh]">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12">
             <div className="space-y-8">
               <div className="grid grid-cols-2 gap-6">
                 <div>
@@ -294,18 +295,18 @@ export default function InventoryForm({ item, onClose, onSuccess }: InventoryFor
             </div>
           </div>
 
-          <div className="flex justify-end gap-5 pt-10 mt-10 border-t border-gray-800/50">
+          <div className="flex flex-col sm:flex-row justify-end gap-4 sm:gap-5 pt-10 mt-10 border-t border-gray-800/50">
             <button
               type="button"
               onClick={onClose}
-              className="px-8 py-3.5 text-xs font-black text-gray-600 hover:text-white transition-all uppercase tracking-[0.2em]"
+              className="order-2 sm:order-1 px-8 py-3.5 text-xs font-black text-gray-600 hover:text-white transition-all uppercase tracking-[0.2em]"
             >
               Annulla
             </button>
             <button
               type="submit"
               disabled={loading}
-              className="bg-cyan-500 hover:bg-cyan-400 text-[#0a0f18] px-12 py-3.5 rounded-xl font-black transition-all flex items-center gap-3 shadow-[0_15px_30px_-5px_rgba(6,182,212,0.4)] disabled:opacity-50 disabled:cursor-not-allowed hover:-translate-y-0.5 uppercase tracking-widest text-xs"
+              className="order-1 sm:order-2 bg-cyan-500 hover:bg-cyan-400 text-[#0a0f18] px-12 py-3.5 rounded-xl font-black transition-all flex items-center justify-center gap-3 shadow-[0_15px_30px_-5px_rgba(6,182,212,0.4)] disabled:opacity-50 disabled:cursor-not-allowed hover:-translate-y-0.5 uppercase tracking-widest text-xs"
             >
               {loading ? (
                 <>
