@@ -27,6 +27,7 @@ import {
 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import PortfolioForm from '../components/PortfolioForm';
+import InventoryForm from '../components/InventoryForm';
 
 interface PortfolioItem {
   id: string;
@@ -36,32 +37,60 @@ interface PortfolioItem {
   location: string;
   image_url: string;
   created_at: string;
+  stock?: number;
+  status?: string;
+  price?: number;
+  name?: string; // For products compatibility
 }
 
 export default function AdminDashboard() {
   const [items, setItems] = useState<PortfolioItem[]>([]);
+  const [user, setUser] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [editingItem, setEditingItem] = useState<PortfolioItem | null>(null);
   const [activeTab, setActiveTab] = useState('portfolio');
   const [isDarkMode, setIsDarkMode] = useState(true);
+  const [searchQuery, setSearchQuery] = useState('');
   const navigate = useNavigate();
 
   useEffect(() => {
+    setSearchQuery('');
     fetchItems();
+  }, [activeTab]);
+
+  useEffect(() => {
+    fetchUser();
   }, []);
+
+  const filteredItems = items.filter(item =>
+    (item.title?.toLowerCase() || '').includes(searchQuery.toLowerCase()) ||
+    (item.description?.toLowerCase() || '').includes(searchQuery.toLowerCase()) ||
+    (item.category?.toLowerCase() || '').includes(searchQuery.toLowerCase())
+  );
+
+  const fetchUser = async () => {
+    const { data: { user } } = await supabase.auth.getUser();
+    setUser(user);
+  };
 
   const fetchItems = async () => {
     setLoading(true);
+    const table = activeTab === 'inventario' ? 'products' : 'portfolio_items';
     const { data, error } = await supabase
-      .from('portfolio_items')
+      .from(table)
       .select('*')
       .order('created_at', { ascending: false });
 
     if (error) {
       console.error('Error fetching items:', error);
     } else {
-      setItems(data || []);
+      // Normalize data for the table (products use 'name' instead of 'title')
+      const normalizedData = (data || []).map((item: any) => ({
+        ...item,
+        title: item.title || item.name || 'Untitled',
+      }));
+      setItems(normalizedData);
     }
     setLoading(false);
   };
@@ -74,13 +103,14 @@ export default function AdminDashboard() {
   const handleDelete = async (id: string, imageUrl: string) => {
     if (!confirm('Sei sicuro di voler eliminare questo elemento?')) return;
 
+    const table = activeTab === 'inventario' ? 'products' : 'portfolio_items';
     const { error: dbError } = await supabase
-      .from('portfolio_items')
+      .from(table)
       .delete()
       .eq('id', id);
 
     if (dbError) {
-      alert('Errore durante l\'eliminazione dal database');
+      alert(`Errore durante l'eliminazione dal database: ${dbError.message}`);
       return;
     }
 
@@ -147,16 +177,26 @@ export default function AdminDashboard() {
 
           <div className={`flex items-center gap-3 px-4 py-4 rounded-xl border transition-colors group ${isDarkMode ? 'bg-gray-800/20 border-gray-700/30' : 'bg-gray-50 border-gray-200'}`}>
             <div className="relative">
-              <img
-                src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&q=80&w=100"
-                alt="Profile"
-                className="w-10 h-10 rounded-lg object-cover ring-2 ring-cyan-500/20"
-              />
+              {user?.user_metadata?.avatar_url ? (
+                <img
+                  src={user.user_metadata.avatar_url}
+                  alt="Profile"
+                  className="w-10 h-10 rounded-lg object-cover ring-2 ring-cyan-500/20"
+                />
+              ) : (
+                <div className="w-10 h-10 rounded-lg bg-cyan-500/10 flex items-center justify-center ring-2 ring-cyan-500/20">
+                  <UserCircle className="text-cyan-400" size={24} />
+                </div>
+              )}
               <div className={`absolute -bottom-1 -right-1 w-3 h-3 bg-green-500 border-2 rounded-full ${isDarkMode ? 'border-[#111827]' : 'border-white'}`}></div>
             </div>
             <div className="flex flex-col min-w-0">
-              <span className={`text-sm font-bold truncate ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>Lucian Galea</span>
-              <span className="text-[10px] text-gray-500 uppercase tracking-widest font-bold">ADMIN MAGAZZINO</span>
+              <span className={`text-sm font-bold truncate ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
+                {user?.email?.split('@')[0] || 'Admin'}
+              </span>
+              <span className="text-[10px] text-gray-500 uppercase tracking-widest font-bold truncate">
+                {user?.email || 'ADMIN MAGAZZINO'}
+              </span>
             </div>
           </div>
 
@@ -179,6 +219,8 @@ export default function AdminDashboard() {
             <input
               type="text"
               placeholder="Cerca attrezzatura..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
               className={`w-full border rounded-xl pl-12 pr-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-cyan-500/30 transition-all placeholder:text-gray-600 ${isDarkMode ? 'bg-gray-800/30 border-gray-700/50 text-white' : 'bg-gray-100 border-gray-200 text-gray-900'}`}
             />
           </div>
@@ -231,10 +273,10 @@ export default function AdminDashboard() {
               {/* Stats Cards */}
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
                 {[
-                  { label: 'Articoli Totali', value: items.length, trend: '+12% rispetto al mese scorso', icon: Package, color: 'text-cyan-400', bg: 'bg-cyan-400/10' },
-                  { label: 'Disponibili', value: Math.floor(items.length * 0.7), trend: '73% del totale', icon: CheckCircle, color: 'text-emerald-400', bg: 'bg-emerald-400/10' },
-                  { label: 'In Uso', value: Math.floor(items.length * 0.25), trend: '26 in rientro', icon: Clock, color: 'text-amber-400', bg: 'bg-amber-400/10' },
-                  { label: 'Manutenzione', value: 2, trend: '3 riparazioni', icon: Wrench, color: 'text-rose-400', bg: 'bg-rose-400/10' },
+                  { label: activeTab === 'inventario' ? 'Articoli Totali' : 'Progetti Totali', value: items.length, trend: `Su ${items.length} elementi`, icon: Package, color: 'text-cyan-400', bg: 'bg-cyan-400/10' },
+                  { label: 'Disponibili', value: items.filter(i => i.status === 'Available').length, trend: 'Pronti al noleggio', icon: CheckCircle, color: 'text-emerald-400', bg: 'bg-emerald-400/10' },
+                  { label: 'In Uso', value: items.filter(i => i.status === 'In Use').length, trend: 'Attualmente fuori', icon: Clock, color: 'text-amber-400', bg: 'bg-amber-400/10' },
+                  { label: 'Manutenzione', value: items.filter(i => i.status === 'Maintenance').length, trend: 'In riparazione', icon: Wrench, color: 'text-rose-400', bg: 'bg-rose-400/10' },
                 ].map((stat, i) => (
                   <div key={i} className={`border rounded-2xl p-6 transition-all group ${isDarkMode ? 'bg-[#111827]/40 border-gray-800/50 hover:border-gray-700/50' : 'bg-white border-gray-200 hover:shadow-lg'}`}>
                     <div className="flex items-center justify-between mb-6">
@@ -259,19 +301,25 @@ export default function AdminDashboard() {
                   <div className="w-12 h-12 border-4 border-cyan-500/20 border-t-cyan-500 rounded-full animate-spin"></div>
                   <p className="text-gray-500 font-medium">Caricamento portfolio...</p>
                 </div>
-              ) : items.length === 0 ? (
+              ) : filteredItems.length === 0 ? (
                 <div className="text-center py-32 bg-[#111827]/20 rounded-3xl border border-gray-800/50 border-dashed">
                   <div className="w-20 h-20 bg-gray-800/30 rounded-full flex items-center justify-center mx-auto mb-6">
                     <ImageIcon size={40} className="text-gray-700" />
                   </div>
-                  <h3 className={`text-xl font-bold ${isDarkMode ? 'text-gray-300' : 'text-gray-700'}`}>Nessun articolo trovato</h3>
-                  <p className="text-gray-500 mt-2 max-w-xs mx-auto">Inizia aggiungendo il tuo primo contenuto per mostrarlo sul portale.</p>
-                  <button
-                    onClick={handleAddNew}
-                    className="mt-8 text-cyan-400 font-bold hover:underline"
-                  >
-                    Aggiungi ora →
-                  </button>
+                  <h3 className={`text-xl font-bold ${isDarkMode ? 'text-gray-300' : 'text-gray-700'}`}>
+                    {searchQuery ? 'Nessun risultato per la ricerca' : 'Nessun articolo trovato'}
+                  </h3>
+                  <p className="text-gray-500 mt-2 max-w-xs mx-auto">
+                    {searchQuery ? 'Prova con termini diversi o cancella la ricerca.' : 'Inizia aggiungendo il tuo primo contenuto per mostrarlo sul portale.'}
+                  </p>
+                  {!searchQuery && (
+                    <button
+                      onClick={handleAddNew}
+                      className="mt-8 text-cyan-400 font-bold hover:underline"
+                    >
+                      Aggiungi ora →
+                    </button>
+                  )}
                 </div>
               ) : (
                 <div className={`border rounded-3xl overflow-hidden shadow-2xl transition-colors ${isDarkMode ? 'bg-[#111827]/20 border-gray-800/50' : 'bg-white border-gray-200'}`}>
@@ -281,14 +329,16 @@ export default function AdminDashboard() {
                         <tr className={`border-b transition-colors ${isDarkMode ? 'border-gray-800/50 bg-[#111827]/40' : 'border-gray-100 bg-gray-50/50'}`}>
                           <th className="px-6 py-5 text-[11px] font-black text-gray-500 uppercase tracking-[0.2em]">Articolo</th>
                           <th className="px-6 py-5 text-[11px] font-black text-gray-500 uppercase tracking-[0.2em]">Categoria</th>
-                          <th className="px-6 py-5 text-[11px] font-black text-gray-500 uppercase tracking-[0.2em]">Ubicazione</th>
+                          <th className="px-6 py-5 text-[11px] font-black text-gray-500 uppercase tracking-[0.2em]">
+                            {activeTab === 'inventario' ? 'Prezzo / Stock' : 'Ubicazione'}
+                          </th>
                           <th className="px-6 py-5 text-[11px] font-black text-gray-500 uppercase tracking-[0.2em]">Data</th>
                           <th className="px-6 py-5 text-[11px] font-black text-gray-500 uppercase tracking-[0.2em]">Stato</th>
                           <th className="px-6 py-5 text-[11px] font-black text-gray-500 uppercase tracking-[0.2em] text-right">Azioni</th>
                         </tr>
                       </thead>
                       <tbody className="divide-y divide-gray-800/30">
-                        {items.map((item) => (
+                        {filteredItems.map((item) => (
                           <tr key={item.id} className={`transition-colors group ${isDarkMode ? 'hover:bg-cyan-500/[0.02]' : 'hover:bg-gray-50'}`}>
                             <td className="px-6 py-5">
                               <div className="flex items-center gap-4">
@@ -311,10 +361,20 @@ export default function AdminDashboard() {
                               </span>
                             </td>
                             <td className="px-6 py-5">
-                              <div className="flex items-center gap-2 text-xs font-bold text-gray-500">
-                                <MapPin size={14} className="text-cyan-500/50" />
-                                <span className="uppercase tracking-wide">{item.location || 'Roma'}</span>
-                              </div>
+                              {activeTab === 'inventario' ? (
+                                <div className="space-y-1">
+                                  <div className={`text-xs font-black ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>€{item.price || 0}</div>
+                                  <div className="flex items-center gap-1 text-[10px] text-gray-500 font-bold uppercase tracking-widest">
+                                    <MapPin size={10} className="text-cyan-500/50" />
+                                    {item.location || 'Roma'} • {item.stock || 0} DISPONIBILI
+                                  </div>
+                                </div>
+                              ) : (
+                                <div className="flex items-center gap-2 text-xs font-bold text-gray-500">
+                                  <MapPin size={14} className="text-cyan-500/50" />
+                                  <span className="uppercase tracking-wide">{item.location || 'Roma'}</span>
+                                </div>
+                              )}
                             </td>
                             <td className="px-6 py-5">
                               <div className="flex items-center gap-2 text-xs font-bold text-gray-500">
@@ -324,8 +384,23 @@ export default function AdminDashboard() {
                             </td>
                             <td className="px-6 py-5">
                               <div className="flex items-center gap-2">
-                                <div className="w-2 h-2 rounded-full bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.5)]"></div>
-                                <span className="text-[10px] font-black text-emerald-500 uppercase tracking-widest">DISPONIBILE</span>
+                                <div className={`w-2 h-2 rounded-full shadow-[0_0_8px_rgba(0,0,0,0.5)] ${
+                                  item.status === 'Available' ? 'bg-emerald-500 shadow-emerald-500/50' :
+                                  item.status === 'In Use' ? 'bg-amber-500 shadow-amber-500/50' :
+                                  item.status === 'Maintenance' ? 'bg-rose-500 shadow-rose-500/50' :
+                                  'bg-gray-500 shadow-gray-500/50'
+                                }`}></div>
+                                <span className={`text-[10px] font-black uppercase tracking-widest ${
+                                  item.status === 'Available' ? 'text-emerald-500' :
+                                  item.status === 'In Use' ? 'text-amber-500' :
+                                  item.status === 'Maintenance' ? 'text-rose-500' :
+                                  'text-gray-500'
+                                }`}>
+                                  {item.status === 'Available' ? 'DISPONIBILE' :
+                                   item.status === 'In Use' ? 'IN USO' :
+                                   item.status === 'Maintenance' ? 'MANUTENZIONE' :
+                                   'ESAURITO'}
+                                </span>
                               </div>
                             </td>
                             <td className="px-6 py-5 text-right">
@@ -355,7 +430,7 @@ export default function AdminDashboard() {
                   {/* Pagination Footer */}
                   <div className={`px-6 py-5 border-t flex items-center justify-between transition-colors ${isDarkMode ? 'border-gray-800/50 bg-[#111827]/40' : 'border-gray-100 bg-gray-50/50'}`}>
                     <div className="text-[11px] font-black text-gray-600 uppercase tracking-widest">
-                      {items.length} DI {items.length} ASSET TOTALI
+                      {filteredItems.length} DI {items.length} ASSET TOTALI
                     </div>
                     <div className="flex items-center gap-1">
                       <button className={`p-2 disabled:opacity-30 ${isDarkMode ? 'text-gray-700 hover:text-gray-400' : 'text-gray-300 hover:text-gray-500'}`} disabled>
@@ -390,14 +465,25 @@ export default function AdminDashboard() {
       </main>
 
       {isFormOpen && (
-        <PortfolioForm
-          item={editingItem}
-          onClose={() => setIsFormOpen(false)}
-          onSuccess={() => {
-            setIsFormOpen(false);
-            fetchItems();
-          }}
-        />
+        activeTab === 'inventario' ? (
+          <InventoryForm
+            item={editingItem as any}
+            onClose={() => setIsFormOpen(false)}
+            onSuccess={() => {
+              setIsFormOpen(false);
+              fetchItems();
+            }}
+          />
+        ) : (
+          <PortfolioForm
+            item={editingItem}
+            onClose={() => setIsFormOpen(false)}
+            onSuccess={() => {
+              setIsFormOpen(false);
+              fetchItems();
+            }}
+          />
+        )
       )}
     </div>
   );

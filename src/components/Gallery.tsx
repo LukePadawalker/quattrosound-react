@@ -14,24 +14,29 @@ export default function Gallery() {
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [projects, setProjects] = useState<PortfolioItem[]>([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     fetchProjects();
   }, []);
 
   const fetchProjects = async () => {
-    setLoading(true);
-    const { data, error } = await supabase
-      .from('portfolio_items')
-      .select('*')
-      .order('created_at', { ascending: false });
+    try {
+      setLoading(true);
+      setError(null);
+      const { data, error: fetchError } = await supabase
+        .from('portfolio_items')
+        .select('*')
+        .order('created_at', { ascending: false });
 
-    if (error) {
-      console.error('Error fetching projects:', error);
-    } else {
+      if (fetchError) throw fetchError;
       setProjects(data || []);
+    } catch (err: any) {
+      console.error('Error fetching projects:', err.message);
+      setError('Si è verificato un errore durante il caricamento del portfolio. Riprova più tardi.');
+    } finally {
+      setLoading(false);
     }
-    setLoading(false);
   };
 
   return (
@@ -50,6 +55,20 @@ export default function Gallery() {
         {loading ? (
           <div className="flex justify-center items-center py-20">
             <Loader2 className="text-cyan-400 animate-spin" size={48} />
+          </div>
+        ) : error ? (
+          <div className="text-center py-20">
+            <p className="text-red-400 mb-4">{error}</p>
+            <button
+              onClick={fetchProjects}
+              className="text-cyan-400 hover:underline"
+            >
+              Riprova
+            </button>
+          </div>
+        ) : projects.length === 0 ? (
+          <div className="text-center py-20">
+            <p className="text-gray-400">Nessun progetto disponibile al momento.</p>
           </div>
         ) : (
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
