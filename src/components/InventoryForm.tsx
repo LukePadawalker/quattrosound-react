@@ -7,6 +7,7 @@ interface ProductItem {
   name: string;
   description: string;
   category: string;
+  location?: string;
   price: number;
   stock: number;
   status: string;
@@ -37,7 +38,7 @@ export default function InventoryForm({ item, onClose, onSuccess }: InventoryFor
   const [name, setName] = useState(item?.name || '');
   const [description, setDescription] = useState(item?.description || '');
   const [category, setCategory] = useState(item?.category || CATEGORIES[0]);
-  const [location, setLocation] = useState((item as any)?.location || 'Roma');
+  const [location, setLocation] = useState(item?.location || 'Roma');
   const [price, setPrice] = useState(item?.price || 0);
   const [stock, setStock] = useState(item?.stock || 0);
   const [status, setStatus] = useState(item?.status || 'Available');

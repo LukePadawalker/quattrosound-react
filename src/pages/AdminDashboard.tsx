@@ -30,6 +30,7 @@ import {
 import { useNavigate } from 'react-router-dom';
 import PortfolioForm from '../components/PortfolioForm';
 import InventoryForm from '../components/InventoryForm';
+import CategoriesTab from '../components/CategoriesTab';
 
 interface PortfolioItem {
   id: string;
@@ -168,12 +169,6 @@ export default function AdminDashboard() {
             >
               <X size={24} />
             </button>
-          </div>
-          <div className="flex items-center gap-3 mb-12">
-            <div className="w-10 h-10 bg-cyan-500 rounded-lg flex items-center justify-center shadow-[0_0_20px_rgba(6,182,212,0.3)]">
-              <img src="/white-logo.png" alt="Logo" className="w-7 h-7 object-contain" />
-            </div>
-            <span className={`text-xl font-bold tracking-tight uppercase audiowide-regular ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>QuattroSound</span>
           </div>
 
           <nav className="space-y-1">
@@ -496,6 +491,12 @@ export default function AdminDashboard() {
                 </div>
               )}
             </>
+          ) : activeTab === 'categorie' ? (
+            <CategoriesTab
+              isDarkMode={isDarkMode}
+              onEdit={handleEdit}
+              onDelete={handleDelete}
+            />
           ) : (
             <div className="flex flex-col items-center justify-center py-40">
               <div className="w-20 h-20 bg-cyan-500/10 rounded-full flex items-center justify-center mb-6">
