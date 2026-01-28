@@ -31,6 +31,7 @@ import { useNavigate } from 'react-router-dom';
 import PortfolioForm from '../components/PortfolioForm';
 import InventoryForm from '../components/InventoryForm';
 import CategoriesTab from '../components/CategoriesTab';
+import SettingsTab from '../components/SettingsTab';
 
 interface PortfolioItem {
   id: string;
@@ -177,6 +178,7 @@ export default function AdminDashboard() {
               { id: 'inventario', label: 'Inventario', icon: Package },
               { id: 'categorie', label: 'Categorie', icon: Tags },
               { id: 'portfolio', label: 'Portfolio', icon: ImageIcon },
+              { id: 'impostazioni', label: 'Impostazioni', icon: Settings },
             ].map((item) => (
               <button
                 key={item.id}
@@ -195,9 +197,12 @@ export default function AdminDashboard() {
         </div>
 
         <div className={`mt-auto p-6 space-y-4 border-t ${isDarkMode ? 'border-gray-800/50' : 'border-gray-200'}`}>
-          <button className={`w-full flex items-center gap-3 px-4 py-2.5 transition-colors ${isDarkMode ? 'text-gray-400 hover:text-white' : 'text-gray-500 hover:text-gray-900'}`}>
+          <button
+            onClick={() => setActiveTab('impostazioni')}
+            className={`w-full flex items-center gap-3 px-4 py-2.5 transition-colors ${activeTab === 'impostazioni' ? 'text-cyan-400' : isDarkMode ? 'text-gray-400 hover:text-white' : 'text-gray-500 hover:text-gray-900'}`}
+          >
             <Settings size={20} />
-            <span className="text-sm font-medium">Impostazioni</span>
+            <span className="text-sm font-medium">Impostazioni Rapide</span>
           </button>
 
           <div className={`flex items-center gap-3 px-4 py-4 rounded-xl border transition-colors group ${isDarkMode ? 'bg-gray-800/20 border-gray-700/30' : 'bg-gray-50 border-gray-200'}`}>
@@ -497,6 +502,8 @@ export default function AdminDashboard() {
               onEdit={handleEdit}
               onDelete={handleDelete}
             />
+          ) : activeTab === 'impostazioni' ? (
+            <SettingsTab isDarkMode={isDarkMode} />
           ) : (
             <div className="flex flex-col items-center justify-center py-40">
               <div className="w-20 h-20 bg-cyan-500/10 rounded-full flex items-center justify-center mb-6">
