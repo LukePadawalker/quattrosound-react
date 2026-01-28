@@ -40,7 +40,7 @@ export default function CompanySettings({ isDarkMode }: CompanySettingsProps) {
   }, []);
 
   const fetchSettings = async () => {
-    const { data, error } = await supabase
+    const { data } = await supabase
       .from('company_settings')
       .select('*')
       .single();

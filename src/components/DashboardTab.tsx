@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { User } from '@supabase/supabase-js';
 import { supabase } from '../lib/supabase';
 import {
   ImageIcon,
@@ -15,9 +16,10 @@ import {
 interface DashboardTabProps {
   isDarkMode: boolean;
   onNavigate: (tab: string) => void;
+  user: User | null;
 }
 
-export default function DashboardTab({ isDarkMode, onNavigate }: DashboardTabProps) {
+export default function DashboardTab({ isDarkMode, onNavigate, user }: DashboardTabProps) {
   const [stats, setStats] = useState({
     portfolioCount: 0,
     inventoryCount: 0,
@@ -98,7 +100,7 @@ export default function DashboardTab({ isDarkMode, onNavigate }: DashboardTabPro
     <div className="space-y-10 animate-in fade-in slide-in-from-bottom-4 duration-700">
       <div>
         <h2 className={`text-3xl lg:text-4xl font-black tracking-tighter audiowide-regular uppercase ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
-          Benvenuto, Admin
+          Benvenuto, {user?.user_metadata?.full_name || 'Admin'}
         </h2>
         <p className="text-gray-500 mt-1 text-sm lg:text-base font-medium">Panoramica rapida delle attività e dello stato del sistema QuattroSound.</p>
       </div>

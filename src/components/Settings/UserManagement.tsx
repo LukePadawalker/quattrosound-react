@@ -1,16 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { supabase } from '../../lib/supabase';
 import {
-  Users,
   UserPlus,
   Shield,
   ShieldAlert,
   ShieldCheck,
-  MoreVertical,
   Search,
   Filter,
-  CheckCircle,
-  XCircle,
   Key,
   Edit2,
   Trash2
@@ -31,7 +27,7 @@ export default function UserManagement({ isDarkMode }: UserManagementProps) {
 
   const fetchUsers = async () => {
     setLoading(true);
-    const { data, error } = await supabase
+    const { data } = await supabase
       .from('profiles')
       .select('*')
       .order('full_name', { ascending: true });

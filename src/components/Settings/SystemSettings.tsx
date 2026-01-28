@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { supabase } from '../../lib/supabase';
 import {
   Bell,
@@ -37,7 +37,7 @@ export default function SystemSettings({ isDarkMode }: SystemSettingsProps) {
   }, []);
 
   const fetchSettings = async () => {
-    const { data, error } = await supabase
+    const { data } = await supabase
       .from('system_settings')
       .select('*')
       .single();

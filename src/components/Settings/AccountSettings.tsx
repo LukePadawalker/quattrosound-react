@@ -14,7 +14,6 @@ import {
   AlertCircle,
   CheckCircle,
   Save,
-  LogOut,
   UserCircle
 } from 'lucide-react';
 

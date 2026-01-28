@@ -85,7 +85,9 @@ export default function AdminDashboard() {
 
   const fetchUser = async () => {
     const { data: { user } } = await supabase.auth.getUser();
-    setUser(user);
+    if (user) {
+      setUser(user);
+    }
   };
 
   const fetchItems = async () => {
@@ -510,6 +512,7 @@ export default function AdminDashboard() {
             <DashboardTab
               isDarkMode={isDarkMode}
               onNavigate={(tab) => setActiveTab(tab)}
+              user={user}
             />
           )}
         </div>
