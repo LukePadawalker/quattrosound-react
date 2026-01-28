@@ -1,10 +1,10 @@
-@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&family=Stack+Sans+Notch:wght@200..700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Audiowide&family=Roboto:ital,wght@0,100..900;1,100..900&family=Stack+Sans+Notch:wght@200..700&display=swap');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 :root {
-  --color-dark: #181818;
+  --color-dark: #0a0f18;
   --color-gold-light: #D4AF37;
   --color-gold-dark: #AA8C2C;
 }
@@ -12,9 +12,14 @@
 @layer base {
   html {
     scroll-behavior: smooth;
+    overflow-x: hidden;
+    width: 100%;
   }
 
   body {
+    overflow-x: hidden;
+    position: relative;
+    width: 100%;
     @apply text-gray-200;
     background-color: rgb(24, 24, 24);
     font-family: 'Montserrat', sans-serif;
@@ -37,8 +42,8 @@
   h5,
   h6 {
     font-family: 'Audiowide', sans-serif;
-    font-weight: 700;
-    letter-spacing: -0.5px;
+    font-weight: 400;
+    letter-spacing: 0.05em;
   }
 
   h1 {
@@ -147,4 +152,12 @@
   background-repeat: no-repeat;
   background-size: cover;
   backdrop-filter: blur(100px);
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }

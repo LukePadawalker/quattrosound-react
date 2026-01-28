@@ -21,7 +21,7 @@ export default function Contact() {
     try {
       await fetch("https://script.google.com/macros/s/AKfycbzThyYaYTkQePH3MdrqZ7dxpARqm2m1mDuqCVY6frN-z-1Of5A2im53AsYMOCbsuiwpvA/exec", {
         method: "POST",
-        body: new FormData(e.target),
+        body: new FormData(e.currentTarget as HTMLFormElement),
       });
 
       setSubmitted(true);
@@ -55,72 +55,72 @@ export default function Contact() {
   };
 
   return (
-    <section id="contact" className="py-24 bg-gray-900">
+    <section id="contact" className="py-12 lg:py-24 bg-gray-900">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
+        <div className="text-center mb-10 lg:mb-16">
+          <h2 className="text-3xl lg:text-5xl font-bold text-white mb-4">
             Richiedi un <span className="text-cyan-400">Preventivo</span>
           </h2>
-          <div className="w-24 h-1 bg-cyan-400 mx-auto mb-6"></div>
-          <p className="text-xl text-gray-400 max-w-3xl mx-auto">
+          <div className="w-16 lg:w-24 h-1 bg-cyan-400 mx-auto mb-6"></div>
+          <p className="text-base lg:text-xl text-gray-400 max-w-3xl mx-auto">
             Rendi il tuo evento indimenticabile con soluzioni LED e audio professionali
           </p>
         </div>
 
-        <div className="grid lg:grid-cols-5 gap-12">
+        <div className="grid lg:grid-cols-5 gap-8 lg:gap-12">
           <div className="lg:col-span-2 space-y-8">
             <div>
-              <h3 className="text-2xl font-bold text-white mb-6">Contattaci Subito</h3>
-              <p className="text-gray-400 leading-relaxed mb-8">
+              <h3 className="text-xl lg:text-2xl font-bold text-white mb-4 lg:mb-6">Contattaci Subito</h3>
+              <p className="text-sm lg:text-base text-gray-400 leading-relaxed mb-6 lg:mb-8">
                 Siamo pronti ad ascoltare le tue esigenze e creare la soluzione perfetta per il tuo evento.
                 Compila il form o contattaci direttamente.
               </p>
             </div>
 
-            <div className="space-y-6">
-              <div className="flex items-start gap-4 group">
-                <div className="w-12 h-12 bg-cyan-500/10 rounded-lg flex items-center justify-center flex-shrink-0 group-hover:bg-cyan-500/20 transition-colors">
-                  <Phone className="text-cyan-400" size={24} />
+            <div className="space-y-4 lg:space-y-6">
+              <div className="flex items-start gap-3 lg:gap-4 group">
+                <div className="w-10 h-10 lg:w-12 lg:h-12 bg-cyan-500/10 rounded-lg flex items-center justify-center flex-shrink-0 group-hover:bg-cyan-500/20 transition-colors">
+                  <Phone className="text-cyan-400" size={20} lg-size={24} />
                 </div>
                 <div>
-                  <h4 className="text-white font-semibold mb-1">Telefono</h4>
-                  <a href="tel:+393208980405" className="text-gray-400 hover:text-cyan-400 transition-colors">
+                  <h4 className="text-sm lg:text-base text-white font-semibold mb-0.5 lg:mb-1">Telefono</h4>
+                  <a href="tel:+393208980405" className="text-xs lg:text-sm text-gray-400 hover:text-cyan-400 transition-colors">
                     +39 320 898 0405
                   </a>
                 </div>
               </div>
 
-              <div className="flex items-start gap-4 group">
-                <div className="w-12 h-12 bg-cyan-500/10 rounded-lg flex items-center justify-center flex-shrink-0 group-hover:bg-cyan-500/20 transition-colors">
-                  <MessageSquare className="text-cyan-400" size={24} />
+              <div className="flex items-start gap-3 lg:gap-4 group">
+                <div className="w-10 h-10 lg:w-12 lg:h-12 bg-cyan-500/10 rounded-lg flex items-center justify-center flex-shrink-0 group-hover:bg-cyan-500/20 transition-colors">
+                  <MessageSquare className="text-cyan-400" size={20} lg-size={24} />
                 </div>
                 <div>
-                  <h4 className="text-white font-semibold mb-1">WhatsApp</h4>
-                  <a href="https://wa.me/393208980405" className="text-gray-400 hover:text-cyan-400 transition-colors">
+                  <h4 className="text-sm lg:text-base text-white font-semibold mb-0.5 lg:mb-1">WhatsApp</h4>
+                  <a href="https://wa.me/393208980405" className="text-xs lg:text-sm text-gray-400 hover:text-cyan-400 transition-colors">
                     +39 320 898 0405
                   </a>
                 </div>
               </div>
 
-              <div className="flex items-start gap-4 group">
-                <div className="w-12 h-12 bg-cyan-500/10 rounded-lg flex items-center justify-center flex-shrink-0 group-hover:bg-cyan-500/20 transition-colors">
-                  <Mail className="text-cyan-400" size={24} />
+              <div className="flex items-start gap-3 lg:gap-4 group">
+                <div className="w-10 h-10 lg:w-12 lg:h-12 bg-cyan-500/10 rounded-lg flex items-center justify-center flex-shrink-0 group-hover:bg-cyan-500/20 transition-colors">
+                  <Mail className="text-cyan-400" size={20} lg-size={24} />
                 </div>
                 <div>
-                  <h4 className="text-white font-semibold mb-1">Email</h4>
-                  <a href="mailto:info@quattrosound.it" className="text-gray-400 hover:text-cyan-400 transition-colors">
+                  <h4 className="text-sm lg:text-base text-white font-semibold mb-0.5 lg:mb-1">Email</h4>
+                  <a href="mailto:info@quattrosound.it" className="text-xs lg:text-sm text-gray-400 hover:text-cyan-400 transition-colors">
                     info@quattrosound.it
                   </a>
                 </div>
               </div>
 
-              <div className="flex items-start gap-4 group">
-                <div className="w-12 h-12 bg-cyan-500/10 rounded-lg flex items-center justify-center flex-shrink-0 group-hover:bg-cyan-500/20 transition-colors">
-                  <MapPin className="text-cyan-400" size={24} />
+              <div className="flex items-start gap-3 lg:gap-4 group">
+                <div className="w-10 h-10 lg:w-12 lg:h-12 bg-cyan-500/10 rounded-lg flex items-center justify-center flex-shrink-0 group-hover:bg-cyan-500/20 transition-colors">
+                  <MapPin className="text-cyan-400" size={20} lg-size={24} />
                 </div>
                 <div>
-                  <h4 className="text-white font-semibold mb-1">Sede Operativa</h4>
-                  <p className="text-gray-400">
+                  <h4 className="text-sm lg:text-base text-white font-semibold mb-0.5 lg:mb-1">Sede Operativa</h4>
+                  <p className="text-xs lg:text-sm text-gray-400">
                     Via Monte Nero 36 <br />
                     00012 Guidonia Montecelio (RM), Italia
                   </p>
@@ -128,10 +128,10 @@ export default function Contact() {
               </div>
             </div>
 
-            <div className="bg-cyan-500/10 border border-cyan-500/20 rounded-lg p-6">
-              <h4 className="text-white font-semibold mb-3">Orari di Lavoro</h4>
-              <div className="space-y-2 text-gray-400">
-                <p>Lunedì - Venerdì: 9:00 - 18:00</p>
+            <div className="bg-cyan-500/10 border border-cyan-500/20 rounded-xl p-4 lg:p-6">
+              <h4 className="text-sm lg:text-base text-white font-semibold mb-2 lg:mb-3">Orari di Lavoro</h4>
+              <div className="space-y-1 lg:space-y-2 text-xs lg:text-sm text-gray-400">
+                <p>Lun - Ven: 9:00 - 18:00</p>
                 <p>Sabato: 9:00 - 13:00</p>
                 <p className="text-cyan-400 font-semibold">Supporto Eventi: 24/7</p>
               </div>
@@ -139,7 +139,7 @@ export default function Contact() {
           </div>
 
           <div className="lg:col-span-3">
-            <form action="https://script.google.com/macros/s/AKfycbwA-OaXpYf5ho1k8MWTPdFSfE9QFPEfkAcg3nuq6ueb5UPPRO6OlpRP3oXuLITfvt_TtA/exec" onSubmit={handleSubmit} className="bg-gradient-to-r from-blue-800/20 to-cyan-700/20 backdrop-blur rounded-lg p-8 border border-gray-700">
+            <form action="https://script.google.com/macros/s/AKfycbwA-OaXpYf5ho1k8MWTPdFSfE9QFPEfkAcg3nuq6ueb5UPPRO6OlpRP3oXuLITfvt_TtA/exec" onSubmit={handleSubmit} className="bg-gradient-to-r from-blue-800/20 to-cyan-700/20 backdrop-blur rounded-xl p-6 lg:p-8 border border-gray-700">
               {submitted ? (
                 <div className="text-center py-12">
                   <div className="w-20 h-20 bg-green-500/10 rounded-full flex items-center justify-center mx-auto mb-6">
@@ -260,7 +260,7 @@ export default function Contact() {
                   <button
                     type="submit"
                     disabled={isSubmitting}
-                    className="w-full bg-cyan-500 gradient-gold hover:bg-cyan-600 disabled:bg-gray-700 text-white font-semibold py-4 px-6 rounded-lg transition-all flex items-center justify-center gap-2 text-lg"
+                    className="w-full bg-cyan-500 gradient-gold hover:bg-cyan-600 disabled:bg-gray-700 text-white font-semibold py-3 lg:py-4 px-6 rounded-lg transition-all flex items-center justify-center gap-2 text-base lg:text-lg"
                   >
                     {isSubmitting ? (
                       <>

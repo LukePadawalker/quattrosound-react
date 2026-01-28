@@ -3,16 +3,16 @@ import { Facebook, Instagram, Linkedin, Youtube, Phone, Mail } from 'lucide-reac
 export default function Footer() {
   return (
     <footer className="bg-gradient-to-r from-blue-900/20 to-cyan-900/20 rounded-t-xl">
-      <div className="mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <div className="mx-auto px-4 sm:px-6 lg:px-8 py-8 lg:py-12">
         <div className="grid md:grid-cols-4 gap-8 mb-8">
           <div className="md:col-span-2">
-            <h3 className="text-2xl font-bold text-white mb-4">
+            <h3 className="text-xl lg:text-2xl font-bold text-white mb-4">
               <div className="flex items-center">
-                <img className="w-24" src="/logo-prov.png" alt="logo" />
+                <img className="w-16 lg:w-24" src="/logo-prov.png" alt="logo" />
                 Quattro<span className="text-gradient-gold">Sound</span>
               </div>
             </h3>
-            <p className="text-gray-400 mb-6 leading-relaxed">
+            <p className="text-sm lg:text-base text-gray-400 mb-6 leading-relaxed">
               Leader nel noleggio e installazione di Ledwall e impianti audio professionali.
               Trasformiamo ogni evento in un'esperienza indimenticabile.
             </p>
@@ -75,14 +75,6 @@ export default function Footer() {
                   Portfolio
                 </button>
               </li>
-              <li>
-                <button
-                  onClick={() => document.getElementById('products')?.scrollIntoView({ behavior: 'smooth' })}
-                  className="text-gray-400 hover:text-cyan-400 transition-colors"
-                >
-                  Shop
-                </button>
-              </li>
             </ul>
           </div>
 
@@ -105,11 +97,11 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="border-t border-gray-800 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
-          <p className="text-gray-500 text-sm">
+        <div className="border-t border-gray-800 pt-6 lg:pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
+          <p className="text-gray-500 text-xs lg:text-sm">
             &copy; 2025 @QuattroSound. | Tutti i diritti riservati.
           </p>
-          <div className="flex gap-6 text-sm text-gray-500">
+          <div className="flex flex-wrap justify-center gap-4 lg:gap-6 text-xs text-gray-500">
             <a href="#" className="hover:text-cyan-400 transition-colors">
               Privacy Policy
             </a>

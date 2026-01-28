@@ -1,53 +1,25 @@
-import { useState } from 'react';
-import Hero from './components/Hero';
-import About from './components/About';
-import Services from './components/Services';
-import Gallery from './components/Gallery';
-import Technology from './components/Technology';
-import Products from './components/Products';
-import Contact from './components/Contact';
-import Navigation from './components/Navigation';
-import Footer from './components/Footer';
-import Cart from './components/Cart';
-import Checkout from './components/Checkout';
-import CookieBanner from './components/CookieBanner';
-import { CartProvider } from './context/CartContext';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import Home from './pages/Home';
+import Login from './pages/Login';
+import AdminDashboard from './pages/AdminDashboard';
+import ProtectedRoute from './components/ProtectedRoute';
 
 function App() {
-  const [showCart, setShowCart] = useState(false);
-  const [showCheckout, setShowCheckout] = useState(false);
-
-  const handleCheckout = () => {
-    setShowCart(false);
-    setShowCheckout(true);
-  };
-
   return (
-    <CartProvider>
-      <div className="min-h-screen bg-gray-900">
-        <Navigation onCartClick={() => setShowCart(true)} />
-        <Hero />
-        <About />
-        <Services />
-        <Gallery />
-        {/* <Technology /> */}
-        <Contact />
-        <Footer />
-
-        {showCart && (
-          <Cart
-            onClose={() => setShowCart(false)}
-            onCheckout={handleCheckout}
-          />
-        )}
-
-        {showCheckout && (
-          <Checkout onClose={() => setShowCheckout(false)} />
-        )}
-
-        <CookieBanner />
-      </div>
-    </CartProvider>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/login" element={<Login />} />
+        <Route
+          path="/admin"
+          element={
+            <ProtectedRoute>
+              <AdminDashboard />
+            </ProtectedRoute>
+          }
+        />
+      </Routes>
+    </BrowserRouter>
   );
 }
 
