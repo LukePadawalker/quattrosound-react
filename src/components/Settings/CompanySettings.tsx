@@ -71,10 +71,38 @@ export default function CompanySettings({ isDarkMode }: CompanySettingsProps) {
     setLoading(false);
   };
 
-  const handleLogoUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-    // Mock upload for now
-    if (e.target.files?.[0]) {
-      setSuccess('Logo caricato (simulazione)');
+  const handleLogoUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (!e.target.files?.[0]) return;
+
+    const file = e.target.files[0];
+    setLoading(true);
+    setError(null);
+
+    try {
+      const fileExt = file.name.split('.').pop();
+      const fileName = `logo-${Date.now()}.${fileExt}`;
+      const filePath = `settings/${fileName}`;
+
+      const { error: uploadError } = await supabase.storage
+        .from('portfolio')
+        .upload(filePath, file);
+
+      if (uploadError) throw uploadError;
+
+      const { data: { publicUrl } } = supabase.storage
+        .from('portfolio')
+        .getPublicUrl(filePath);
+
+      setSettings({ ...settings, company_logo: publicUrl });
+
+      // Update DB immediately or wait for save?
+      // User expected "upload" to work, so let's update state and show success.
+      setSuccess('Logo caricato con successo! Ricorda di salvare le modifiche.');
+    } catch (err: any) {
+      console.error('Error uploading logo:', err);
+      setError('Errore durante il caricamento del logo: ' + err.message);
+    } finally {
+      setLoading(false);
     }
   };
 

@@ -8,7 +8,6 @@ interface ProductItem {
   description: string;
   category: string;
   location?: string;
-  price: number;
   stock: number;
   status: string;
   image_url: string;
@@ -33,13 +32,13 @@ const CATEGORIES = [
   'Accessori Tecnici'
 ];
 const STATUSES = ['Available', 'In Use', 'Maintenance', 'Out of Stock'];
+const LOCATIONS = ['Roma', 'Chiarano'];
 
 export default function InventoryForm({ item, onClose, onSuccess }: InventoryFormProps) {
   const [name, setName] = useState(item?.name || '');
   const [description, setDescription] = useState(item?.description || '');
   const [category, setCategory] = useState(item?.category || CATEGORIES[0]);
-  const [location, setLocation] = useState(item?.location || 'Roma');
-  const [price, setPrice] = useState(item?.price || 0);
+  const [location, setLocation] = useState(item?.location || LOCATIONS[0]);
   const [stock, setStock] = useState(item?.stock || 0);
   const [status, setStatus] = useState(item?.status || 'Available');
   const [imageUrl] = useState(item?.image_url || '');
@@ -95,7 +94,6 @@ export default function InventoryForm({ item, onClose, onSuccess }: InventoryFor
       description,
       category,
       location,
-      price,
       stock,
       status,
       image_url: finalImageUrl,
@@ -175,32 +173,23 @@ export default function InventoryForm({ item, onClose, onSuccess }: InventoryFor
                   <label className="block text-[10px] font-black text-gray-500 uppercase tracking-[0.2em] mb-4">
                     Ubicazione
                   </label>
-                  <input
-                    type="text"
+                  <select
                     value={location}
                     onChange={(e) => setLocation(e.target.value)}
-                    placeholder="Roma / Chiarano"
-                    className="w-full bg-gray-800/30 border border-gray-700/50 text-white px-5 py-3.5 rounded-xl focus:outline-none focus:ring-2 focus:ring-cyan-500/30 transition-all font-bold placeholder:text-gray-700 text-sm"
-                  />
+                    className="w-full bg-gray-800/30 border border-gray-700/50 text-white px-5 py-3.5 rounded-xl focus:outline-none focus:ring-2 focus:ring-cyan-500/30 transition-all font-bold appearance-none text-sm cursor-pointer"
+                    required
+                  >
+                    {LOCATIONS.map(loc => (
+                      <option key={loc} value={loc}>{loc.toUpperCase()}</option>
+                    ))}
+                  </select>
                 </div>
               </div>
 
-              <div className="grid grid-cols-2 gap-6">
+              <div className="grid grid-cols-1 gap-6">
                 <div>
                   <label className="block text-[10px] font-black text-gray-500 uppercase tracking-[0.2em] mb-4">
-                    Prezzo (€)
-                  </label>
-                  <input
-                    type="number"
-                    value={price}
-                    onChange={(e) => setPrice(Number(e.target.value))}
-                    className="w-full bg-gray-800/30 border border-gray-700/50 text-white px-5 py-3.5 rounded-xl focus:outline-none focus:ring-2 focus:ring-cyan-500/30 transition-all font-bold text-sm"
-                    required
-                  />
-                </div>
-                <div>
-                  <label className="block text-[10px] font-black text-gray-500 uppercase tracking-[0.2em] mb-4">
-                    Quantità
+                    Quantità Disponibile
                   </label>
                   <input
                     type="number"

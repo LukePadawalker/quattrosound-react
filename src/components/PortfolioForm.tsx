@@ -19,11 +19,13 @@ interface PortfolioFormProps {
   onSuccess: () => void;
 }
 
+const LOCATIONS = ['Roma', 'Chiarano'];
+
 export default function PortfolioForm({ item, onClose, onSuccess }: PortfolioFormProps) {
   const [title, setTitle] = useState(item?.title || '');
   const [description, setDescription] = useState(item?.description || '');
   const [category, setCategory] = useState(item?.category || 'AUDIO');
-  const [location, setLocation] = useState(item?.location || '');
+  const [location, setLocation] = useState(item?.location || LOCATIONS[0]);
   const [stock] = useState(item?.stock || 1);
   const [status, setStatus] = useState(item?.status || 'Available');
   const [imageUrl] = useState(item?.image_url || '');
@@ -163,14 +165,17 @@ export default function PortfolioForm({ item, onClose, onSuccess }: PortfolioFor
                 <label htmlFor="location" className="block text-[10px] font-black text-gray-500 uppercase tracking-[0.2em] mb-4">
                   Ubicazione / Location
                 </label>
-                <input
+                <select
                   id="location"
-                  type="text"
                   value={location}
                   onChange={(e) => setLocation(e.target.value)}
-                  placeholder="Es: Roma, IT"
-                  className="w-full bg-gray-800/30 border border-gray-700/50 text-white px-5 py-3.5 rounded-xl focus:outline-none focus:ring-2 focus:ring-cyan-500/30 transition-all font-bold placeholder:text-gray-700 text-sm"
-                />
+                  className="w-full bg-gray-800/30 border border-gray-700/50 text-white px-5 py-3.5 rounded-xl focus:outline-none focus:ring-2 focus:ring-cyan-500/30 transition-all font-bold appearance-none text-sm cursor-pointer"
+                  required
+                >
+                  {LOCATIONS.map(loc => (
+                    <option key={loc} value={loc}>{loc.toUpperCase()}</option>
+                  ))}
+                </select>
               </div>
 
               <div className="grid grid-cols-2 gap-6">
