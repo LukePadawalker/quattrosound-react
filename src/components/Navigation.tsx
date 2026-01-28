@@ -1,19 +1,13 @@
-import { Menu, X, User as UserIcon, ShoppingCart } from 'lucide-react';
+import { Menu, X, User as UserIcon } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { supabase } from '../lib/supabase';
 import { User } from '@supabase/supabase-js';
-import { useCart } from '../context/CartContext';
 
 
-interface NavigationProps {
-  onCartClick?: () => void;
-}
-
-export default function Navigation({ onCartClick }: NavigationProps) {
+export default function Navigation() {
   const [isOpen, setIsOpen] = useState(false);
   const [user, setUser] = useState<User | null>(null);
-  const { itemCount } = useCart();
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -53,9 +47,9 @@ export default function Navigation({ onCartClick }: NavigationProps) {
       <div className="mx-2 px-4 py-2 my-2 sm:mx-2 sm:pl-4 sm:pr-8  md:px-8 md:mx-8 lg:px-16 xl:mx-24 2xl:mx-64 2xl:py-2 rounded-full bg-gradient-to-r from-cyan-400/10 to-blue-400/10 backdrop-blur ">
         <div className="flex items-center justify-between h-16">
           <div className="flex-shrink-0">
-            <Link to="/" className="flex items-center text-3xl font-bold text-white">
-              <img className="w-20 py-4" src="/white-logo.png" alt="logo" />
-              <span className="text-gradient-blue text-sm">QuattroSound</span>
+            <Link to="/" className="flex items-center text-2xl font-bold text-white">
+              <img className="w-14 py-2" src="/white-logo.png" alt="logo" />
+              <span className="text-gradient-blue text-xs ml-1">QuattroSound</span>
             </Link>
           </div>
 
@@ -80,7 +74,7 @@ export default function Navigation({ onCartClick }: NavigationProps) {
               {user ? (
                 <Link
                   to="/admin"
-                  className="bg-cyan-500 hover:bg-cyan-600 text-white px-6 py-2 rounded-full text-sm font-bold transition-all flex items-center gap-2"
+                  className="bg-cyan-500 hover:bg-cyan-600 text-white px-6 py-2 rounded-full text-sm font-bold transition-all flex items-center gap-2 font-audiowide"
                 >
                   <UserIcon size={18} />
                   Dashboard
@@ -88,42 +82,16 @@ export default function Navigation({ onCartClick }: NavigationProps) {
               ) : (
                 <Link
                   to="/login"
-                  className="bg-gray-800 hover:bg-gray-700 text-white px-6 py-2 rounded-full text-sm font-bold border border-gray-700 transition-all flex items-center gap-2"
+                  className="bg-gray-800 hover:bg-gray-700 text-white px-6 py-2 rounded-full text-sm font-bold border border-gray-700 transition-all flex items-center gap-2 font-audiowide"
                 >
                   Login Admin
                 </Link>
               )}
 
-              {onCartClick && (
-                <button
-                  onClick={onCartClick}
-                  className="relative p-2 text-gray-400 hover:text-cyan-400 transition-colors"
-                >
-                  <ShoppingCart size={24} />
-                  {itemCount > 0 && (
-                    <span className="absolute -top-1 -right-1 bg-cyan-500 text-white text-[10px] font-bold w-5 h-5 flex items-center justify-center rounded-full border-2 border-gray-900">
-                      {itemCount}
-                    </span>
-                  )}
-                </button>
-              )}
             </div>
           </div>
 
           <div className="lg:hidden flex items-center gap-4">
-            {onCartClick && (
-              <button
-                onClick={onCartClick}
-                className="relative p-2 text-gray-400 hover:text-cyan-400 transition-colors"
-              >
-                <ShoppingCart size={24} />
-                {itemCount > 0 && (
-                  <span className="absolute -top-1 -right-1 bg-cyan-500 text-white text-[10px] font-bold w-5 h-5 flex items-center justify-center rounded-full border-2 border-gray-900">
-                    {itemCount}
-                  </span>
-                )}
-              </button>
-            )}
             <button
               onClick={() => setIsOpen(!isOpen)}
               className="text-gray-400 hover:accent-gold"
@@ -136,7 +104,7 @@ export default function Navigation({ onCartClick }: NavigationProps) {
 
       {
         isOpen && (
-          <div className="lg:hidden  bg-gradient-to-r from-blue-900/90 to-cyan-700/90 border-t border-gray-800 px-8 mx-8 rounded-xl mt-2">
+          <div className="lg:hidden  bg-gradient-to-r from-blue-900/90 to-cyan-700/90 border-t border-gray-800 px-6 mx-4 rounded-xl mt-2">
             <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
               <button onClick={() => scrollToSection('home')} className="audiowide-regular text-white-400 hover:accent-gold block px-3 py-2 text-base font-medium w-full text-left">
                 Home
@@ -158,7 +126,7 @@ export default function Navigation({ onCartClick }: NavigationProps) {
                   <Link
                     to="/admin"
                     onClick={() => setIsOpen(false)}
-                    className="flex items-center gap-2 text-cyan-400 font-bold px-3 py-2"
+                    className="flex items-center gap-2 text-cyan-400 font-bold px-3 py-2 font-audiowide"
                   >
                     <UserIcon size={20} />
                     Dashboard Admin
@@ -167,7 +135,7 @@ export default function Navigation({ onCartClick }: NavigationProps) {
                   <Link
                     to="/login"
                     onClick={() => setIsOpen(false)}
-                    className="flex items-center gap-2 text-white font-bold px-3 py-2"
+                    className="flex items-center gap-2 text-white font-bold px-3 py-2 font-audiowide"
                   >
                     Login Admin
                   </Link>

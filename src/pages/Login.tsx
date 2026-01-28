@@ -15,21 +15,34 @@ export default function Login() {
     setLoading(true);
     setError(null);
 
-    const { error } = await supabase.auth.signInWithPassword({
-      email,
-      password,
-    });
+    try {
+      const { error } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      });
 
-    if (error) {
-      setError(error.message === 'Invalid login credentials' ? 'Credenziali non valide' : error.message);
+      if (error) {
+        if (error.message.includes('Invalid login credentials')) {
+          setError('Email o password non corretti.');
+        } else if (error.message.includes('Email not confirmed')) {
+          setError('Indirizzo email non confermato.');
+        } else {
+          setError('Si è verificato un errore durante l\'accesso. Riprova più tardi.');
+          console.error('Login error:', error.message);
+        }
+        setLoading(false);
+      } else {
+        navigate('/admin');
+      }
+    } catch (err) {
+      setError('Errore di connessione al server.');
       setLoading(false);
-    } else {
-      navigate('/admin');
+      console.error('Login exception:', err);
     }
   };
 
   return (
-    <div className="min-h-screen bg-[#0a0f18] flex items-center justify-center px-4">
+    <div className="min-h-screen bg-[#0a0f18] flex items-center justify-center px-4 font-audiowide">
       <div className="max-w-md w-full bg-[#111827] rounded-xl shadow-2xl p-8 border border-gray-800">
         <div className="text-center mb-8">
           <div className="inline-flex items-center justify-center w-16 h-16 bg-cyan-500 rounded-full mb-4">
