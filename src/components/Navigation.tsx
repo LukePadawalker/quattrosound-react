@@ -74,7 +74,7 @@ export default function Navigation() {
               {user ? (
                 <Link
                   to="/admin"
-                  className="bg-cyan-500 hover:bg-cyan-600 text-white px-6 py-2 rounded-full text-sm font-bold transition-all flex items-center gap-2"
+                  className="bg-cyan-500 hover:bg-cyan-600 text-white px-6 py-2 rounded-full text-sm font-bold transition-all flex items-center gap-2 font-audiowide"
                 >
                   <UserIcon size={18} />
                   Dashboard
@@ -82,7 +82,7 @@ export default function Navigation() {
               ) : (
                 <Link
                   to="/login"
-                  className="bg-gray-800 hover:bg-gray-700 text-white px-6 py-2 rounded-full text-sm font-bold border border-gray-700 transition-all flex items-center gap-2"
+                  className="bg-gray-800 hover:bg-gray-700 text-white px-6 py-2 rounded-full text-sm font-bold border border-gray-700 transition-all flex items-center gap-2 font-audiowide"
                 >
                   Login Admin
                 </Link>
@@ -126,7 +126,7 @@ export default function Navigation() {
                   <Link
                     to="/admin"
                     onClick={() => setIsOpen(false)}
-                    className="flex items-center gap-2 text-cyan-400 font-bold px-3 py-2"
+                    className="flex items-center gap-2 text-cyan-400 font-bold px-3 py-2 font-audiowide"
                   >
                     <UserIcon size={20} />
                     Dashboard Admin
@@ -135,7 +135,7 @@ export default function Navigation() {
                   <Link
                     to="/login"
                     onClick={() => setIsOpen(false)}
-                    className="flex items-center gap-2 text-white font-bold px-3 py-2"
+                    className="flex items-center gap-2 text-white font-bold px-3 py-2 font-audiowide"
                   >
                     Login Admin
                   </Link>

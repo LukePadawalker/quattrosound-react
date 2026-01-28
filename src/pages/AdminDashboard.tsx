@@ -21,7 +21,6 @@ import {
   ChevronLeft,
   ChevronRight,
   Filter,
-  MoreVertical,
   Calendar,
   MapPin,
   Menu,
@@ -152,7 +151,7 @@ export default function AdminDashboard() {
   };
 
   return (
-    <div className={`flex h-screen overflow-hidden font-sans transition-colors duration-300 ${isDarkMode ? 'bg-[#0a0f18] text-white' : 'bg-gray-50 text-gray-900'}`}>
+    <div className={`flex h-screen overflow-hidden font-audiowide transition-colors duration-300 ${isDarkMode ? 'bg-[#0a0f18] text-white' : 'bg-gray-50 text-gray-900'}`}>
       {/* Mobile Sidebar Overlay */}
       {isSidebarOpen && (
         <div

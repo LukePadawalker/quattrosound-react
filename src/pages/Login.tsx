@@ -42,7 +42,7 @@ export default function Login() {
   };
 
   return (
-    <div className="min-h-screen bg-[#0a0f18] flex items-center justify-center px-4">
+    <div className="min-h-screen bg-[#0a0f18] flex items-center justify-center px-4 font-audiowide">
       <div className="max-w-md w-full bg-[#111827] rounded-xl shadow-2xl p-8 border border-gray-800">
         <div className="text-center mb-8">
           <div className="inline-flex items-center justify-center w-16 h-16 bg-cyan-500 rounded-full mb-4">
