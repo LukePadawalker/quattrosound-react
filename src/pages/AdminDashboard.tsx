@@ -32,6 +32,7 @@ import PortfolioForm from '../components/PortfolioForm';
 import InventoryForm from '../components/InventoryForm';
 import CategoriesTab from '../components/CategoriesTab';
 import SettingsTab from '../components/SettingsTab';
+import DashboardTab from '../components/DashboardTab';
 
 interface PortfolioItem {
   id: string;
@@ -52,9 +53,10 @@ export default function AdminDashboard() {
   const [loading, setLoading] = useState(true);
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [editingItem, setEditingItem] = useState<PortfolioItem | null>(null);
-  const [activeTab, setActiveTab] = useState('portfolio');
+  const [activeTab, setActiveTab] = useState('dashboard');
   const [isDarkMode, setIsDarkMode] = useState(true);
   const [searchQuery, setSearchQuery] = useState('');
+  const [refreshKey, setRefreshKey] = useState(0);
 
   useEffect(() => {
     if (isDarkMode) {
@@ -88,7 +90,7 @@ export default function AdminDashboard() {
 
   const fetchItems = async () => {
     setLoading(true);
-    const table = activeTab === 'inventario' ? 'products' : 'portfolio_items';
+    const table = (activeTab === 'inventario' || activeTab === 'categorie') ? 'products' : 'portfolio_items';
     const { data, error } = await supabase
       .from(table)
       .select('*')
@@ -115,7 +117,7 @@ export default function AdminDashboard() {
   const handleDelete = async (id: string, imageUrl: string) => {
     if (!confirm('Sei sicuro di voler eliminare questo elemento?')) return;
 
-    const table = activeTab === 'inventario' ? 'products' : 'portfolio_items';
+    const table = (activeTab === 'inventario' || activeTab === 'categorie') ? 'products' : 'portfolio_items';
     const { error: dbError } = await supabase
       .from(table)
       .delete()
@@ -133,6 +135,7 @@ export default function AdminDashboard() {
       }
     }
 
+    setRefreshKey(prev => prev + 1);
     fetchItems();
   };
 
@@ -496,6 +499,7 @@ export default function AdminDashboard() {
             </>
           ) : activeTab === 'categorie' ? (
             <CategoriesTab
+              key={refreshKey}
               isDarkMode={isDarkMode}
               onEdit={handleEdit}
               onDelete={handleDelete}
@@ -503,30 +507,22 @@ export default function AdminDashboard() {
           ) : activeTab === 'impostazioni' ? (
             <SettingsTab isDarkMode={isDarkMode} />
           ) : (
-            <div className="flex flex-col items-center justify-center py-40">
-              <div className="w-20 h-20 bg-cyan-500/10 rounded-full flex items-center justify-center mb-6">
-                <LayoutDashboard size={40} className="text-cyan-500" />
-              </div>
-              <h2 className="text-2xl font-bold uppercase tracking-widest audiowide-regular">Panoramica {activeTab}</h2>
-              <p className="text-gray-500 mt-2">Questa sezione è in fase di sviluppo per il sistema gestionale.</p>
-              <button
-                onClick={() => setActiveTab('portfolio')}
-                className="mt-8 px-6 py-2 border border-gray-700 rounded-lg text-sm font-bold hover:bg-gray-800 transition-colors"
-              >
-                Vai a Portfolio
-              </button>
-            </div>
+            <DashboardTab
+              isDarkMode={isDarkMode}
+              onNavigate={(tab) => setActiveTab(tab)}
+            />
           )}
         </div>
       </main>
 
       {isFormOpen && (
-        activeTab === 'inventario' ? (
+        (activeTab === 'inventario' || activeTab === 'categorie') ? (
           <InventoryForm
             item={editingItem as any}
             onClose={() => setIsFormOpen(false)}
             onSuccess={() => {
               setIsFormOpen(false);
+              setRefreshKey(prev => prev + 1);
               fetchItems();
             }}
           />
@@ -536,6 +532,7 @@ export default function AdminDashboard() {
             onClose={() => setIsFormOpen(false)}
             onSuccess={() => {
               setIsFormOpen(false);
+              setRefreshKey(prev => prev + 1);
               fetchItems();
             }}
           />
