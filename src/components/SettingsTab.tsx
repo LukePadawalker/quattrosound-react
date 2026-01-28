@@ -29,12 +29,12 @@ export default function SettingsTab({ isDarkMode }: SettingsTabProps) {
   ];
 
   return (
-    <div className="flex flex-col lg:flex-row gap-8 min-h-[600px]">
+    <div className="flex flex-col lg:flex-row gap-4 lg:gap-8 min-h-[600px]">
       {/* Sidebar Navigation */}
       <aside className="w-full lg:w-72 space-y-2">
-        <div className="mb-6 px-4">
-          <h2 className={`text-2xl font-black audiowide-regular uppercase tracking-tight ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>Impostazioni</h2>
-          <p className="text-gray-500 text-xs font-bold uppercase tracking-widest mt-1">Configurazione globale</p>
+        <div className="mb-4 lg:mb-6 px-2 lg:px-4">
+          <h2 className={`text-xl lg:text-2xl font-black audiowide-regular uppercase tracking-tight ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>Impostazioni</h2>
+          <p className="text-gray-500 text-[10px] lg:text-xs font-bold uppercase tracking-widest mt-0.5">Configurazione globale</p>
         </div>
 
         <nav className="space-y-1">
@@ -42,7 +42,7 @@ export default function SettingsTab({ isDarkMode }: SettingsTabProps) {
             <button
               key={item.id}
               onClick={() => setActiveSubTab(item.id)}
-              className={`w-full flex items-center gap-4 px-4 py-4 rounded-2xl transition-all group ${
+              className={`w-full flex items-center gap-3 lg:gap-4 px-3 lg:px-4 py-3 lg:py-4 rounded-xl lg:rounded-2xl transition-all group ${
                 activeSubTab === item.id
                   ? 'bg-cyan-500 text-[#0a0f18] shadow-lg shadow-cyan-500/20'
                   : `${isDarkMode ? 'text-gray-400 hover:bg-gray-800/50 hover:text-white' : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900'}`
@@ -69,7 +69,7 @@ export default function SettingsTab({ isDarkMode }: SettingsTabProps) {
         </nav>
 
         {/* Quick Links / Status */}
-        <div className={`mt-12 p-5 rounded-3xl border border-dashed ${isDarkMode ? 'border-gray-800 bg-gray-800/10' : 'border-gray-200 bg-gray-50'}`}>
+        <div className={`mt-6 lg:mt-12 p-4 lg:p-5 rounded-2xl lg:rounded-3xl border border-dashed ${isDarkMode ? 'border-gray-800 bg-gray-800/10' : 'border-gray-200 bg-gray-50'}`}>
           <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-gray-500 mb-4">Stato Sistema</h4>
           <div className="space-y-4">
             <div className="flex items-center gap-3">
@@ -90,7 +90,7 @@ export default function SettingsTab({ isDarkMode }: SettingsTabProps) {
 
       {/* Content Area */}
       <main className="flex-1 min-w-0">
-        <div className={`h-full rounded-3xl border p-4 lg:p-8 ${isDarkMode ? 'bg-[#0f172a]/20 border-gray-800/50' : 'bg-gray-50/50 border-gray-100 shadow-inner'}`}>
+        <div className={`h-full rounded-2xl lg:rounded-3xl border p-3 lg:p-8 ${isDarkMode ? 'bg-[#0f172a]/20 border-gray-800/50' : 'bg-gray-50/50 border-gray-100 shadow-inner'}`}>
           {activeSubTab === 'account' && <AccountSettings isDarkMode={isDarkMode} />}
           {activeSubTab === 'company' && <CompanySettings isDarkMode={isDarkMode} />}
           {activeSubTab === 'users' && <UserManagement isDarkMode={isDarkMode} />}

@@ -168,13 +168,13 @@ export default function AdminDashboard() {
         ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'}
         ${isDarkMode ? 'bg-[#111827] border-gray-800' : 'bg-white border-gray-200'}
       `}>
-        <div className="p-6 flex-1 overflow-y-auto">
-          <div className="flex items-center justify-between mb-12">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 bg-cyan-500 rounded-lg flex items-center justify-center shadow-[0_0_20px_rgba(6,182,212,0.3)]">
-                <img src="/white-logo.png" alt="Logo" className="w-7 h-7 object-contain" />
+        <div className="p-4 flex-1 overflow-y-auto">
+          <div className="flex items-center justify-between mb-8">
+            <div className="flex items-center gap-2">
+              <div className="w-8 h-8 bg-cyan-500 rounded-lg flex items-center justify-center shadow-[0_0_15px_rgba(6,182,212,0.3)]">
+                <img src="/white-logo.png" alt="Logo" className="w-5 h-5 object-contain" />
               </div>
-              <span className={`text-xl font-bold tracking-tight uppercase audiowide-regular ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>QuattroSound</span>
+              <span className={`text-base font-bold tracking-tight uppercase audiowide-regular ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>QuattroSound</span>
             </div>
             <button
               onClick={() => setIsSidebarOpen(false)}
@@ -247,8 +247,8 @@ export default function AdminDashboard() {
       {/* Main Content */}
       <main className="flex-1 flex flex-col min-w-0 overflow-hidden">
         {/* Top Header */}
-        <header className={`h-18 backdrop-blur-xl border-b flex items-center justify-between px-4 lg:px-8 py-4 z-30 transition-colors duration-300 ${isDarkMode ? 'bg-[#0a0f18]/80 border-gray-800/50' : 'bg-white/80 border-gray-200'}`}>
-          <div className="flex items-center gap-4 flex-1">
+        <header className={`h-16 lg:h-18 backdrop-blur-xl border-b flex items-center justify-between px-4 lg:px-8 py-3 lg:py-4 z-30 transition-colors duration-300 ${isDarkMode ? 'bg-[#0a0f18]/80 border-gray-800/50' : 'bg-white/80 border-gray-200'}`}>
+          <div className="flex items-center gap-3 lg:gap-4 flex-1">
             <button
               onClick={() => setIsSidebarOpen(true)}
               className="lg:hidden p-2 text-gray-400 hover:text-white hover:bg-gray-800/50 rounded-lg"
@@ -286,7 +286,7 @@ export default function AdminDashboard() {
         </header>
 
         {/* Content Area */}
-        <div className="flex-1 overflow-y-auto p-4 lg:p-8 space-y-6 lg:space-y-10">
+        <div className="flex-1 overflow-y-auto p-3 lg:p-8 space-y-5 lg:space-y-10">
           {activeTab === 'portfolio' || activeTab === 'inventario' ? (
             <>
               {/* Search Mobile */}
@@ -304,10 +304,10 @@ export default function AdminDashboard() {
               {/* Page Title & Actions */}
               <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end gap-4">
                 <div>
-                  <h2 className={`text-3xl lg:text-4xl font-black tracking-tighter audiowide-regular uppercase flex items-center gap-4 ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
+                  <h2 className={`text-xl lg:text-4xl font-black tracking-tighter audiowide-regular uppercase flex items-center gap-4 ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
                     {activeTab === 'portfolio' ? 'Portfolio' : 'Inventario'}
                   </h2>
-                  <p className="text-gray-500 mt-1 text-sm lg:text-base font-medium">Gestione asset e portfolio QuattroSound.</p>
+                  <p className="text-gray-500 mt-0.5 text-xs lg:text-base font-medium">Gestione asset e portfolio QuattroSound.</p>
                 </div>
                 <div className="flex items-center gap-3 w-full sm:w-auto">
                   <button className={`flex-1 sm:flex-none flex items-center justify-center gap-2 px-4 py-2.5 text-sm font-bold rounded-xl border transition-all ${isDarkMode ? 'bg-gray-800/40 text-gray-300 hover:text-white border-gray-700/50' : 'bg-white text-gray-600 hover:text-gray-900 border-gray-200'}`}>
@@ -325,23 +325,22 @@ export default function AdminDashboard() {
               </div>
 
               {/* Stats Cards */}
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
+              <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 lg:gap-5">
                 {[
-                  { label: activeTab === 'inventario' ? 'Articoli Totali' : 'Progetti Totali', value: items.length, trend: `Su ${items.length} elementi`, icon: Package, color: 'text-cyan-400', bg: 'bg-cyan-400/10' },
+                  { label: activeTab === 'inventario' ? 'Articoli' : 'Progetti', value: items.length, trend: `Su ${items.length} el.`, icon: Package, color: 'text-cyan-400', bg: 'bg-cyan-400/10' },
                   { label: 'Disponibili', value: items.filter(i => i.status === 'Available').length, trend: 'Pronti al noleggio', icon: CheckCircle, color: 'text-emerald-400', bg: 'bg-emerald-400/10' },
                   { label: 'In Uso', value: items.filter(i => i.status === 'In Use').length, trend: 'Attualmente fuori', icon: Clock, color: 'text-amber-400', bg: 'bg-amber-400/10' },
                   { label: 'Manutenzione', value: items.filter(i => i.status === 'Maintenance').length, trend: 'In riparazione', icon: Wrench, color: 'text-rose-400', bg: 'bg-rose-400/10' },
                 ].map((stat, i) => (
-                  <div key={i} className={`border rounded-2xl p-6 transition-all group ${isDarkMode ? 'bg-[#111827]/40 border-gray-800/50 hover:border-gray-700/50' : 'bg-white border-gray-200 hover:shadow-lg'}`}>
-                    <div className="flex items-center justify-between mb-6">
-                      <div className={`p-3 rounded-xl ${stat.bg} ${stat.color}`}>
-                        <stat.icon size={24} />
+                  <div key={i} className={`border rounded-xl lg:rounded-2xl p-3.5 lg:p-6 transition-all group ${isDarkMode ? 'bg-[#111827]/40 border-gray-800/50 hover:border-gray-700/50' : 'bg-white border-gray-200 hover:shadow-lg'}`}>
+                    <div className="flex items-center justify-between mb-3 lg:mb-6">
+                      <div className={`p-2 lg:p-3 rounded-lg lg:rounded-xl ${stat.bg} ${stat.color}`}>
+                        <stat.icon size={18} lg-size={24} />
                       </div>
-                      <MoreVertical size={20} className="text-gray-700 group-hover:text-gray-500 cursor-pointer" />
                     </div>
-                    <div className="space-y-1">
-                      <p className="text-gray-500 text-xs font-bold uppercase tracking-widest">{stat.label}</p>
-                      <h3 className="text-3xl font-black audiowide-regular">{stat.value}</h3>
+                    <div className="space-y-0.5 lg:space-y-1">
+                      <p className="text-gray-500 text-[9px] lg:text-xs font-black uppercase tracking-widest">{stat.label}</p>
+                      <h3 className="text-xl lg:text-3xl font-black audiowide-regular">{stat.value}</h3>
                       <p className={`text-[11px] font-bold ${stat.color === 'text-cyan-400' ? 'text-cyan-400/70' : stat.color === 'text-rose-400' ? 'text-rose-400/70' : 'text-gray-600'}`}>
                         {i === 0 ? '↗ ' : i === 3 ? '↘ ' : ''}{stat.trend}
                       </p>
@@ -381,55 +380,55 @@ export default function AdminDashboard() {
                     <table className="w-full text-left border-collapse">
                       <thead>
                         <tr className={`border-b transition-colors ${isDarkMode ? 'border-gray-800/50 bg-[#111827]/40' : 'border-gray-100 bg-gray-50/50'}`}>
-                          <th className="px-6 py-5 text-[11px] font-black text-gray-500 uppercase tracking-[0.2em]">Articolo</th>
-                          <th className="hidden sm:table-cell px-6 py-5 text-[11px] font-black text-gray-500 uppercase tracking-[0.2em]">Categoria</th>
-                          <th className="px-6 py-5 text-[11px] font-black text-gray-500 uppercase tracking-[0.2em]">
+                          <th className="px-4 lg:px-6 py-3.5 lg:py-5 text-[10px] lg:text-[11px] font-black text-gray-500 uppercase tracking-[0.2em]">Articolo</th>
+                          <th className="hidden sm:table-cell px-4 lg:px-6 py-3.5 lg:py-5 text-[10px] lg:text-[11px] font-black text-gray-500 uppercase tracking-[0.2em]">Categoria</th>
+                          <th className="px-4 lg:px-6 py-3.5 lg:py-5 text-[10px] lg:text-[11px] font-black text-gray-500 uppercase tracking-[0.2em]">
                             {activeTab === 'inventario' ? 'Stock' : 'Ubicazione'}
                           </th>
-                          <th className="hidden lg:table-cell px-6 py-5 text-[11px] font-black text-gray-500 uppercase tracking-[0.2em]">Data</th>
-                          <th className="hidden md:table-cell px-6 py-5 text-[11px] font-black text-gray-500 uppercase tracking-[0.2em]">Stato</th>
-                          <th className="px-6 py-5 text-[11px] font-black text-gray-500 uppercase tracking-[0.2em] text-right">Azioni</th>
+                          <th className="hidden lg:table-cell px-4 lg:px-6 py-3.5 lg:py-5 text-[10px] lg:text-[11px] font-black text-gray-500 uppercase tracking-[0.2em]">Data</th>
+                          <th className="hidden md:table-cell px-4 lg:px-6 py-3.5 lg:py-5 text-[10px] lg:text-[11px] font-black text-gray-500 uppercase tracking-[0.2em]">Stato</th>
+                          <th className="px-4 lg:px-6 py-3.5 lg:py-5 text-[10px] lg:text-[11px] font-black text-gray-500 uppercase tracking-[0.2em] text-right">Azioni</th>
                         </tr>
                       </thead>
                       <tbody className="divide-y divide-gray-800/30">
                         {filteredItems.map((item) => (
                           <tr key={item.id} className={`transition-colors group ${isDarkMode ? 'hover:bg-cyan-500/[0.02]' : 'hover:bg-gray-50'}`}>
-                            <td className="px-6 py-5">
-                              <div className="flex items-center gap-4">
-                                <div className={`w-12 h-12 rounded-xl overflow-hidden border shadow-inner transition-colors ${isDarkMode ? 'bg-gray-800/50 border-gray-700/50 group-hover:border-cyan-500/30' : 'bg-gray-100 border-gray-200 group-hover:border-cyan-500/30'}`}>
+                            <td className="px-4 lg:px-6 py-3.5 lg:py-5">
+                              <div className="flex items-center gap-3 lg:gap-4">
+                                <div className={`w-10 h-10 lg:w-12 lg:h-12 rounded-xl overflow-hidden border shadow-inner transition-colors ${isDarkMode ? 'bg-gray-800/50 border-gray-700/50 group-hover:border-cyan-500/30' : 'bg-gray-100 border-gray-200 group-hover:border-cyan-500/30'}`}>
                                   {item.image_url ? (
                                     <img src={item.image_url} alt={item.title} className="w-full h-full object-cover transition-transform group-hover:scale-110" />
                                   ) : (
-                                    <div className="w-full h-full flex items-center justify-center"><ImageIcon size={18} className="text-gray-400" /></div>
+                                    <div className="w-full h-full flex items-center justify-center"><ImageIcon size={16} lg-size={18} className="text-gray-400" /></div>
                                   )}
                                 </div>
                                 <div>
-                                  <div className={`text-sm font-black uppercase tracking-tight transition-colors ${isDarkMode ? 'text-white group-hover:text-cyan-400' : 'text-gray-900 group-hover:text-cyan-600'}`}>{item.title}</div>
-                                  <div className="text-[10px] text-gray-500 font-bold uppercase mt-0.5">{item.id.substring(0, 8)}</div>
+                                  <div className={`text-xs lg:text-sm font-black uppercase tracking-tight transition-colors ${isDarkMode ? 'text-white group-hover:text-cyan-400' : 'text-gray-900 group-hover:text-cyan-600'}`}>{item.title}</div>
+                                  <div className="text-[9px] lg:text-[10px] text-gray-500 font-bold uppercase mt-0.5">{item.id.substring(0, 8)}</div>
                                 </div>
                               </div>
                             </td>
-                            <td className="hidden sm:table-cell px-6 py-5">
+                            <td className="hidden sm:table-cell px-4 lg:px-6 py-3.5 lg:py-5">
                               <span className={`px-3 py-1.5 border rounded-lg text-[10px] font-black uppercase tracking-wider transition-all ${isDarkMode ? 'bg-gray-800/50 border-gray-700/50 text-gray-400 group-hover:border-cyan-500/20 group-hover:text-cyan-300' : 'bg-gray-50 border-gray-200 text-gray-500 group-hover:border-cyan-500/20 group-hover:text-cyan-600'}`}>
                                 {item.category}
                               </span>
                             </td>
-                            <td className="px-6 py-5">
+                            <td className="px-4 lg:px-6 py-3.5 lg:py-5">
                               {activeTab === 'inventario' ? (
                                 <div className="space-y-1">
-                                  <div className="flex items-center gap-1 text-[10px] text-gray-500 font-bold uppercase tracking-widest">
+                                  <div className="flex items-center gap-1 text-[9px] lg:text-[10px] text-gray-500 font-bold uppercase tracking-widest">
                                     <MapPin size={10} className="text-cyan-500/50" />
-                                    {item.location || 'Roma'} • {item.stock || 0} DISPONIBILI
+                                    {item.location || 'Roma'} • {item.stock || 0} DISP.
                                   </div>
                                 </div>
                               ) : (
-                                <div className="flex items-center gap-2 text-xs font-bold text-gray-500">
-                                  <MapPin size={14} className="text-cyan-500/50" />
+                                <div className="flex items-center gap-2 text-[11px] lg:text-xs font-bold text-gray-500">
+                                  <MapPin size={12} lg-size={14} className="text-cyan-500/50" />
                                   <span className="uppercase tracking-wide">{item.location || 'Roma'}</span>
                                 </div>
                               )}
                             </td>
-                            <td className="hidden lg:table-cell px-6 py-5">
+                            <td className="hidden lg:table-cell px-4 lg:px-6 py-3.5 lg:py-5">
                               <div className="flex items-center gap-2 text-xs font-bold text-gray-500">
                                 <Calendar size={14} className="text-gray-400" />
                                 {new Date(item.created_at).toLocaleDateString('it-IT')}
@@ -456,7 +455,7 @@ export default function AdminDashboard() {
                                 </span>
                               </div>
                             </td>
-                            <td className="px-6 py-5 text-right">
+                            <td className="px-4 lg:px-6 py-3.5 lg:py-5 text-right">
                               <div className="flex justify-end gap-2">
                                 <button
                                   onClick={() => handleEdit(item)}

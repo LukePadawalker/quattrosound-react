@@ -97,12 +97,12 @@ export default function DashboardTab({ isDarkMode, onNavigate, user }: Dashboard
   ];
 
   return (
-    <div className="space-y-10 animate-in fade-in slide-in-from-bottom-4 duration-700">
+    <div className="space-y-6 lg:space-y-10 animate-in fade-in slide-in-from-bottom-4 duration-700">
       <div>
-        <h2 className={`text-3xl lg:text-4xl font-black tracking-tighter audiowide-regular uppercase ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
+        <h2 className={`text-xl lg:text-4xl font-black tracking-tighter audiowide-regular uppercase ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
           Benvenuto, {user?.user_metadata?.full_name || 'Admin'}
         </h2>
-        <p className="text-gray-500 mt-1 text-sm lg:text-base font-medium">Panoramica rapida delle attività e dello stato del sistema QuattroSound.</p>
+        <p className="text-gray-500 mt-0.5 text-xs lg:text-base font-medium">Panoramica rapida delle attività e dello stato del sistema QuattroSound.</p>
       </div>
 
       {loading ? (
@@ -112,47 +112,47 @@ export default function DashboardTab({ isDarkMode, onNavigate, user }: Dashboard
           ))}
         </div>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
           {cards.map((card) => (
             <div
               key={card.id}
-              className={`group relative p-8 rounded-[2rem] border transition-all duration-300 hover:-translate-y-2 ${
+              className={`group relative p-5 lg:p-8 rounded-2xl lg:rounded-[2rem] border transition-all duration-300 hover:-translate-y-2 ${
                 isDarkMode
                   ? 'bg-[#111827]/40 border-gray-800/50 hover:border-cyan-500/30 hover:bg-[#111827]/60 shadow-[0_20px_40px_-15px_rgba(0,0,0,0.3)]'
                   : 'bg-white border-gray-200 hover:shadow-2xl hover:border-cyan-500/30'
               }`}
             >
-              <div className="flex justify-between items-start mb-8">
-                <div className={`p-4 rounded-2xl ${card.bg} ${card.color} group-hover:scale-110 transition-transform duration-500`}>
-                  <card.icon size={28} />
+              <div className="flex justify-between items-start mb-6 lg:mb-8">
+                <div className={`p-3 lg:p-4 rounded-xl lg:rounded-2xl ${card.bg} ${card.color} group-hover:scale-110 transition-transform duration-500`}>
+                  <card.icon size={24} />
                 </div>
                 <div className="text-right">
-                  <div className={`text-4xl font-black audiowide-regular ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
+                  <div className={`text-3xl lg:text-4xl font-black audiowide-regular ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
                     {card.value.toString().padStart(2, '0')}
                   </div>
-                  <div className="text-[10px] font-black text-gray-500 uppercase tracking-widest mt-1">Elementi</div>
+                  <div className="text-[10px] font-black text-gray-500 uppercase tracking-widest mt-0.5">Elementi</div>
                 </div>
               </div>
 
-              <div className="space-y-2 mb-8">
-                <h3 className={`text-xl font-black uppercase tracking-tight leading-tight ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
+              <div className="space-y-1 lg:space-y-2 mb-6 lg:mb-8">
+                <h3 className={`text-lg lg:text-xl font-black uppercase tracking-tight leading-tight ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
                   {card.title}
                 </h3>
-                <p className="text-gray-500 text-xs font-bold uppercase tracking-widest">{card.subtitle}</p>
-                <p className={`text-sm mt-4 line-clamp-2 ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`}>
+                <p className="text-gray-500 text-[10px] lg:text-xs font-bold uppercase tracking-widest">{card.subtitle}</p>
+                <p className={`text-xs lg:text-sm mt-3 lg:mt-4 line-clamp-2 ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`}>
                   {card.description}
                 </p>
                 {card.secondaryValue && (
-                   <div className="flex items-center gap-2 mt-4">
-                     <Activity size={14} className="text-cyan-500" />
-                     <span className="text-[10px] font-black uppercase tracking-widest text-cyan-500/80">{card.secondaryValue}</span>
+                   <div className="flex items-center gap-2 mt-3 lg:mt-4">
+                     <Activity size={12} className="text-cyan-500" />
+                     <span className="text-[9px] lg:text-[10px] font-black uppercase tracking-widest text-cyan-500/80">{card.secondaryValue}</span>
                    </div>
                 )}
               </div>
 
               <button
                 onClick={() => onNavigate(card.id)}
-                className={`w-full flex items-center justify-between p-4 rounded-xl border transition-all ${
+                className={`w-full flex items-center justify-between p-3 lg:p-4 rounded-xl border transition-all ${
                   isDarkMode
                     ? 'bg-gray-800/30 border-gray-700/50 hover:border-cyan-500/50 text-gray-400 hover:text-white'
                     : 'bg-gray-50 border-gray-200 hover:border-cyan-500/50 text-gray-600 hover:text-gray-900'
@@ -171,16 +171,16 @@ export default function DashboardTab({ isDarkMode, onNavigate, user }: Dashboard
       )}
 
       {/* Quick Actions / Activity Feed Placeholder */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-        <div className={`p-8 rounded-[2.5rem] border ${isDarkMode ? 'bg-[#111827]/60 border-gray-800/50' : 'bg-white border-gray-200 shadow-sm'}`}>
-          <div className="flex items-center justify-between mb-8">
-            <div className="flex items-center gap-4">
-              <div className="p-3 bg-cyan-500/10 rounded-xl text-cyan-400">
-                <PlusCircle size={24} />
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8">
+        <div className={`p-5 lg:p-8 rounded-2xl lg:rounded-[2.5rem] border ${isDarkMode ? 'bg-[#111827]/60 border-gray-800/50' : 'bg-white border-gray-200 shadow-sm'}`}>
+          <div className="flex items-center justify-between mb-6 lg:mb-8">
+            <div className="flex items-center gap-3 lg:gap-4">
+              <div className="p-2 lg:p-3 bg-cyan-500/10 rounded-xl text-cyan-400">
+                <PlusCircle size={20} lg-size={24} />
               </div>
               <div>
-                <h4 className={`text-lg font-black uppercase tracking-tight audiowide-regular ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>Azioni Rapide</h4>
-                <p className="text-gray-500 text-xs font-bold uppercase tracking-widest mt-1">Crea nuovi contenuti all'istante</p>
+                <h4 className={`text-base lg:text-lg font-black uppercase tracking-tight audiowide-regular ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>Azioni Rapide</h4>
+                <p className="text-gray-500 text-[10px] font-bold uppercase tracking-widest mt-0.5">Crea nuovi contenuti all'istante</p>
               </div>
             </div>
           </div>
@@ -207,18 +207,18 @@ export default function DashboardTab({ isDarkMode, onNavigate, user }: Dashboard
           </div>
         </div>
 
-        <div className={`p-8 rounded-[2.5rem] border ${isDarkMode ? 'bg-[#111827]/60 border-gray-800/50' : 'bg-white border-gray-200 shadow-sm'}`}>
-          <div className="flex items-center justify-between mb-8">
-            <div className="flex items-center gap-4">
-              <div className="p-3 bg-amber-500/10 rounded-xl text-amber-400">
-                <Layers size={24} />
+        <div className={`p-5 lg:p-8 rounded-2xl lg:rounded-[2.5rem] border ${isDarkMode ? 'bg-[#111827]/60 border-gray-800/50' : 'bg-white border-gray-200 shadow-sm'}`}>
+          <div className="flex items-center justify-between mb-6 lg:mb-8">
+            <div className="flex items-center gap-3 lg:gap-4">
+              <div className="p-2 lg:p-3 bg-amber-500/10 rounded-xl text-amber-400">
+                <Layers size={20} lg-size={24} />
               </div>
               <div>
-                <h4 className={`text-lg font-black uppercase tracking-tight audiowide-regular ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>Stato Risorse</h4>
-                <p className="text-gray-500 text-xs font-bold uppercase tracking-widest mt-1">Integrità del database</p>
+                <h4 className={`text-base lg:text-lg font-black uppercase tracking-tight audiowide-regular ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>Stato Risorse</h4>
+                <p className="text-gray-500 text-[10px] font-bold uppercase tracking-widest mt-0.5">Integrità del database</p>
               </div>
             </div>
-            <ArrowUpRight size={20} className="text-gray-500" />
+            <ArrowUpRight size={18} className="text-gray-500" />
           </div>
 
           <div className="space-y-4">

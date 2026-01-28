@@ -83,9 +83,9 @@ export default function CategoriesTab({ isDarkMode, onEdit, onDelete }: Categori
 
   if (selectedCategory) {
     return (
-      <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
+      <div className="space-y-6 lg:space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
         <div className="flex items-center justify-between">
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-3 lg:gap-4">
             <button
               onClick={() => setSelectedCategory(null)}
               className={`p-2 rounded-xl border transition-all ${
@@ -94,13 +94,13 @@ export default function CategoriesTab({ isDarkMode, onEdit, onDelete }: Categori
                   : 'bg-white border-gray-200 text-gray-500 hover:text-gray-900 hover:bg-gray-50'
               }`}
             >
-              <ChevronLeft size={20} />
+              <ChevronLeft size={18} lg-size={20} />
             </button>
             <div>
-              <h2 className={`text-3xl font-black tracking-tighter audiowide-regular uppercase ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
+              <h2 className={`text-xl lg:text-3xl font-black tracking-tighter audiowide-regular uppercase ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
                 {selectedCategory}
               </h2>
-              <p className="text-gray-500 mt-1 text-sm font-medium">Visualizzazione asset per categoria.</p>
+              <p className="text-gray-500 mt-0.5 text-xs lg:text-sm font-medium">Visualizzazione asset per categoria.</p>
             </div>
           </div>
         </div>
@@ -119,17 +119,17 @@ export default function CategoriesTab({ isDarkMode, onEdit, onDelete }: Categori
             <p className="text-gray-500 mt-2 max-w-xs mx-auto text-sm">Inizia aggiungendo il tuo primo contenuto in questa categoria.</p>
           </div>
         ) : (
-          <div className="space-y-4">
+          <div className="space-y-3 lg:space-y-4">
             {items.map((item) => (
               <div
                 key={item.id}
-                className={`group flex items-center gap-6 p-4 rounded-2xl border transition-all ${
+                className={`group flex items-center gap-4 lg:gap-6 p-3 lg:p-4 rounded-xl lg:rounded-2xl border transition-all ${
                   isDarkMode
                     ? 'bg-[#111827]/40 border-gray-800/50 hover:border-cyan-500/30 hover:bg-[#111827]/60'
                     : 'bg-white border-gray-200 hover:shadow-lg hover:border-cyan-500/30'
                 }`}
               >
-                <div className={`w-20 h-20 rounded-xl overflow-hidden border shadow-inner flex-shrink-0 ${isDarkMode ? 'bg-gray-800/50 border-gray-700/50' : 'bg-gray-100 border-gray-200'}`}>
+                <div className={`w-16 h-16 lg:w-20 lg:h-20 rounded-lg lg:rounded-xl overflow-hidden border shadow-inner flex-shrink-0 ${isDarkMode ? 'bg-gray-800/50 border-gray-700/50' : 'bg-gray-100 border-gray-200'}`}>
                   {item.image_url ? (
                     <img src={item.image_url} alt={item.title} className="w-full h-full object-cover transition-transform group-hover:scale-110" />
                   ) : (
@@ -140,11 +140,11 @@ export default function CategoriesTab({ isDarkMode, onEdit, onDelete }: Categori
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center justify-between">
                     <div>
-                      <h3 className={`text-lg font-black uppercase tracking-tight transition-colors ${isDarkMode ? 'text-white group-hover:text-cyan-400' : 'text-gray-900 group-hover:text-cyan-600'}`}>
+                      <h3 className={`text-base lg:text-lg font-black uppercase tracking-tight transition-colors ${isDarkMode ? 'text-white group-hover:text-cyan-400' : 'text-gray-900 group-hover:text-cyan-600'}`}>
                         {item.title}
                       </h3>
-                      <div className="flex items-center gap-4 mt-1">
-                        <div className="flex items-center gap-1.5 text-[10px] text-gray-500 font-bold uppercase tracking-widest">
+                      <div className="flex items-center gap-3 lg:gap-4 mt-1">
+                        <div className="flex items-center gap-1 text-[9px] lg:text-[10px] text-gray-500 font-bold uppercase tracking-widest">
                           <MapPin size={12} className="text-cyan-500/50" />
                           {item.location || 'Roma'}
                         </div>
@@ -184,14 +184,14 @@ export default function CategoriesTab({ isDarkMode, onEdit, onDelete }: Categori
   }
 
   return (
-    <div className="space-y-10 animate-in fade-in duration-700">
+    <div className="space-y-6 lg:space-y-10 animate-in fade-in duration-700">
       <div>
         <div className="flex justify-between items-end">
           <div>
-            <h2 className={`text-3xl lg:text-4xl font-black tracking-tighter audiowide-regular uppercase ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
+            <h2 className={`text-xl lg:text-4xl font-black tracking-tighter audiowide-regular uppercase ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
               Esplora Categorie
             </h2>
-            <p className="text-gray-500 mt-1 text-sm lg:text-base font-medium">
+            <p className="text-gray-500 mt-0.5 text-xs lg:text-base font-medium">
               Organizzazione intelligente per gestire il tuo parco macchine professionale con precisione.
             </p>
           </div>
@@ -202,7 +202,7 @@ export default function CategoriesTab({ isDarkMode, onEdit, onDelete }: Categori
         </div>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6">
         {CATEGORIES.map((cat) => {
           const Icon = cat.icon;
           const count = counts[cat.name] || 0;
@@ -210,25 +210,25 @@ export default function CategoriesTab({ isDarkMode, onEdit, onDelete }: Categori
             <button
               key={cat.id}
               onClick={() => setSelectedCategory(cat.name)}
-              className={`group relative text-left p-8 rounded-[2rem] border transition-all duration-300 hover:-translate-y-2 ${
+              className={`group relative text-left p-5 lg:p-8 rounded-2xl lg:rounded-[2rem] border transition-all duration-300 hover:-translate-y-2 ${
                 isDarkMode
                   ? 'bg-[#111827]/40 border-gray-800/50 hover:border-cyan-500/30 hover:bg-[#111827]/60 shadow-[0_20px_40px_-15px_rgba(0,0,0,0.3)]'
                   : 'bg-white border-gray-200 hover:shadow-2xl hover:border-cyan-500/30'
               }`}
             >
-              <div className="flex justify-between items-start mb-12">
-                <div className={`p-4 rounded-2xl ${cat.bg} ${cat.color} group-hover:scale-110 transition-transform duration-500`}>
-                  <Icon size={28} />
+              <div className="flex justify-between items-start mb-6 lg:mb-12">
+                <div className={`p-3 lg:p-4 rounded-xl lg:rounded-2xl ${cat.bg} ${cat.color} group-hover:scale-110 transition-transform duration-500`}>
+                  <Icon size={22} lg-size={28} />
                 </div>
                 <div className="text-right">
-                  <div className={`text-2xl font-black audiowide-regular ${isDarkMode ? 'text-gray-700' : 'text-gray-300'}`}>
+                  <div className={`text-xl lg:text-2xl font-black audiowide-regular ${isDarkMode ? 'text-gray-700' : 'text-gray-300'}`}>
                     {count.toString().padStart(2, '0')}
                   </div>
-                  <div className="text-[10px] font-black text-gray-500 uppercase tracking-widest mt-0.5">Assets</div>
+                  <div className="text-[9px] lg:text-[10px] font-black text-gray-500 uppercase tracking-widest mt-0.5">Assets</div>
                 </div>
               </div>
 
-              <h3 className={`text-lg font-black uppercase tracking-tight leading-tight group-hover:text-cyan-400 transition-colors ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
+              <h3 className={`text-sm lg:text-lg font-black uppercase tracking-tight leading-tight group-hover:text-cyan-400 transition-colors ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
                 {cat.name}
               </h3>
 
@@ -241,35 +241,35 @@ export default function CategoriesTab({ isDarkMode, onEdit, onDelete }: Categori
       </div>
 
       {/* Stats Footer */}
-      <div className={`p-8 rounded-[2.5rem] border flex flex-col md:flex-row items-center justify-between gap-8 transition-colors ${
+      <div className={`p-5 lg:p-8 rounded-2xl lg:rounded-[2.5rem] border flex flex-col md:flex-row items-center justify-between gap-6 lg:gap-8 transition-colors ${
         isDarkMode ? 'bg-[#111827]/60 border-gray-800/50' : 'bg-gray-50 border-gray-200'
       }`}>
-        <div className="flex items-center gap-6">
-          <div className="w-14 h-14 bg-cyan-500 rounded-2xl flex items-center justify-center shadow-[0_0_30px_rgba(6,182,212,0.3)]">
-            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="text-[#0a0f18]">
+        <div className="flex items-center gap-4 lg:gap-6">
+          <div className="w-12 h-12 lg:w-14 lg:h-14 bg-cyan-500 rounded-xl lg:rounded-2xl flex items-center justify-center shadow-[0_0_30px_rgba(6,182,212,0.3)]">
+            <svg width="24" lg-width="28" height="24" lg-height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="text-[#0a0f18]">
               <path d="M21 12V7H5a2 2 0 0 1 0-4h14v4" />
               <path d="M3 5v14a2 2 0 0 0 2 2h16v-5" />
               <path d="M18 12a2 2 0 0 0 0 4h4v-4Z" />
             </svg>
           </div>
           <div>
-            <h4 className={`text-xl font-black uppercase tracking-tight audiowide-regular ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>Distribuzione Magazzino</h4>
-            <p className="text-gray-500 text-xs font-bold uppercase tracking-widest mt-1">I dati riflettono l'inventario aggiornato in tempo reale.</p>
+            <h4 className={`text-lg lg:text-xl font-black uppercase tracking-tight audiowide-regular ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>Magazzino</h4>
+            <p className="text-gray-500 text-[10px] lg:text-xs font-bold uppercase tracking-widest mt-0.5">Inventario aggiornato in tempo reale.</p>
           </div>
         </div>
 
-        <div className="grid grid-cols-3 gap-12 lg:gap-20">
+        <div className="grid grid-cols-3 gap-8 lg:gap-20">
           <div className="text-center">
-            <div className={`text-3xl font-black audiowide-regular ${isDarkMode ? 'text-cyan-400' : 'text-cyan-600'}`}>{stats.categories}</div>
-            <div className="text-[10px] font-black text-gray-500 uppercase tracking-[0.2em] mt-2">Categorie</div>
+            <div className={`text-xl lg:text-3xl font-black audiowide-regular ${isDarkMode ? 'text-cyan-400' : 'text-cyan-600'}`}>{stats.categories}</div>
+            <div className="text-[9px] lg:text-[10px] font-black text-gray-500 uppercase tracking-[0.1em] mt-1">Cat.</div>
           </div>
           <div className="text-center">
-            <div className={`text-3xl font-black audiowide-regular ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>{stats.typologies}</div>
-            <div className="text-[10px] font-black text-gray-500 uppercase tracking-[0.2em] mt-2">Tipologie</div>
+            <div className={`text-xl lg:text-3xl font-black audiowide-regular ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>{stats.typologies}</div>
+            <div className="text-[9px] lg:text-[10px] font-black text-gray-500 uppercase tracking-[0.1em] mt-1">Tipi</div>
           </div>
           <div className="text-center">
-            <div className={`text-3xl font-black audiowide-regular text-yellow-500`}>{stats.totalPieces}</div>
-            <div className="text-[10px] font-black text-gray-500 uppercase tracking-[0.2em] mt-2">Pezzi Totali</div>
+            <div className={`text-xl lg:text-3xl font-black audiowide-regular text-yellow-500`}>{stats.totalPieces}</div>
+            <div className="text-[9px] lg:text-[10px] font-black text-gray-500 uppercase tracking-[0.1em] mt-1">Pezzi</div>
           </div>
         </div>
       </div>

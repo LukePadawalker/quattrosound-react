@@ -131,11 +131,11 @@ export default function InventoryForm({ item, onClose, onSuccess }: InventoryFor
 
   return (
     <div className="fixed inset-0 bg-[#0a0f18]/90 z-50 flex items-center justify-center p-0 md:p-4 backdrop-blur-xl">
-      <div className="bg-[#111827] md:rounded-[2rem] w-full h-full md:h-auto md:max-w-4xl shadow-[0_0_50px_rgba(0,0,0,0.5)] border border-gray-800/50 overflow-hidden animate-in fade-in zoom-in duration-300">
-        <div className="flex items-center justify-between p-6 md:p-8 border-b border-gray-800/50">
-          <div className="flex items-center gap-4">
-            <div className="w-12 h-12 bg-cyan-500/10 rounded-xl flex items-center justify-center border border-cyan-500/20 shadow-[inset_0_0_10px_rgba(6,182,212,0.1)]">
-              <Package className="text-cyan-400" size={24} />
+      <div className="bg-[#111827] md:rounded-2xl w-full h-full md:h-auto md:max-w-4xl shadow-[0_0_50px_rgba(0,0,0,0.5)] border border-gray-800/50 overflow-hidden animate-in fade-in zoom-in duration-300">
+        <div className="flex items-center justify-between p-4 md:p-8 border-b border-gray-800/50">
+          <div className="flex items-center gap-3 md:gap-4">
+            <div className="w-10 h-10 md:w-12 md:h-12 bg-cyan-500/10 rounded-xl flex items-center justify-center border border-cyan-500/20 shadow-[inset_0_0_10px_rgba(6,182,212,0.1)]">
+              <Package className="text-cyan-400" size={20} md-size={24} />
             </div>
             <div>
               <h2 className="text-xl font-black text-white audiowide-regular uppercase tracking-wider">
@@ -152,12 +152,12 @@ export default function InventoryForm({ item, onClose, onSuccess }: InventoryFor
           </button>
         </div>
 
-        <form onSubmit={handleSubmit} className="p-6 md:p-10 overflow-y-auto h-[calc(100%-100px)] md:max-h-[80vh]">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12">
-            <div className="space-y-8">
-              <div className="grid grid-cols-2 gap-6">
+        <form onSubmit={handleSubmit} className="p-4 md:p-10 overflow-y-auto h-[calc(100%-80px)] md:max-h-[80vh]">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-12">
+            <div className="space-y-6">
+              <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-[10px] font-black text-gray-500 uppercase tracking-[0.2em] mb-4">
+                  <label className="block text-[10px] font-black text-gray-500 uppercase tracking-[0.2em] mb-2 md:mb-4">
                     Nome Articolo
                   </label>
                   <input
@@ -165,18 +165,18 @@ export default function InventoryForm({ item, onClose, onSuccess }: InventoryFor
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                     placeholder="Es: RCF Subwoofer"
-                    className="w-full bg-gray-800/30 border border-gray-700/50 text-white px-5 py-3.5 rounded-xl focus:outline-none focus:ring-2 focus:ring-cyan-500/30 transition-all font-bold placeholder:text-gray-700 text-sm"
+                    className="w-full bg-gray-800/30 border border-gray-700/50 text-white px-4 py-2.5 md:px-5 md:py-3.5 rounded-xl focus:outline-none focus:ring-2 focus:ring-cyan-500/30 transition-all font-bold placeholder:text-gray-700 text-sm"
                     required
                   />
                 </div>
                 <div>
-                  <label className="block text-[10px] font-black text-gray-500 uppercase tracking-[0.2em] mb-4">
+                  <label className="block text-[10px] font-black text-gray-500 uppercase tracking-[0.2em] mb-2 md:mb-4">
                     Ubicazione
                   </label>
                   <select
                     value={location}
                     onChange={(e) => setLocation(e.target.value)}
-                    className="w-full bg-gray-800/30 border border-gray-700/50 text-white px-5 py-3.5 rounded-xl focus:outline-none focus:ring-2 focus:ring-cyan-500/30 transition-all font-bold appearance-none text-sm cursor-pointer"
+                    className="w-full bg-gray-800/30 border border-gray-700/50 text-white px-4 py-2.5 md:px-5 md:py-3.5 rounded-xl focus:outline-none focus:ring-2 focus:ring-cyan-500/30 transition-all font-bold appearance-none text-sm cursor-pointer"
                     required
                   >
                     {LOCATIONS.map(loc => (
@@ -186,30 +186,30 @@ export default function InventoryForm({ item, onClose, onSuccess }: InventoryFor
                 </div>
               </div>
 
-              <div className="grid grid-cols-1 gap-6">
+              <div className="grid grid-cols-1 gap-4">
                 <div>
-                  <label className="block text-[10px] font-black text-gray-500 uppercase tracking-[0.2em] mb-4">
+                  <label className="block text-[10px] font-black text-gray-500 uppercase tracking-[0.2em] mb-2 md:mb-4">
                     Quantità Disponibile
                   </label>
                   <input
                     type="number"
                     value={stock}
                     onChange={(e) => setStock(Number(e.target.value))}
-                    className="w-full bg-gray-800/30 border border-gray-700/50 text-white px-5 py-3.5 rounded-xl focus:outline-none focus:ring-2 focus:ring-cyan-500/30 transition-all font-bold text-sm"
+                    className="w-full bg-gray-800/30 border border-gray-700/50 text-white px-4 py-2.5 md:px-5 md:py-3.5 rounded-xl focus:outline-none focus:ring-2 focus:ring-cyan-500/30 transition-all font-bold text-sm"
                     required
                   />
                 </div>
               </div>
 
-              <div className="grid grid-cols-2 gap-6">
+              <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-[10px] font-black text-gray-500 uppercase tracking-[0.2em] mb-4">
+                  <label className="block text-[10px] font-black text-gray-500 uppercase tracking-[0.2em] mb-2 md:mb-4">
                     Categoria
                   </label>
                   <select
                     value={category}
                     onChange={(e) => setCategory(e.target.value)}
-                    className="w-full bg-gray-800/30 border border-gray-700/50 text-white px-5 py-3.5 rounded-xl focus:outline-none focus:ring-2 focus:ring-cyan-500/30 transition-all font-bold appearance-none text-sm cursor-pointer"
+                    className="w-full bg-gray-800/30 border border-gray-700/50 text-white px-4 py-2.5 md:px-5 md:py-3.5 rounded-xl focus:outline-none focus:ring-2 focus:ring-cyan-500/30 transition-all font-bold appearance-none text-sm cursor-pointer"
                     required
                   >
                     {CATEGORIES.map(cat => (
@@ -218,13 +218,13 @@ export default function InventoryForm({ item, onClose, onSuccess }: InventoryFor
                   </select>
                 </div>
                 <div>
-                  <label className="block text-[10px] font-black text-gray-500 uppercase tracking-[0.2em] mb-4">
+                  <label className="block text-[10px] font-black text-gray-500 uppercase tracking-[0.2em] mb-2 md:mb-4">
                     Stato
                   </label>
                   <select
                     value={status}
                     onChange={(e) => setStatus(e.target.value)}
-                    className="w-full bg-gray-800/30 border border-gray-700/50 text-white px-5 py-3.5 rounded-xl focus:outline-none focus:ring-2 focus:ring-cyan-500/30 transition-all font-bold appearance-none text-sm cursor-pointer"
+                    className="w-full bg-gray-800/30 border border-gray-700/50 text-white px-4 py-2.5 md:px-5 md:py-3.5 rounded-xl focus:outline-none focus:ring-2 focus:ring-cyan-500/30 transition-all font-bold appearance-none text-sm cursor-pointer"
                     required
                   >
                     {STATUSES.map(st => (
@@ -235,15 +235,15 @@ export default function InventoryForm({ item, onClose, onSuccess }: InventoryFor
               </div>
 
               <div>
-                <label className="block text-[10px] font-black text-gray-500 uppercase tracking-[0.2em] mb-4">
+                <label className="block text-[10px] font-black text-gray-500 uppercase tracking-[0.2em] mb-2 md:mb-4">
                   Descrizione Tecnica
                 </label>
                 <textarea
                   value={description}
                   onChange={(e) => setDescription(e.target.value)}
-                  rows={4}
+                  rows={3}
                   placeholder="Specifiche tecniche, numeri di serie, etc..."
-                  className="w-full bg-gray-800/30 border border-gray-700/50 text-white px-5 py-3.5 rounded-xl focus:outline-none focus:ring-2 focus:ring-cyan-500/30 transition-all resize-none font-bold placeholder:text-gray-700 text-sm"
+                  className="w-full bg-gray-800/30 border border-gray-700/50 text-white px-4 py-2.5 md:px-5 md:py-3.5 rounded-xl focus:outline-none focus:ring-2 focus:ring-cyan-500/30 transition-all resize-none font-bold placeholder:text-gray-700 text-sm"
                 />
               </div>
             </div>
@@ -285,18 +285,18 @@ export default function InventoryForm({ item, onClose, onSuccess }: InventoryFor
             </div>
           </div>
 
-          <div className="flex flex-col sm:flex-row justify-end gap-4 sm:gap-5 pt-10 mt-10 border-t border-gray-800/50">
+          <div className="flex flex-col sm:flex-row justify-end gap-3 sm:gap-5 pt-6 md:pt-10 mt-6 md:mt-10 border-t border-gray-800/50">
             <button
               type="button"
               onClick={onClose}
-              className="order-2 sm:order-1 px-8 py-3.5 text-xs font-black text-gray-600 hover:text-white transition-all uppercase tracking-[0.2em]"
+              className="order-2 sm:order-1 px-8 py-2.5 md:py-3.5 text-[10px] font-black text-gray-600 hover:text-white transition-all uppercase tracking-[0.2em]"
             >
               Annulla
             </button>
             <button
               type="submit"
               disabled={loading}
-              className="order-1 sm:order-2 bg-cyan-500 hover:bg-cyan-400 text-[#0a0f18] px-12 py-3.5 rounded-xl font-black transition-all flex items-center justify-center gap-3 shadow-[0_15px_30px_-5px_rgba(6,182,212,0.4)] disabled:opacity-50 disabled:cursor-not-allowed hover:-translate-y-0.5 uppercase tracking-widest text-xs"
+              className="order-1 sm:order-2 bg-cyan-500 hover:bg-cyan-400 text-[#0a0f18] px-8 md:px-12 py-3 md:py-3.5 rounded-xl font-black transition-all flex items-center justify-center gap-3 shadow-[0_15px_30px_-5px_rgba(6,182,212,0.4)] disabled:opacity-50 disabled:cursor-not-allowed hover:-translate-y-0.5 uppercase tracking-widest text-xs"
             >
               {loading ? (
                 <>

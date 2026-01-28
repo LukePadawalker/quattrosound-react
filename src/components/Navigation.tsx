@@ -47,9 +47,9 @@ export default function Navigation() {
       <div className="mx-2 px-4 py-2 my-2 sm:mx-2 sm:pl-4 sm:pr-8  md:px-8 md:mx-8 lg:px-16 xl:mx-24 2xl:mx-64 2xl:py-2 rounded-full bg-gradient-to-r from-cyan-400/10 to-blue-400/10 backdrop-blur ">
         <div className="flex items-center justify-between h-16">
           <div className="flex-shrink-0">
-            <Link to="/" className="flex items-center text-3xl font-bold text-white">
-              <img className="w-20 py-4" src="/white-logo.png" alt="logo" />
-              <span className="text-gradient-blue text-sm">QuattroSound</span>
+            <Link to="/" className="flex items-center text-2xl font-bold text-white">
+              <img className="w-14 py-2" src="/white-logo.png" alt="logo" />
+              <span className="text-gradient-blue text-xs ml-1">QuattroSound</span>
             </Link>
           </div>
 
@@ -104,7 +104,7 @@ export default function Navigation() {
 
       {
         isOpen && (
-          <div className="lg:hidden  bg-gradient-to-r from-blue-900/90 to-cyan-700/90 border-t border-gray-800 px-8 mx-8 rounded-xl mt-2">
+          <div className="lg:hidden  bg-gradient-to-r from-blue-900/90 to-cyan-700/90 border-t border-gray-800 px-6 mx-4 rounded-xl mt-2">
             <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
               <button onClick={() => scrollToSection('home')} className="audiowide-regular text-white-400 hover:accent-gold block px-3 py-2 text-base font-medium w-full text-left">
                 Home
