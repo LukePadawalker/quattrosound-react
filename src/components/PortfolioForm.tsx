@@ -15,13 +15,14 @@ interface PortfolioItem {
 
 interface PortfolioFormProps {
   item: PortfolioItem | null;
+  isDarkMode: boolean;
   onClose: () => void;
   onSuccess: () => void;
 }
 
 const LOCATIONS = ['Roma', 'Chiarano'];
 
-export default function PortfolioForm({ item, onClose, onSuccess }: PortfolioFormProps) {
+export default function PortfolioForm({ item, isDarkMode, onClose, onSuccess }: PortfolioFormProps) {
   const [isEditing, setIsEditing] = useState(!item);
   const [title, setTitle] = useState(item?.title || '');
   const [description, setDescription] = useState(item?.description || '');
@@ -117,15 +118,15 @@ export default function PortfolioForm({ item, onClose, onSuccess }: PortfolioFor
   };
 
   return (
-    <div className="fixed inset-0 bg-[#0a0f18]/95 z-50 flex items-center justify-center p-0 md:p-4 backdrop-blur-xl overflow-y-auto">
-      <div className="bg-[#111827] md:rounded-2xl w-full max-w-2xl min-h-screen md:min-h-0 shadow-[0_0_50px_rgba(0,0,0,0.5)] border-x md:border border-gray-800/50 flex flex-col">
-        <div className="flex items-center justify-between p-4 border-b border-gray-800/50">
+    <div className={`fixed inset-0 z-50 flex items-center justify-center p-0 md:p-4 backdrop-blur-xl overflow-y-auto ${isDarkMode ? 'bg-[#0a0f18]/95' : 'bg-slate-900/40'}`}>
+      <div className={`md:rounded-2xl w-full max-w-2xl min-h-screen md:min-h-0 shadow-[0_0_50px_rgba(0,0,0,0.5)] border-x md:border flex flex-col transition-colors duration-300 ${isDarkMode ? 'bg-[#111827] border-gray-800/50' : 'bg-white border-slate-200'}`}>
+        <div className={`flex items-center justify-between p-4 border-b ${isDarkMode ? 'border-gray-800/50' : 'border-slate-100'}`}>
           <div className="flex items-center gap-3">
-            <div className="w-8 h-8 bg-cyan-500/10 rounded-lg flex items-center justify-center border border-cyan-500/20">
-              <ImageIcon className="text-cyan-400" size={16} />
+            <div className={`w-8 h-8 rounded-lg flex items-center justify-center border ${isDarkMode ? 'bg-cyan-500/10 border-cyan-500/20' : 'bg-cyan-50 border-cyan-200'}`}>
+              <ImageIcon className="text-cyan-500" size={16} />
             </div>
             <div>
-              <h2 className="text-sm font-black text-white audiowide-regular uppercase tracking-wider">
+              <h2 className={`text-sm font-black audiowide-regular uppercase tracking-wider ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
                 {!item ? 'Nuova Immagine' : isEditing ? 'Modifica Immagine' : 'Dettagli Immagine'}
               </h2>
             </div>
@@ -159,7 +160,11 @@ export default function PortfolioForm({ item, onClose, onSuccess }: PortfolioFor
                   value={title}
                   onChange={(e) => setTitle(e.target.value)}
                   placeholder="Es: Live Concert"
-                  className="w-full bg-gray-800/30 border border-gray-700/50 text-white px-3 py-2 rounded-lg focus:outline-none focus:ring-1 focus:ring-cyan-500/30 text-xs font-bold disabled:opacity-50"
+                  className={`w-full border px-3 py-2 rounded-lg focus:outline-none focus:ring-1 focus:ring-cyan-500/30 text-xs font-bold disabled:opacity-50 transition-colors ${
+                    isDarkMode
+                      ? 'bg-gray-800/30 border-gray-700/50 text-white'
+                      : 'bg-white border-slate-200 text-slate-900 shadow-sm'
+                  }`}
                   required
                   disabled={!isEditing}
                 />
@@ -174,7 +179,11 @@ export default function PortfolioForm({ item, onClose, onSuccess }: PortfolioFor
                     id="location"
                     value={location}
                     onChange={(e) => setLocation(e.target.value)}
-                    className="w-full bg-gray-800/30 border border-gray-700/50 text-white px-3 py-2 rounded-lg focus:outline-none focus:ring-1 focus:ring-cyan-500/30 text-xs font-bold appearance-none disabled:opacity-50"
+                    className={`w-full border px-3 py-2 rounded-lg focus:outline-none focus:ring-1 focus:ring-cyan-500/30 text-xs font-bold appearance-none disabled:opacity-50 transition-colors ${
+                      isDarkMode
+                        ? 'bg-gray-800/30 border-gray-700/50 text-white'
+                        : 'bg-white border-slate-200 text-slate-900 shadow-sm'
+                    }`}
                     required
                     disabled={!isEditing}
                   >
@@ -191,7 +200,11 @@ export default function PortfolioForm({ item, onClose, onSuccess }: PortfolioFor
                     id="category"
                     value={category}
                     onChange={(e) => setCategory(e.target.value)}
-                    className="w-full bg-gray-800/30 border border-gray-700/50 text-white px-3 py-2 rounded-lg focus:outline-none focus:ring-1 focus:ring-cyan-500/30 text-xs font-bold appearance-none disabled:opacity-50"
+                    className={`w-full border px-3 py-2 rounded-lg focus:outline-none focus:ring-1 focus:ring-cyan-500/30 text-xs font-bold appearance-none disabled:opacity-50 transition-colors ${
+                      isDarkMode
+                        ? 'bg-gray-800/30 border-gray-700/50 text-white'
+                        : 'bg-white border-slate-200 text-slate-900 shadow-sm'
+                    }`}
                     required
                     disabled={!isEditing}
                   >
@@ -214,7 +227,11 @@ export default function PortfolioForm({ item, onClose, onSuccess }: PortfolioFor
                   onChange={(e) => setDescription(e.target.value)}
                   rows={3}
                   placeholder="Dettagli..."
-                  className="w-full bg-gray-800/30 border border-gray-700/50 text-white px-3 py-2 rounded-lg focus:outline-none focus:ring-1 focus:ring-cyan-500/30 text-xs font-bold resize-none disabled:opacity-50"
+                  className={`w-full border px-3 py-2 rounded-lg focus:outline-none focus:ring-1 focus:ring-cyan-500/30 text-xs font-bold resize-none disabled:opacity-50 transition-colors ${
+                    isDarkMode
+                      ? 'bg-gray-800/30 border-gray-700/50 text-white'
+                      : 'bg-white border-slate-200 text-slate-900 shadow-sm'
+                  }`}
                   required
                   disabled={!isEditing}
                 />
@@ -226,7 +243,11 @@ export default function PortfolioForm({ item, onClose, onSuccess }: PortfolioFor
                 <label className="block text-[9px] font-black text-gray-500 uppercase tracking-widest mb-2">
                   Immagine
                 </label>
-                <div className="relative group aspect-video md:aspect-square bg-gray-800/20 rounded-xl border-2 border-dashed border-gray-800 hover:border-cyan-500/30 flex items-center justify-center overflow-hidden transition-all">
+                <div className={`relative group aspect-video md:aspect-square rounded-xl border-2 border-dashed flex items-center justify-center overflow-hidden transition-all ${
+                  isDarkMode
+                    ? 'bg-gray-800/20 border-gray-800 hover:border-cyan-500/30'
+                    : 'bg-slate-50 border-slate-200 hover:border-cyan-500/30 shadow-inner'
+                }`}>
                   {imageFile ? (
                     <img src={URL.createObjectURL(imageFile)} alt="Preview" className="w-full h-full object-cover" />
                   ) : imageUrl ? (

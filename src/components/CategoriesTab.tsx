@@ -191,10 +191,10 @@ export default function CategoriesTab({ isDarkMode, onEdit }: CategoriesTabProps
             <button
               key={cat.id}
               onClick={() => setSelectedCategory(cat.name)}
-              className={`group relative text-left p-4 lg:p-8 rounded-xl lg:rounded-[2rem] border transition-all duration-500 overflow-hidden animate-fade-in-up ${
+              className={`group relative text-left p-4 lg:p-8 rounded-xl lg:rounded-[2rem] border transition-all duration-500 overflow-hidden animate-fade-in-up hover:scale-[1.02] active:scale-[0.98] cursor-pointer ${
                 isDarkMode
                   ? 'bg-[#111827]/40 border-gray-800/50 hover:border-cyan-500/50'
-                  : 'bg-white border-gray-200 hover:shadow-xl'
+                  : 'bg-white border-slate-200 hover:border-cyan-500/30 hover:shadow-xl shadow-slate-200/50'
               } shadow-lg hover:-translate-y-1`}
               style={{ animationDelay: `${index * 50}ms` }}
             >
@@ -205,8 +205,10 @@ export default function CategoriesTab({ isDarkMode, onEdit }: CategoriesTabProps
                     className="absolute inset-0 z-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-110"
                     style={{ backgroundImage: `url(${bgImage})` }}
                   />
-                  <div className={`absolute inset-0 z-10 ${overlayColor} transition-colors duration-300 group-hover:bg-black/20`} />
-                  <div className={`absolute inset-0 z-10 ${isDarkMode ? 'bg-black/40' : 'bg-white/20'}`} />
+                  {/* Subtle color overlay */}
+                  <div className={`absolute inset-0 z-10 ${overlayColor} transition-all duration-300 group-hover:opacity-40`} />
+                  {/* Dark/Light contrast layer */}
+                  <div className={`absolute inset-0 z-10 ${isDarkMode ? 'bg-black/40' : 'bg-white/60 group-hover:bg-white/40'}`} />
                 </>
               )}
 

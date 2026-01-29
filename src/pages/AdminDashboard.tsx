@@ -157,7 +157,7 @@ export default function AdminDashboard() {
   };
 
   return (
-    <div className={`flex h-screen overflow-hidden font-audiowide transition-colors duration-300 ${isDarkMode ? 'bg-[#0a0f18] text-white' : 'bg-gray-50 text-gray-900'}`}>
+    <div className={`flex h-screen overflow-hidden font-audiowide transition-all duration-500 ${isDarkMode ? 'bg-gradient-to-br from-[#0f172a] via-[#0a0f18] to-[#020617] text-white' : 'bg-slate-50 text-slate-900'}`}>
       {/* Mobile Sidebar Overlay */}
       {isSidebarOpen && (
         <div
@@ -171,7 +171,7 @@ export default function AdminDashboard() {
         fixed inset-y-0 left-0 z-50 w-64 border-r flex flex-col transition-all duration-300 transform
         lg:relative lg:translate-x-0
         ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'}
-        ${isDarkMode ? 'bg-[#111827] border-gray-800' : 'bg-white border-gray-200'}
+        ${isDarkMode ? 'bg-[#111827]/80 backdrop-blur-xl border-gray-800/50' : 'bg-white/90 backdrop-blur-xl border-slate-200'}
       `}>
         <div className="p-3 flex-1 overflow-y-auto">
           <div className="flex items-center justify-between mb-6">
@@ -199,7 +199,10 @@ export default function AdminDashboard() {
             ].map((item) => (
               <button
                 key={item.id}
-                onClick={() => setActiveTab(item.id)}
+                onClick={() => {
+                  setActiveTab(item.id);
+                  setIsSidebarOpen(false);
+                }}
                 className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all duration-200 ${
                   activeTab === item.id
                     ? 'bg-cyan-500/10 text-cyan-400 border border-cyan-500/20 shadow-[inset_0_0_10px_rgba(6,182,212,0.05)]'
@@ -250,9 +253,9 @@ export default function AdminDashboard() {
       </aside>
 
       {/* Main Content */}
-      <main className="flex-1 flex flex-col min-w-0 overflow-hidden">
+      <main className="flex-1 flex flex-col min-w-0 overflow-hidden relative">
         {/* Top Header */}
-        <header className={`h-14 lg:h-18 backdrop-blur-xl border-b flex items-center justify-between px-3 lg:px-8 py-2 lg:py-4 z-30 transition-colors duration-300 ${isDarkMode ? 'bg-[#0a0f18]/80 border-gray-800/50' : 'bg-white/80 border-gray-200'}`}>
+        <header className={`h-14 lg:h-18 backdrop-blur-xl border-b flex items-center justify-between px-3 lg:px-8 py-2 lg:py-4 z-30 transition-all duration-300 ${isDarkMode ? 'bg-[#0a0f18]/40 border-gray-800/30' : 'bg-white/70 border-slate-200 shadow-sm shadow-slate-200/50'}`}>
           <div className="flex items-center gap-3 lg:gap-4 flex-1">
             <button
               onClick={() => setIsSidebarOpen(true)}
@@ -267,7 +270,7 @@ export default function AdminDashboard() {
                 placeholder="Cerca attrezzatura..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className={`w-full border rounded-xl pl-12 pr-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-cyan-500/30 transition-all placeholder:text-gray-600 ${isDarkMode ? 'bg-gray-800/30 border-gray-700/50 text-white' : 'bg-gray-100 border-gray-200 text-gray-900'}`}
+                className={`w-full border rounded-xl pl-12 pr-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-cyan-500/30 transition-all placeholder:text-gray-500 ${isDarkMode ? 'bg-gray-800/30 border-gray-700/50 text-white' : 'bg-white border-slate-200 text-slate-900 shadow-inner shadow-slate-100'}`}
               />
             </div>
           </div>
@@ -526,6 +529,7 @@ export default function AdminDashboard() {
         (activeTab === 'inventario' || activeTab === 'categorie') ? (
           <InventoryForm
             item={editingItem as any}
+            isDarkMode={isDarkMode}
             onClose={() => setIsFormOpen(false)}
             onSuccess={() => {
               setIsFormOpen(false);
@@ -536,6 +540,7 @@ export default function AdminDashboard() {
         ) : (
           <PortfolioForm
             item={editingItem}
+            isDarkMode={isDarkMode}
             onClose={() => setIsFormOpen(false)}
             onSuccess={() => {
               setIsFormOpen(false);
