@@ -24,14 +24,14 @@ export default function Hero() {
         <div className="absolute inset-0" style={{ background: 'linear-gradient(to bottom, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.8))' }}></div>
       </div>
 
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-12 lg:px-8 py-32 text-center">
-        <h1 className="text-5xl md:text-7xl font-bold text-white mb-6 leading-tight">
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-12 lg:px-8 py-16 lg:py-32 text-center">
+        <h1 className="text-4xl md:text-7xl font-bold text-white mb-6 leading-tight">
           <span className="text-gradient-blue">Sound & Lighting</span><br />
           <span className="text-gradient-blue">Excellence</span>
 
         </h1>
 
-        <p className="text-xl md:text-2xl text-gray-300 mb-12 max-w-3xl mx-auto leading-relaxed">
+        <p className="text-lg md:text-2xl text-gray-300 mb-8 lg:mb-12 max-w-3xl mx-auto leading-relaxed">
           Noleggio e installazione di schermi LED e impianti audio di alta qualità per concerti, conferenze, fiere, matrimoni ed eventi aziendali
         </p>
 
@@ -53,22 +53,22 @@ export default function Hero() {
           </button>
         </div>
 
-        <div className="mt-20 grid grid-cols-2 md:grid-cols-4 gap-8 max-w-4xl mx-auto">
+        <div className="mt-12 lg:mt-20 grid grid-cols-2 md:grid-cols-4 gap-6 lg:gap-8 max-w-4xl mx-auto">
           <div className="text-center">
-            <div className="text-4xl font-bold accent-gold mb-2">15+</div>
-            <div className="text-gray-300">Anni di Esperienza</div>
+            <div className="text-3xl lg:text-4xl font-bold accent-gold mb-1 lg:mb-2">15+</div>
+            <div className="text-gray-300 text-[10px] lg:text-base">Anni di Esperienza</div>
           </div>
           <div className="text-center">
-            <div className="text-4xl font-bold accent-gold mb-2">50+</div>
-            <div className="text-gray-300">Eventi Realizzati</div>
+            <div className="text-3xl lg:text-4xl font-bold accent-gold mb-1 lg:mb-2">50+</div>
+            <div className="text-gray-300 text-[10px] lg:text-base">Eventi Realizzati</div>
           </div>
           <div className="text-center">
-            <div className="text-4xl font-bold accent-gold mb-2">24/7</div>
-            <div className="text-gray-300">Supporto Tecnico</div>
+            <div className="text-3xl lg:text-4xl font-bold accent-gold mb-1 lg:mb-2">24/7</div>
+            <div className="text-gray-300 text-[10px] lg:text-base">Supporto Tecnico</div>
           </div>
           <div className="text-center">
-            <div className="text-4xl font-bold accent-gold mb-2">100%</div>
-            <div className="text-gray-300">Soddisfazione</div>
+            <div className="text-3xl lg:text-4xl font-bold accent-gold mb-1 lg:mb-2">100%</div>
+            <div className="text-gray-300 text-[10px] lg:text-base">Soddisfazione</div>
           </div>
         </div>
       </div>

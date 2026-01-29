@@ -25,3 +25,10 @@
 - Resolved database schema mismatches in inventory forms.
 - Improved error handling during image uploads with better console logging and user alerts.
 - Fixed missing Lucide icon imports (`Menu`, `X`) in AdminDashboard.
+
+## UI/UX Refinements
+- **Staggered Animations**: Implemented sequential fade-in-up animations for dashboard elements, table rows, and category cards.
+- **Page Transitions**: Added a transition loader and smooth content entry when switching between dashboard sections.
+- **Sharp Category Cards**: Removed blur effect from category background images for better clarity.
+- **Item Detail View**: Refactored inventory and portfolio forms to support a read-only "View" mode with a toggle to "Edit" mode.
+- **Interactive Tables**: Table rows are now clickable to open the item detail view.

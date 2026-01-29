@@ -47,9 +47,9 @@ export default function Navigation() {
       <div className="mx-2 px-4 py-2 my-2 sm:mx-2 sm:pl-4 sm:pr-8  md:px-8 md:mx-8 lg:px-16 xl:mx-24 2xl:mx-64 2xl:py-2 rounded-full bg-gradient-to-r from-cyan-400/10 to-blue-400/10 backdrop-blur ">
         <div className="flex items-center justify-between h-16">
           <div className="flex-shrink-0">
-            <Link to="/" className="flex items-center text-2xl font-bold text-white">
-              <img className="w-14 py-2" src="/white-logo.png" alt="logo" />
-              <span className="text-gradient-blue text-xs ml-1">QuattroSound</span>
+            <Link to="/" className="flex items-center text-xl font-bold text-white">
+              <img className="w-10 lg:w-14 py-1.5 lg:py-2" src="/white-logo.png" alt="logo" />
+              <span className="text-gradient-blue text-[10px] lg:text-xs ml-1">QuattroSound</span>
             </Link>
           </div>
 
@@ -104,38 +104,38 @@ export default function Navigation() {
 
       {
         isOpen && (
-          <div className="lg:hidden  bg-gradient-to-r from-blue-900/90 to-cyan-700/90 border-t border-gray-800 px-6 mx-4 rounded-xl mt-2">
-            <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-              <button onClick={() => scrollToSection('home')} className="audiowide-regular text-white-400 hover:accent-gold block px-3 py-2 text-base font-medium w-full text-left">
-                Home
-              </button>
-              <button onClick={() => scrollToSection('about')} className="audiowide-regular text-gray-400 hover:accent-gold block px-3 py-2 text-base font-medium w-full text-left">
-                Chi Siamo
-              </button>
-              <button onClick={() => scrollToSection('services')} className="audiowide-regular text-gray-400 hover:accent-gold block px-3 py-2 text-base font-medium w-full text-left">
-                Servizi
-              </button>
-              <button onClick={() => scrollToSection('gallery')} className="audiowide-regular text-gray-400 hover:accent-gold block px-3 py-2 text-base font-medium w-full text-left">
-                Portfolio
-              </button>
-              <button onClick={() => scrollToSection('contact')} className="audiowide-regular text-gray-400 hover:accent-gold block px-3 py-2 text-base font-medium w-full text-left">
-                Contatti
-              </button>
-              <div className="pt-4 pb-2 border-t border-blue-400/20">
+          <div className="lg:hidden bg-gradient-to-br from-blue-900/95 to-cyan-900/95 border border-white/10 px-4 mx-4 rounded-2xl mt-1 shadow-2xl animate-in fade-in slide-in-from-top-2 duration-300">
+            <div className="py-3 space-y-0.5">
+              {[
+                { id: 'home', label: 'Home' },
+                { id: 'about', label: 'Chi Siamo' },
+                { id: 'services', label: 'Servizi' },
+                { id: 'gallery', label: 'Portfolio' },
+                { id: 'contact', label: 'Contatti' },
+              ].map((item) => (
+                <button
+                  key={item.id}
+                  onClick={() => scrollToSection(item.id)}
+                  className="audiowide-regular text-gray-300 hover:text-white hover:bg-white/5 block px-3 py-2.5 text-sm font-medium w-full text-left rounded-lg transition-colors"
+                >
+                  {item.label}
+                </button>
+              ))}
+              <div className="pt-2 mt-2 border-t border-white/10">
                 {user ? (
                   <Link
                     to="/admin"
                     onClick={() => setIsOpen(false)}
-                    className="flex items-center gap-2 text-cyan-400 font-bold px-3 py-2 font-audiowide"
+                    className="flex items-center gap-2 text-cyan-400 font-bold px-3 py-2.5 text-sm font-audiowide"
                   >
-                    <UserIcon size={20} />
+                    <UserIcon size={16} />
                     Dashboard Admin
                   </Link>
                 ) : (
                   <Link
                     to="/login"
                     onClick={() => setIsOpen(false)}
-                    className="flex items-center gap-2 text-white font-bold px-3 py-2 font-audiowide"
+                    className="flex items-center gap-2 text-white font-bold px-3 py-2.5 text-sm font-audiowide"
                   >
                     Login Admin
                   </Link>

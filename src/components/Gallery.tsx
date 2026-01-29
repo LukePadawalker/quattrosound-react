@@ -40,14 +40,14 @@ export default function Gallery() {
   };
 
   return (
-    <section id="gallery" className="py-24 bg-gradient-to-r from-blue-500/20 to-cyan-500/20">
+    <section id="gallery" className="py-12 lg:py-24 bg-gradient-to-r from-blue-500/20 to-cyan-500/20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
+        <div className="text-center mb-10 lg:mb-16">
+          <h2 className="text-3xl md:text-5xl font-bold text-white mb-4">
             Il Nostro <span className="text-cyan-400">Portfolio</span>
           </h2>
-          <div className="w-24 h-1 bg-cyan-400 mx-auto mb-6"></div>
-          <p className="text-xl text-gray-400 max-w-3xl mx-auto">
+          <div className="w-16 lg:w-24 h-1 bg-cyan-400 mx-auto mb-6"></div>
+          <p className="text-base lg:text-xl text-gray-400 max-w-3xl mx-auto">
             Scopri alcuni dei progetti che abbiamo realizzato con passione e dedizione
           </p>
         </div>
@@ -100,8 +100,8 @@ export default function Gallery() {
           </div>
         )}
 
-        <div className="mt-16 text-center">
-          <p className="text-gray-400 text-lg mb-8">
+        <div className="mt-12 lg:mt-16 text-center px-4">
+          <p className="text-gray-400 text-base lg:text-lg mb-6 lg:mb-8">
             Hai bisogno di vedere altri esempi del nostro lavoro?
           </p>
           <button
@@ -109,7 +109,7 @@ export default function Gallery() {
               const element = document.getElementById('contact');
               element?.scrollIntoView({ behavior: 'smooth' });
             }}
-            className="bg-cyan-500 gradient-gold hover:bg-cyan-600 text-white px-8 py-4 rounded-lg text-lg font-semibold transition-all inline-flex items-center gap-2"
+            className="bg-cyan-500 gradient-gold hover:bg-cyan-600 text-white px-6 py-3 lg:px-8 lg:py-4 rounded-lg text-base lg:text-lg font-semibold transition-all inline-flex items-center gap-2"
           >
             Richiedi il Portfolio Completo
           </button>
