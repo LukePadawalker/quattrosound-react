@@ -35,6 +35,7 @@ const STATUSES = ['Available', 'In Use', 'Maintenance', 'Out of Stock'];
 const LOCATIONS = ['Roma', 'Chiarano'];
 
 export default function InventoryForm({ item, onClose, onSuccess }: InventoryFormProps) {
+  const [isEditing, setIsEditing] = useState(!item);
   const [name, setName] = useState(item?.name || '');
   const [description, setDescription] = useState(item?.description || '');
   const [category, setCategory] = useState(item?.category || CATEGORIES[0]);
@@ -134,10 +135,18 @@ export default function InventoryForm({ item, onClose, onSuccess }: InventoryFor
             </div>
             <div>
               <h2 className="text-sm font-black text-white audiowide-regular uppercase tracking-wider">
-                {item ? 'Modifica Asset' : 'Nuovo Asset'}
+                {!item ? 'Nuovo Asset' : isEditing ? 'Modifica Asset' : 'Dettagli Asset'}
               </h2>
             </div>
           </div>
+          {item && !isEditing && (
+            <button
+              onClick={() => setIsEditing(true)}
+              className="ml-auto mr-4 px-4 py-1.5 bg-cyan-500 text-[#0a0f18] text-[10px] font-black uppercase tracking-widest rounded-lg hover:bg-cyan-400 transition-colors"
+            >
+              Modifica
+            </button>
+          )}
           <button
             onClick={onClose}
             className="text-gray-500 hover:text-white transition-all bg-gray-800/50 p-2 rounded-lg"
@@ -159,8 +168,9 @@ export default function InventoryForm({ item, onClose, onSuccess }: InventoryFor
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                     placeholder="Es: RCF Sub"
-                    className="w-full bg-gray-800/30 border border-gray-700/50 text-white px-3 py-2 rounded-lg focus:outline-none focus:ring-1 focus:ring-cyan-500/30 text-xs font-bold"
+                    className="w-full bg-gray-800/30 border border-gray-700/50 text-white px-3 py-2 rounded-lg focus:outline-none focus:ring-1 focus:ring-cyan-500/30 text-xs font-bold disabled:opacity-50"
                     required
+                    disabled={!isEditing}
                   />
                 </div>
                 <div className="col-span-2 sm:col-span-1">
@@ -170,8 +180,9 @@ export default function InventoryForm({ item, onClose, onSuccess }: InventoryFor
                   <select
                     value={location}
                     onChange={(e) => setLocation(e.target.value)}
-                    className="w-full bg-gray-800/30 border border-gray-700/50 text-white px-3 py-2 rounded-lg focus:outline-none focus:ring-1 focus:ring-cyan-500/30 text-xs font-bold appearance-none"
+                    className="w-full bg-gray-800/30 border border-gray-700/50 text-white px-3 py-2 rounded-lg focus:outline-none focus:ring-1 focus:ring-cyan-500/30 text-xs font-bold appearance-none disabled:opacity-50"
                     required
+                    disabled={!isEditing}
                   >
                     {LOCATIONS.map(loc => (
                       <option key={loc} value={loc}>{loc}</option>
@@ -189,8 +200,9 @@ export default function InventoryForm({ item, onClose, onSuccess }: InventoryFor
                     type="number"
                     value={stock}
                     onChange={(e) => setStock(Number(e.target.value))}
-                    className="w-full bg-gray-800/30 border border-gray-700/50 text-white px-3 py-2 rounded-lg focus:outline-none focus:ring-1 focus:ring-cyan-500/30 text-xs font-bold"
+                    className="w-full bg-gray-800/30 border border-gray-700/50 text-white px-3 py-2 rounded-lg focus:outline-none focus:ring-1 focus:ring-cyan-500/30 text-xs font-bold disabled:opacity-50"
                     required
+                    disabled={!isEditing}
                   />
                 </div>
                 <div>
@@ -200,8 +212,9 @@ export default function InventoryForm({ item, onClose, onSuccess }: InventoryFor
                   <select
                     value={status}
                     onChange={(e) => setStatus(e.target.value)}
-                    className="w-full bg-gray-800/30 border border-gray-700/50 text-white px-3 py-2 rounded-lg focus:outline-none focus:ring-1 focus:ring-cyan-500/30 text-xs font-bold appearance-none"
+                    className="w-full bg-gray-800/30 border border-gray-700/50 text-white px-3 py-2 rounded-lg focus:outline-none focus:ring-1 focus:ring-cyan-500/30 text-xs font-bold appearance-none disabled:opacity-50"
                     required
+                    disabled={!isEditing}
                   >
                     {STATUSES.map(st => (
                       <option key={st} value={st}>{st}</option>
@@ -217,8 +230,9 @@ export default function InventoryForm({ item, onClose, onSuccess }: InventoryFor
                 <select
                   value={category}
                   onChange={(e) => setCategory(e.target.value)}
-                  className="w-full bg-gray-800/30 border border-gray-700/50 text-white px-3 py-2 rounded-lg focus:outline-none focus:ring-1 focus:ring-cyan-500/30 text-xs font-bold appearance-none"
+                  className="w-full bg-gray-800/30 border border-gray-700/50 text-white px-3 py-2 rounded-lg focus:outline-none focus:ring-1 focus:ring-cyan-500/30 text-xs font-bold appearance-none disabled:opacity-50"
                   required
+                  disabled={!isEditing}
                 >
                   {CATEGORIES.map(cat => (
                     <option key={cat} value={cat}>{cat}</option>
@@ -235,7 +249,8 @@ export default function InventoryForm({ item, onClose, onSuccess }: InventoryFor
                   onChange={(e) => setDescription(e.target.value)}
                   rows={2}
                   placeholder="Dettagli tecnici..."
-                  className="w-full bg-gray-800/30 border border-gray-700/50 text-white px-3 py-2 rounded-lg focus:outline-none focus:ring-1 focus:ring-cyan-500/30 text-xs font-bold resize-none"
+                  className="w-full bg-gray-800/30 border border-gray-700/50 text-white px-3 py-2 rounded-lg focus:outline-none focus:ring-1 focus:ring-cyan-500/30 text-xs font-bold resize-none disabled:opacity-50"
+                  disabled={!isEditing}
                 />
               </div>
             </div>
@@ -256,32 +271,46 @@ export default function InventoryForm({ item, onClose, onSuccess }: InventoryFor
                       <p className="text-[8px] text-gray-500 font-black uppercase tracking-widest">Carica</p>
                     </div>
                   )}
-                  <input
-                    type="file"
-                    accept="image/*"
-                    onChange={handleImageChange}
-                    className="absolute inset-0 opacity-0 cursor-pointer"
-                  />
+                  {isEditing && (
+                    <input
+                      type="file"
+                      accept="image/*"
+                      onChange={handleImageChange}
+                      className="absolute inset-0 opacity-0 cursor-pointer"
+                    />
+                  )}
                 </div>
               </div>
             </div>
           </div>
 
           <div className="flex flex-col sm:flex-row justify-end gap-2 pt-4 mt-auto">
-            <button
-              type="submit"
-              disabled={loading}
-              className="w-full sm:w-auto bg-cyan-500 hover:bg-cyan-400 text-[#0a0f18] px-8 py-2.5 rounded-lg font-black transition-all flex items-center justify-center gap-2 text-[10px] uppercase tracking-widest"
-            >
-              {loading ? <Loader2 className="animate-spin" size={14} /> : (item ? 'Aggiorna' : 'Salva')}
-            </button>
-            <button
-              type="button"
-              onClick={onClose}
-              className="w-full sm:w-auto px-8 py-2.5 text-[10px] font-black text-gray-500 uppercase tracking-widest"
-            >
-              Annulla
-            </button>
+            {isEditing ? (
+              <>
+                <button
+                  type="submit"
+                  disabled={loading}
+                  className="w-full sm:w-auto bg-cyan-500 hover:bg-cyan-400 text-[#0a0f18] px-8 py-2.5 rounded-lg font-black transition-all flex items-center justify-center gap-2 text-[10px] uppercase tracking-widest shadow-[0_10px_20px_-5px_rgba(6,182,212,0.4)]"
+                >
+                  {loading ? <Loader2 className="animate-spin" size={14} /> : (item ? 'Aggiorna' : 'Salva')}
+                </button>
+                <button
+                  type="button"
+                  onClick={() => item ? setIsEditing(false) : onClose()}
+                  className="w-full sm:w-auto px-8 py-2.5 text-[10px] font-black text-gray-500 uppercase tracking-widest hover:text-white transition-colors"
+                >
+                  {item ? 'Annulla' : 'Chiudi'}
+                </button>
+              </>
+            ) : (
+              <button
+                type="button"
+                onClick={onClose}
+                className="w-full sm:w-auto px-8 py-2.5 bg-gray-800 text-gray-300 rounded-lg font-black text-[10px] uppercase tracking-widest hover:bg-gray-700 transition-colors"
+              >
+                Chiudi
+              </button>
+            )}
           </div>
         </form>
       </div>

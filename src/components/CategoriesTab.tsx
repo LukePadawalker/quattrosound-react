@@ -181,7 +181,7 @@ export default function CategoriesTab({ isDarkMode, onEdit }: CategoriesTabProps
       </div>
 
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-2 lg:gap-6">
-        {CATEGORIES.map((cat) => {
+        {CATEGORIES.map((cat, index) => {
           const Icon = cat.icon;
           const count = counts[cat.name] || 0;
           const bgImage = categoryImages[cat.name];
@@ -191,21 +191,22 @@ export default function CategoriesTab({ isDarkMode, onEdit }: CategoriesTabProps
             <button
               key={cat.id}
               onClick={() => setSelectedCategory(cat.name)}
-              className={`group relative text-left p-4 lg:p-8 rounded-xl lg:rounded-[2rem] border transition-all duration-500 overflow-hidden ${
+              className={`group relative text-left p-4 lg:p-8 rounded-xl lg:rounded-[2rem] border transition-all duration-500 overflow-hidden animate-fade-in-up ${
                 isDarkMode
                   ? 'bg-[#111827]/40 border-gray-800/50 hover:border-cyan-500/50'
                   : 'bg-white border-gray-200 hover:shadow-xl'
-              } backdrop-blur-md shadow-lg hover:-translate-y-1`}
+              } shadow-lg hover:-translate-y-1`}
+              style={{ animationDelay: `${index * 50}ms` }}
             >
-              {/* Background Image with Glassmorphism */}
+              {/* Background Image - No Blur */}
               {bgImage && (
                 <>
                   <div
                     className="absolute inset-0 z-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-110"
                     style={{ backgroundImage: `url(${bgImage})` }}
                   />
-                  <div className={`absolute inset-0 z-10 ${overlayColor} backdrop-blur-[2px] transition-colors duration-300 group-hover:backdrop-blur-none`} />
-                  <div className={`absolute inset-0 z-10 ${isDarkMode ? 'bg-black/40' : 'bg-white/40'}`} />
+                  <div className={`absolute inset-0 z-10 ${overlayColor} transition-colors duration-300 group-hover:bg-black/20`} />
+                  <div className={`absolute inset-0 z-10 ${isDarkMode ? 'bg-black/40' : 'bg-white/20'}`} />
                 </>
               )}
 

@@ -55,6 +55,7 @@ export default function AdminDashboard() {
   const [isDarkMode, setIsDarkMode] = useState(true);
   const [searchQuery, setSearchQuery] = useState('');
   const [refreshKey, setRefreshKey] = useState(0);
+  const [isTransitioning, setIsTransitioning] = useState(false);
 
   useEffect(() => {
     if (isDarkMode) {
@@ -68,7 +69,13 @@ export default function AdminDashboard() {
 
   useEffect(() => {
     setSearchQuery('');
-    fetchItems();
+    const handleTabChange = async () => {
+      setIsTransitioning(true);
+      await fetchItems();
+      // Delay slightly to ensure smooth animation
+      setTimeout(() => setIsTransitioning(false), 200);
+    };
+    handleTabChange();
   }, [activeTab]);
 
   useEffect(() => {
@@ -284,7 +291,14 @@ export default function AdminDashboard() {
         </header>
 
         {/* Content Area */}
-        <div className="flex-1 overflow-y-auto p-3 lg:p-8 space-y-4 lg:space-y-10 scrollbar-hide animate-fade-in-up">
+        <div className="flex-1 overflow-y-auto p-3 lg:p-8 space-y-4 lg:space-y-10 scrollbar-hide relative">
+          {isTransitioning && (
+            <div className="absolute inset-0 z-50 flex items-center justify-center bg-transparent backdrop-blur-[2px]">
+              <div className="w-10 h-10 border-4 border-cyan-500/20 border-t-cyan-500 rounded-full animate-spin"></div>
+            </div>
+          )}
+
+          <div className={isTransitioning ? 'opacity-0' : 'animate-fade-in-up'}>
           {activeTab === 'portfolio' || activeTab === 'inventario' ? (
             <>
               {/* Search Mobile */}
@@ -380,8 +394,13 @@ export default function AdminDashboard() {
                         </tr>
                       </thead>
                       <tbody className="divide-y divide-gray-800/30">
-                        {filteredItems.map((item) => (
-                          <tr key={item.id} className={`transition-colors group ${isDarkMode ? 'hover:bg-cyan-500/[0.02]' : 'hover:bg-gray-50'}`}>
+                        {filteredItems.map((item, index) => (
+                          <tr
+                            key={item.id}
+                            onClick={() => handleEdit(item)}
+                            className={`transition-all group cursor-pointer animate-fade-in-up ${isDarkMode ? 'hover:bg-cyan-500/[0.02]' : 'hover:bg-gray-50'}`}
+                            style={{ animationDelay: `${index * 30}ms` }}
+                          >
                             <td className="px-3 lg:px-6 py-3 lg:py-5">
                               <div className="flex items-center gap-2 lg:gap-4">
                                 <div className={`w-8 h-8 lg:w-12 lg:h-12 rounded-lg lg:rounded-xl overflow-hidden border shadow-inner transition-colors ${isDarkMode ? 'bg-gray-800/50 border-gray-700/50 group-hover:border-cyan-500/30' : 'bg-gray-100 border-gray-200 group-hover:border-cyan-500/30'}`}>
@@ -499,6 +518,7 @@ export default function AdminDashboard() {
               user={user}
             />
           )}
+          </div>
         </div>
       </main>
 
