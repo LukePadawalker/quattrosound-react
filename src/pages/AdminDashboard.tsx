@@ -18,8 +18,6 @@ import {
   CheckCircle,
   Clock,
   Wrench,
-  ChevronLeft,
-  ChevronRight,
   Filter,
   Calendar,
   MapPin,
@@ -32,6 +30,7 @@ import InventoryForm from '../components/InventoryForm';
 import CategoriesTab from '../components/CategoriesTab';
 import SettingsTab from '../components/SettingsTab';
 import DashboardTab from '../components/DashboardTab';
+import { CATEGORIES } from '../data/categories';
 
 interface PortfolioItem {
   id: string;
@@ -285,7 +284,7 @@ export default function AdminDashboard() {
         </header>
 
         {/* Content Area */}
-        <div className="flex-1 overflow-y-auto p-3 lg:p-8 space-y-4 lg:space-y-10 scrollbar-hide">
+        <div className="flex-1 overflow-y-auto p-3 lg:p-8 space-y-4 lg:space-y-10 scrollbar-hide animate-fade-in-up">
           {activeTab === 'portfolio' || activeTab === 'inventario' ? (
             <>
               {/* Search Mobile */}
@@ -318,7 +317,7 @@ export default function AdminDashboard() {
                     className="flex-1 sm:flex-none bg-cyan-500 hover:bg-cyan-400 text-[#0a0f18] px-4 py-2 rounded-xl font-black transition-all flex items-center justify-center gap-2 shadow-[0_10px_25px_-5px_rgba(6,182,212,0.4)] text-sm"
                   >
                     <Plus size={18} strokeWidth={3} />
-                    Articolo
+                    {activeTab === 'portfolio' ? 'Immagine' : 'Articolo'}
                   </button>
                 </div>
               </div>
@@ -368,7 +367,9 @@ export default function AdminDashboard() {
                     <table className="w-full text-left border-collapse min-w-[600px] lg:min-w-full">
                       <thead>
                         <tr className={`border-b transition-colors ${isDarkMode ? 'border-gray-800/50 bg-[#111827]/40' : 'border-gray-100 bg-gray-50/50'}`}>
-                          <th className="px-3 lg:px-6 py-3 lg:py-5 text-[9px] lg:text-[11px] font-black text-gray-500 uppercase tracking-[0.2em]">Articolo</th>
+                          <th className="px-3 lg:px-6 py-3 lg:py-5 text-[9px] lg:text-[11px] font-black text-gray-500 uppercase tracking-[0.2em]">
+                            {activeTab === 'portfolio' ? 'Immagine' : 'Articolo'}
+                          </th>
                           <th className="hidden sm:table-cell px-3 lg:px-6 py-3 lg:py-5 text-[9px] lg:text-[11px] font-black text-gray-500 uppercase tracking-[0.2em]">Categoria</th>
                           <th className="px-3 lg:px-6 py-3 lg:py-5 text-[9px] lg:text-[11px] font-black text-gray-500 uppercase tracking-[0.2em]">
                             {activeTab === 'inventario' ? 'Stock' : 'Ubicazione'}
@@ -397,9 +398,18 @@ export default function AdminDashboard() {
                               </div>
                             </td>
                             <td className="hidden sm:table-cell px-3 lg:px-6 py-3 lg:py-5">
-                              <span className={`px-2 py-1 border rounded text-[8px] font-black uppercase tracking-wider transition-all ${isDarkMode ? 'bg-gray-800/50 border-gray-700/50 text-gray-400 group-hover:border-cyan-500/20 group-hover:text-cyan-300' : 'bg-gray-50 border-gray-200 text-gray-500 group-hover:border-cyan-500/20 group-hover:text-cyan-600'}`}>
-                                {item.category}
-                              </span>
+                              {(() => {
+                                const category = CATEGORIES.find(c => c.name === item.category);
+                                return (
+                                  <span className={`px-2 py-1 border rounded text-[8px] font-black uppercase tracking-wider transition-all ${
+                                    isDarkMode
+                                      ? `${category?.bg || 'bg-gray-800/50'} ${category?.color || 'text-gray-400'} border-gray-700/50 group-hover:border-white/20`
+                                      : `${category?.bg || 'bg-gray-50'} ${category?.color || 'text-gray-500'} border-gray-200 group-hover:border-black/10`
+                                  }`}>
+                                    {item.category}
+                                  </span>
+                                );
+                              })()}
                             </td>
                             <td className="px-3 lg:px-6 py-3 lg:py-5">
                               {activeTab === 'inventario' ? (
@@ -465,19 +475,10 @@ export default function AdminDashboard() {
                     </table>
                   </div>
 
-                  {/* Pagination Footer */}
+                  {/* Footer Stats */}
                   <div className={`px-4 py-3 lg:px-6 lg:py-5 border-t flex items-center justify-between transition-colors ${isDarkMode ? 'border-gray-800/50 bg-[#111827]/40' : 'border-gray-100 bg-gray-50/50'}`}>
                     <div className="text-[9px] lg:text-[11px] font-black text-gray-600 uppercase tracking-widest">
-                      {filteredItems.length} / {items.length} TOTALI
-                    </div>
-                    <div className="flex items-center gap-1">
-                      <button className="p-1.5 disabled:opacity-30 text-gray-500" disabled>
-                        <ChevronLeft size={16} />
-                      </button>
-                      <button className="w-6 h-6 rounded bg-cyan-500 text-[#0a0f18] text-[10px] font-black">1</button>
-                      <button className="p-1.5 text-gray-500">
-                        <ChevronRight size={16} />
-                      </button>
+                      Visualizzati {filteredItems.length} di {items.length} {activeTab === 'portfolio' ? 'Immagini' : 'Articoli'}
                     </div>
                   </div>
                 </div>

@@ -17,6 +17,7 @@ interface CategoriesTabProps {
 export default function CategoriesTab({ isDarkMode, onEdit }: CategoriesTabProps) {
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [counts, setCounts] = useState<Record<string, number>>({});
+  const [categoryImages, setCategoryImages] = useState<Record<string, string>>({});
   const [items, setItems] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
   const [stats, setStats] = useState({
@@ -38,20 +39,25 @@ export default function CategoriesTab({ isDarkMode, onEdit }: CategoriesTabProps
   const fetchCounts = async () => {
     const { data, error } = await supabase
       .from('products')
-      .select('category, stock, name');
+      .select('category, stock, name, image_url');
 
     if (!error && data) {
       const newCounts: Record<string, number> = {};
+      const newImages: Record<string, string> = {};
       let totalPezzi = 0;
       const uniqueTypologies = new Set();
 
       data.forEach(item => {
         newCounts[item.category] = (newCounts[item.category] || 0) + 1;
+        if (item.image_url && !newImages[item.category]) {
+          newImages[item.category] = item.image_url;
+        }
         totalPezzi += (item.stock || 0);
         uniqueTypologies.add(item.name);
       });
 
       setCounts(newCounts);
+      setCategoryImages(newImages);
       setStats({
         categories: 10,
         typologies: uniqueTypologies.size,
@@ -164,7 +170,7 @@ export default function CategoriesTab({ isDarkMode, onEdit }: CategoriesTabProps
   }
 
   return (
-    <div className="space-y-4 lg:space-y-10 animate-in fade-in duration-700">
+    <div className="space-y-4 lg:space-y-10 animate-fade-in-up">
       <div>
         <h2 className={`text-lg lg:text-4xl font-black tracking-tighter audiowide-regular uppercase ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
           Esplora Categorie
@@ -178,28 +184,43 @@ export default function CategoriesTab({ isDarkMode, onEdit }: CategoriesTabProps
         {CATEGORIES.map((cat) => {
           const Icon = cat.icon;
           const count = counts[cat.name] || 0;
+          const bgImage = categoryImages[cat.name];
+          const overlayColor = cat.color.replace('text-', 'bg-').replace('-400', '-500/20');
+
           return (
             <button
               key={cat.id}
               onClick={() => setSelectedCategory(cat.name)}
-              className={`group relative text-left p-4 lg:p-8 rounded-xl lg:rounded-[2rem] border transition-all duration-300 ${
+              className={`group relative text-left p-4 lg:p-8 rounded-xl lg:rounded-[2rem] border transition-all duration-500 overflow-hidden ${
                 isDarkMode
-                  ? 'bg-[#111827]/40 border-gray-800/50 hover:border-cyan-500/30'
-                  : 'bg-white border-gray-200'
-              }`}
+                  ? 'bg-[#111827]/40 border-gray-800/50 hover:border-cyan-500/50'
+                  : 'bg-white border-gray-200 hover:shadow-xl'
+              } backdrop-blur-md shadow-lg hover:-translate-y-1`}
             >
-              <div className="flex justify-between items-start mb-4 lg:mb-12">
-                <div className={`p-2 lg:p-4 rounded-lg lg:rounded-2xl ${cat.bg} ${cat.color}`}>
+              {/* Background Image with Glassmorphism */}
+              {bgImage && (
+                <>
+                  <div
+                    className="absolute inset-0 z-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-110"
+                    style={{ backgroundImage: `url(${bgImage})` }}
+                  />
+                  <div className={`absolute inset-0 z-10 ${overlayColor} backdrop-blur-[2px] transition-colors duration-300 group-hover:backdrop-blur-none`} />
+                  <div className={`absolute inset-0 z-10 ${isDarkMode ? 'bg-black/40' : 'bg-white/40'}`} />
+                </>
+              )}
+
+              <div className="relative z-20 flex justify-between items-start mb-4 lg:mb-12">
+                <div className={`p-2 lg:p-4 rounded-lg lg:rounded-2xl backdrop-blur-md shadow-inner transition-transform duration-300 group-hover:scale-110 ${cat.bg} ${cat.color} border border-white/10`}>
                   <Icon size={18} lg-size={28} />
                 </div>
                 <div className="text-right">
-                  <div className={`text-lg lg:text-2xl font-black audiowide-regular ${isDarkMode ? 'text-gray-700' : 'text-gray-300'}`}>
+                  <div className={`text-lg lg:text-2xl font-black audiowide-regular transition-colors duration-300 ${isDarkMode ? 'text-white/30 group-hover:text-cyan-400' : 'text-gray-300 group-hover:text-cyan-600'}`}>
                     {count.toString().padStart(2, '0')}
                   </div>
                 </div>
               </div>
 
-              <h3 className={`text-[10px] lg:text-lg font-black uppercase tracking-tight leading-tight transition-colors ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
+              <h3 className={`relative z-20 text-[10px] lg:text-lg font-black uppercase tracking-tight leading-tight transition-all duration-300 ${isDarkMode ? 'text-white drop-shadow-md' : 'text-gray-900'} group-hover:translate-x-1`}>
                 {cat.name}
               </h3>
             </button>

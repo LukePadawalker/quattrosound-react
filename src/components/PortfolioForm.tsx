@@ -125,7 +125,7 @@ export default function PortfolioForm({ item, onClose, onSuccess }: PortfolioFor
             </div>
             <div>
               <h2 className="text-sm font-black text-white audiowide-regular uppercase tracking-wider">
-                {item ? 'Modifica Articolo' : 'Nuovo Articolo'}
+                {item ? 'Modifica Immagine' : 'Nuova Immagine'}
               </h2>
             </div>
           </div>
