@@ -397,9 +397,11 @@ export default function AdminDashboard() {
                             {activeTab === 'portfolio' ? 'Immagine' : 'Articolo'}
                           </th>
                           <th className="hidden sm:table-cell px-3 lg:px-6 py-3 lg:py-5 text-[9px] lg:text-[11px] font-black text-gray-500 uppercase tracking-[0.2em]">Categoria</th>
-                          <th className="px-3 lg:px-6 py-3 lg:py-5 text-[9px] lg:text-[11px] font-black text-gray-500 uppercase tracking-[0.2em]">
-                            {activeTab === 'inventario' ? 'Stock' : 'Ubicazione'}
-                          </th>
+                          {activeTab !== 'portfolio' && (
+                            <th className="px-3 lg:px-6 py-3 lg:py-5 text-[9px] lg:text-[11px] font-black text-gray-500 uppercase tracking-[0.2em]">
+                              {activeTab === 'inventario' ? 'Stock' : 'Ubicazione'}
+                            </th>
+                          )}
                           <th className="hidden lg:table-cell px-3 lg:px-6 py-3 lg:py-5 text-[9px] lg:text-[11px] font-black text-gray-500 uppercase tracking-[0.2em]">Data</th>
                           <th className="hidden md:table-cell px-3 lg:px-6 py-3 lg:py-5 text-[9px] lg:text-[11px] font-black text-gray-500 uppercase tracking-[0.2em]">Stato</th>
                           <th className="px-3 lg:px-6 py-3 lg:py-5 text-[9px] lg:text-[11px] font-black text-gray-500 uppercase tracking-[0.2em] text-right">Azioni</th>
@@ -442,21 +444,23 @@ export default function AdminDashboard() {
                                 );
                               })()}
                             </td>
-                            <td className="px-3 lg:px-6 py-3 lg:py-5">
-                              {activeTab === 'inventario' ? (
-                                <div className="space-y-0.5">
-                                  <div className="flex items-center gap-1 text-[8px] lg:text-[10px] text-gray-500 font-bold uppercase tracking-widest">
-                                    <MapPin size={8} className="text-cyan-500/50" />
-                                    {item.location || 'Roma'} • {item.stock || 0} DISP.
+                            {activeTab !== 'portfolio' && (
+                              <td className="px-3 lg:px-6 py-3 lg:py-5">
+                                {activeTab === 'inventario' ? (
+                                  <div className="space-y-0.5">
+                                    <div className="flex items-center gap-1 text-[8px] lg:text-[10px] text-gray-500 font-bold uppercase tracking-widest">
+                                      <MapPin size={8} className="text-cyan-500/50" />
+                                      {item.location || 'Roma'} • {item.stock || 0} DISP.
+                                    </div>
                                   </div>
-                                </div>
-                              ) : (
-                                <div className="flex items-center gap-1.5 text-[10px] lg:text-xs font-bold text-gray-500">
-                                  <MapPin size={10} lg-size={14} className="text-cyan-500/50" />
-                                  <span className="uppercase tracking-wide">{item.location || 'Roma'}</span>
-                                </div>
-                              )}
-                            </td>
+                                ) : (
+                                  <div className="flex items-center gap-1.5 text-[10px] lg:text-xs font-bold text-gray-500">
+                                    <MapPin size={10} lg-size={14} className="text-cyan-500/50" />
+                                    <span className="uppercase tracking-wide">{item.location || 'Roma'}</span>
+                                  </div>
+                                )}
+                              </td>
+                            )}
                             <td className="hidden lg:table-cell px-3 lg:px-6 py-3 lg:py-5">
                               <div className="flex items-center gap-2 text-xs font-bold text-gray-500">
                                 <Calendar size={14} className="text-gray-400" />

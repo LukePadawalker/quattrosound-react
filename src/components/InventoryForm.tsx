@@ -92,6 +92,7 @@ export default function InventoryForm({ item, isDarkMode, onClose, onSuccess }: 
       category,
       location,
       stock,
+      price: 0,
       status,
       image_url: finalImageUrl,
       updated_at: new Date().toISOString()

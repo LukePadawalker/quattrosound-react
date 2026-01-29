@@ -7,7 +7,6 @@ interface PortfolioItem {
   title: string;
   description: string;
   category: string;
-  location: string;
   image_url: string;
   stock?: number;
   status?: string;
@@ -20,14 +19,11 @@ interface PortfolioFormProps {
   onSuccess: () => void;
 }
 
-const LOCATIONS = ['Roma', 'Chiarano'];
-
 export default function PortfolioForm({ item, isDarkMode, onClose, onSuccess }: PortfolioFormProps) {
   const [isEditing, setIsEditing] = useState(!item);
   const [title, setTitle] = useState(item?.title || '');
   const [description, setDescription] = useState(item?.description || '');
   const [category, setCategory] = useState(item?.category || 'AUDIO');
-  const [location, setLocation] = useState(item?.location || LOCATIONS[0]);
   const [stock] = useState(item?.stock || 1);
   const [status] = useState(item?.status || 'Available');
   const [imageUrl] = useState(item?.image_url || '');
@@ -79,7 +75,6 @@ export default function PortfolioForm({ item, isDarkMode, onClose, onSuccess }: 
       title,
       description,
       category,
-      location,
       stock,
       status,
       image_url: finalImageUrl,
@@ -170,28 +165,7 @@ export default function PortfolioForm({ item, isDarkMode, onClose, onSuccess }: 
                 />
               </div>
 
-              <div className="grid grid-cols-2 gap-3">
-                <div>
-                  <label htmlFor="location" className="block text-[9px] font-black text-gray-500 uppercase tracking-widest mb-2">
-                    Ubicazione
-                  </label>
-                  <select
-                    id="location"
-                    value={location}
-                    onChange={(e) => setLocation(e.target.value)}
-                    className={`w-full border px-3 py-2 rounded-lg focus:outline-none focus:ring-1 focus:ring-cyan-500/30 text-xs font-bold appearance-none disabled:opacity-50 transition-colors ${
-                      isDarkMode
-                        ? 'bg-gray-800/30 border-gray-700/50 text-white'
-                        : 'bg-white border-slate-200 text-slate-900 shadow-sm'
-                    }`}
-                    required
-                    disabled={!isEditing}
-                  >
-                    {LOCATIONS.map(loc => (
-                      <option key={loc} value={loc}>{loc}</option>
-                    ))}
-                  </select>
-                </div>
+              <div className="grid grid-cols-1 gap-3">
                 <div>
                   <label htmlFor="category" className="block text-[9px] font-black text-gray-500 uppercase tracking-widest mb-2">
                     Categoria
