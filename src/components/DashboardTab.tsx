@@ -95,8 +95,8 @@ export default function DashboardTab({ isDarkMode, onNavigate, user }: Dashboard
   ];
 
   return (
-    <div className="space-y-4 lg:space-y-10 animate-in fade-in slide-in-from-bottom-2 duration-700">
-      <div>
+    <div className="space-y-4 lg:space-y-10">
+      <div className="animate-fade-in-up" style={{ animationDelay: '0ms' }}>
         <h2 className={`text-lg lg:text-4xl font-black tracking-tighter audiowide-regular uppercase ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
           Benvenuto, {user?.user_metadata?.full_name || user?.email?.split('@')[0] || 'Admin'}
         </h2>
@@ -111,14 +111,15 @@ export default function DashboardTab({ isDarkMode, onNavigate, user }: Dashboard
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-3 gap-3 lg:gap-8">
-          {cards.map((card) => (
+          {cards.map((card, index) => (
             <div
               key={card.id}
-              className={`group relative p-4 lg:p-8 rounded-xl lg:rounded-[2rem] border transition-all duration-300 hover:-translate-y-1 ${
+              className={`group relative p-4 lg:p-8 rounded-xl lg:rounded-[2rem] border transition-all duration-300 hover:-translate-y-1 animate-fade-in-up ${
                 isDarkMode
                   ? 'bg-[#111827]/40 border-gray-800/50 hover:border-cyan-500/30 hover:bg-[#111827]/60'
                   : 'bg-white border-gray-200 hover:shadow-lg'
               }`}
+              style={{ animationDelay: `${100 + (index * 100)}ms` }}
             >
               <div className="flex justify-between items-start mb-4 lg:mb-8">
                 <div className={`p-2 lg:p-4 rounded-lg lg:rounded-2xl ${card.bg} ${card.color}`}>
@@ -159,7 +160,10 @@ export default function DashboardTab({ isDarkMode, onNavigate, user }: Dashboard
       )}
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 lg:gap-8">
-        <div className={`p-4 lg:p-8 rounded-xl lg:rounded-[2.5rem] border ${isDarkMode ? 'bg-[#111827]/60 border-gray-800/50' : 'bg-white border-gray-200 shadow-sm'}`}>
+        <div
+          className={`p-4 lg:p-8 rounded-xl lg:rounded-[2.5rem] border animate-fade-in-up ${isDarkMode ? 'bg-[#111827]/60 border-gray-800/50' : 'bg-white border-gray-200 shadow-sm'}`}
+          style={{ animationDelay: '400ms' }}
+        >
           <div className="flex items-center gap-3 mb-4 lg:mb-8">
             <div className="p-2 bg-cyan-500/10 rounded-lg text-cyan-400">
               <PlusCircle size={18} lg-size={24} />
@@ -191,7 +195,10 @@ export default function DashboardTab({ isDarkMode, onNavigate, user }: Dashboard
           </div>
         </div>
 
-        <div className={`p-4 lg:p-8 rounded-xl lg:rounded-[2.5rem] border ${isDarkMode ? 'bg-[#111827]/60 border-gray-800/50' : 'bg-white border-gray-200 shadow-sm'}`}>
+        <div
+          className={`p-4 lg:p-8 rounded-xl lg:rounded-[2.5rem] border animate-fade-in-up ${isDarkMode ? 'bg-[#111827]/60 border-gray-800/50' : 'bg-white border-gray-200 shadow-sm'}`}
+          style={{ animationDelay: '500ms' }}
+        >
           <div className="flex items-center gap-3 mb-4 lg:mb-8">
             <div className="p-2 bg-amber-500/10 rounded-lg text-amber-400">
               <Layers size={18} lg-size={24} />

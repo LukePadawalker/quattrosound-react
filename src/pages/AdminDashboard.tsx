@@ -72,8 +72,10 @@ export default function AdminDashboard() {
     const handleTabChange = async () => {
       setIsTransitioning(true);
       await fetchItems();
-      // Delay slightly to ensure smooth animation
-      setTimeout(() => setIsTransitioning(false), 200);
+      // Give time for state to settle and ensure loader visibility
+      setTimeout(() => {
+        setIsTransitioning(false);
+      }, 400);
     };
     handleTabChange();
   }, [activeTab]);
@@ -295,17 +297,17 @@ export default function AdminDashboard() {
 
         {/* Content Area */}
         <div className="flex-1 overflow-y-auto p-3 lg:p-8 space-y-4 lg:space-y-10 scrollbar-hide relative">
-          {isTransitioning && (
-            <div className="absolute inset-0 z-50 flex items-center justify-center bg-transparent backdrop-blur-[2px]">
-              <div className="w-10 h-10 border-4 border-cyan-500/20 border-t-cyan-500 rounded-full animate-spin"></div>
+          {isTransitioning ? (
+            <div className="absolute inset-0 z-50 flex flex-col items-center justify-center bg-transparent backdrop-blur-sm">
+              <div className="w-12 h-12 border-4 border-cyan-500/10 border-t-cyan-500 rounded-full animate-spin mb-4"></div>
+              <p className="text-[10px] font-black uppercase tracking-[0.3em] text-cyan-500/40 animate-pulse">QuattroSound</p>
             </div>
-          )}
-
-          <div className={isTransitioning ? 'opacity-0' : 'animate-fade-in-up'}>
+          ) : (
+          <div className="space-y-4 lg:space-y-10">
           {activeTab === 'portfolio' || activeTab === 'inventario' ? (
             <>
               {/* Search Mobile */}
-              <div className="md:hidden relative">
+              <div className="md:hidden relative animate-fade-in-up" style={{ animationDelay: '0ms' }}>
                 <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500" size={16} />
                 <input
                   type="text"
@@ -317,7 +319,7 @@ export default function AdminDashboard() {
               </div>
 
               {/* Page Title & Actions */}
-              <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end gap-3 lg:gap-4">
+              <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end gap-3 lg:gap-4 animate-fade-in-up" style={{ animationDelay: '50ms' }}>
                 <div>
                   <h2 className={`text-lg lg:text-4xl font-black tracking-tighter audiowide-regular uppercase flex items-center gap-3 lg:gap-4 ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
                     {activeTab === 'portfolio' ? 'Portfolio' : 'Inventario'}
@@ -347,7 +349,11 @@ export default function AdminDashboard() {
                   { label: 'In Uso', value: items.filter(i => i.status === 'In Use').length, trend: 'Attualmente fuori', icon: Clock, color: 'text-amber-400', bg: 'bg-amber-400/10' },
                   { label: 'Manutenzione', value: items.filter(i => i.status === 'Maintenance').length, trend: 'In riparazione', icon: Wrench, color: 'text-rose-400', bg: 'bg-rose-400/10' },
                 ].map((stat, i) => (
-                  <div key={i} className={`border rounded-lg lg:rounded-2xl p-2.5 lg:p-6 transition-all group ${isDarkMode ? 'bg-[#111827]/40 border-gray-800/50 hover:border-gray-700/50' : 'bg-white border-gray-200 hover:shadow-lg'}`}>
+                  <div
+                    key={i}
+                    className={`border rounded-lg lg:rounded-2xl p-2.5 lg:p-6 transition-all group animate-fade-in-up ${isDarkMode ? 'bg-[#111827]/40 border-gray-800/50 hover:border-gray-700/50' : 'bg-white border-gray-200 hover:shadow-lg'}`}
+                    style={{ animationDelay: `${100 + (i * 50)}ms` }}
+                  >
                     <div className="flex items-center justify-between mb-2 lg:mb-6">
                       <div className={`p-1.5 lg:p-3 rounded-lg lg:rounded-xl ${stat.bg} ${stat.color}`}>
                         <stat.icon size={14} lg-size={24} />
@@ -379,7 +385,10 @@ export default function AdminDashboard() {
                   </h3>
                 </div>
               ) : (
-                <div className={`border rounded-xl lg:rounded-3xl overflow-hidden shadow-2xl transition-colors ${isDarkMode ? 'bg-[#111827]/20 border-gray-800/50' : 'bg-white border-gray-200'}`}>
+                <div
+                  className={`border rounded-xl lg:rounded-3xl overflow-hidden shadow-2xl transition-colors animate-fade-in-up ${isDarkMode ? 'bg-[#111827]/20 border-gray-800/50' : 'bg-white border-gray-200'}`}
+                  style={{ animationDelay: '300ms' }}
+                >
                   <div className="overflow-x-auto scrollbar-hide">
                     <table className="w-full text-left border-collapse min-w-[600px] lg:min-w-full">
                       <thead>
@@ -402,7 +411,7 @@ export default function AdminDashboard() {
                             key={item.id}
                             onClick={() => handleEdit(item)}
                             className={`transition-all group cursor-pointer animate-fade-in-up ${isDarkMode ? 'hover:bg-cyan-500/[0.02]' : 'hover:bg-gray-50'}`}
-                            style={{ animationDelay: `${index * 30}ms` }}
+                            style={{ animationDelay: `${400 + (index * 20)}ms` }}
                           >
                             <td className="px-3 lg:px-6 py-3 lg:py-5">
                               <div className="flex items-center gap-2 lg:gap-4">
@@ -522,6 +531,7 @@ export default function AdminDashboard() {
             />
           )}
           </div>
+          )}
         </div>
       </main>
 

@@ -85,8 +85,8 @@ export default function CategoriesTab({ isDarkMode, onEdit }: CategoriesTabProps
 
   if (selectedCategory) {
     return (
-      <div className="space-y-4 lg:space-y-8 animate-in fade-in slide-in-from-bottom-2 duration-500">
-        <div className="flex items-center justify-between">
+      <div className="space-y-4 lg:space-y-8">
+        <div className="flex items-center justify-between animate-fade-in-up" style={{ animationDelay: '0ms' }}>
           <div className="flex items-center gap-2 lg:gap-4">
             <button
               onClick={() => setSelectedCategory(null)}
@@ -116,14 +116,15 @@ export default function CategoriesTab({ isDarkMode, onEdit }: CategoriesTabProps
           </div>
         ) : (
           <div className="space-y-2 lg:space-y-4">
-            {items.map((item) => (
+            {items.map((item, index) => (
               <div
                 key={item.id}
-                className={`group flex items-center gap-3 lg:gap-6 p-2 lg:p-4 rounded-xl border transition-all ${
+                className={`group flex items-center gap-3 lg:gap-6 p-2 lg:p-4 rounded-xl border transition-all animate-fade-in-up ${
                   isDarkMode
                     ? 'bg-[#111827]/40 border-gray-800/50'
                     : 'bg-white border-gray-200'
                 }`}
+                style={{ animationDelay: `${100 + (index * 50)}ms` }}
               >
                 <div className={`w-12 h-12 lg:w-20 lg:h-20 rounded-lg overflow-hidden border flex-shrink-0 ${isDarkMode ? 'bg-gray-800/50 border-gray-700/50' : 'bg-gray-100 border-gray-200'}`}>
                   {item.image_url ? (
@@ -170,8 +171,8 @@ export default function CategoriesTab({ isDarkMode, onEdit }: CategoriesTabProps
   }
 
   return (
-    <div className="space-y-4 lg:space-y-10 animate-fade-in-up">
-      <div>
+    <div className="space-y-4 lg:space-y-10">
+      <div className="animate-fade-in-up" style={{ animationDelay: '0ms' }}>
         <h2 className={`text-lg lg:text-4xl font-black tracking-tighter audiowide-regular uppercase ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
           Esplora Categorie
         </h2>
@@ -232,9 +233,12 @@ export default function CategoriesTab({ isDarkMode, onEdit }: CategoriesTabProps
       </div>
 
       {/* Stats Footer */}
-      <div className={`p-4 lg:p-8 rounded-xl lg:rounded-[2.5rem] border flex flex-col md:flex-row items-center justify-between gap-4 lg:gap-8 transition-colors ${
-        isDarkMode ? 'bg-[#111827]/60 border-gray-800/50' : 'bg-gray-50 border-gray-200'
-      }`}>
+      <div
+        className={`p-4 lg:p-8 rounded-xl lg:rounded-[2.5rem] border flex flex-col md:flex-row items-center justify-between gap-4 lg:gap-8 transition-colors animate-fade-in-up ${
+          isDarkMode ? 'bg-[#111827]/60 border-gray-800/50' : 'bg-gray-50 border-gray-200'
+        }`}
+        style={{ animationDelay: '600ms' }}
+      >
         <div className="flex items-center gap-3 lg:gap-6 w-full md:w-auto">
           <div className="w-10 h-10 lg:w-14 lg:h-14 bg-cyan-500 rounded-lg flex items-center justify-center">
             <Package size={20} lg-size={28} className="text-[#0a0f18]" />
