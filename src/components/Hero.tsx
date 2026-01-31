@@ -1,6 +1,27 @@
+import { useState, useEffect } from 'react';
 import { ArrowRight, Phone } from 'lucide-react';
 
+const heroImages = [
+  '/images/hero/quattrosound-conferinta5.jpg',
+  '/images/hero/quattrosound-conferinta10.jpg',
+  '/images/hero/quattrosound-conferinta14.jpg',
+  '/images/hero/quattrosound-conferinta25.jpg',
+  '/images/hero/quattrosound-conferinta27.jpg',
+  '/images/hero/quattrosound-conferinta29.jpg',
+  '/images/hero/quattrosound-conferinta30.jpg',
+];
+
 export default function Hero() {
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentImageIndex((prevIndex) => (prevIndex + 1) % heroImages.length);
+    }, 5000);
+
+    return () => clearInterval(timer);
+  }, []);
+
   const scrollToContact = () => {
     const element = document.getElementById('contact');
     element?.scrollIntoView({ behavior: 'smooth' });
@@ -11,16 +32,23 @@ export default function Hero() {
     element?.scrollIntoView({ behavior: 'smooth' });
   };
 
-
-
   return (
     <section id="home" className="relative min-h-screen flex items-center justify-center overflow-hidden pt-20">
       <div className="absolute inset-0 z-0">
-        <img
-          src="/impact3.jpeg"
-          alt="LED Wall Event"
-          className="w-full h-full object-cover"
-        />
+        {heroImages.map((image, index) => (
+          <div
+            key={image}
+            className={`absolute inset-0 transition-opacity duration-1000 ${
+              index === currentImageIndex ? 'opacity-100' : 'opacity-0'
+            }`}
+          >
+            <img
+              src={image}
+              alt={`Hero Background ${index + 1}`}
+              className="w-full h-full object-cover"
+            />
+          </div>
+        ))}
         <div className="absolute inset-0" style={{ background: 'linear-gradient(to bottom, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.8))' }}></div>
       </div>
 
@@ -28,7 +56,6 @@ export default function Hero() {
         <h1 className="text-4xl md:text-7xl font-bold text-white mb-6 leading-tight">
           <span className="text-gradient-blue">Sound & Lighting</span><br />
           <span className="text-gradient-blue">Excellence</span>
-
         </h1>
 
         <p className="text-lg md:text-2xl text-gray-300 mb-8 lg:mb-12 max-w-3xl mx-auto leading-relaxed">
@@ -78,6 +105,6 @@ export default function Hero() {
           <div className="w-1.5 h-1.5 bg-white/50 rounded-full"></div>
         </div>
       </div>
-    </section >
+    </section>
   );
 }

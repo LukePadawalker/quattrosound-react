@@ -9,6 +9,7 @@
 - **Full Responsiveness**: Admin Panel is now fully optimized for mobile, tablet, and desktop devices.
 - **Mobile Navigation**: Collapsible sidebar with hamburger menu for smaller screens.
 - **Theme Support**: Dark/Light mode toggle.
+- **Hero Carousel**: Replaced the static hero background with an auto-rotating image carousel featuring 7 high-quality technical conference images.
 
 ## Technical Changes
 - Created `products` table in Supabase for inventory tracking.
