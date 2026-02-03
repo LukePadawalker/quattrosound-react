@@ -8,13 +8,24 @@ export const SOUNDS = {
 class SoundManager {
   private static instance: SoundManager;
   private enabled: boolean = true;
+  private sounds: Map<string, HTMLAudioElement> = new Map();
 
   private constructor() {
     // Initialize from localStorage if available
     if (typeof window !== 'undefined') {
       const saved = localStorage.getItem('sound_effects_enabled');
       this.enabled = saved === null ? true : saved === 'true';
+      this.preloadSounds();
     }
+  }
+
+  private preloadSounds() {
+    Object.values(SOUNDS).forEach(path => {
+      const audio = new Audio(path);
+      audio.volume = 0.3;
+      audio.load();
+      this.sounds.set(path, audio);
+    });
   }
 
   public static getInstance(): SoundManager {
@@ -39,8 +50,16 @@ class SoundManager {
     if (!this.enabled) return;
 
     try {
-      const audio = new Audio(soundPath);
-      audio.volume = 0.3; // Set a reasonable volume
+      let audio = this.sounds.get(soundPath);
+
+      if (!audio) {
+        audio = new Audio(soundPath);
+        audio.volume = 0.3;
+        this.sounds.set(soundPath, audio);
+      }
+
+      // Reset sound to start if it's already playing
+      audio.currentTime = 0;
       audio.play().catch(err => {
         // Ignore errors caused by browser autoplay policies or missing files
         if (err.name !== 'NotAllowedError') {
@@ -48,7 +67,7 @@ class SoundManager {
         }
       });
     } catch (err) {
-      console.warn('Audio object creation failed:', err);
+      console.warn('Audio playback failed:', err);
     }
   }
 }

@@ -3,6 +3,7 @@ import Home from './pages/Home';
 import Login from './pages/Login';
 import AdminDashboard from './pages/AdminDashboard';
 import ProtectedRoute from './components/ProtectedRoute';
+import LedwallLanding from './pages/LedwallLanding';
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
             </ProtectedRoute>
           }
         />
+        <Route path="/noleggio-ledwall-venezia-eventi" element={<LedwallLanding />} />
       </Routes>
     </BrowserRouter>
   );

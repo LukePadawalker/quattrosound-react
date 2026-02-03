@@ -1,4 +1,5 @@
-import { Monitor, Volume2, Cable, Headphones, Truck, Wrench } from 'lucide-react';
+import { Monitor, Volume2, Cable, Headphones, Truck, Wrench, ExternalLink } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 export default function Services() {
   const services = [
@@ -65,6 +66,15 @@ export default function Services() {
 
               <h3 className="text-xl lg:text-2xl font-bold text-white mb-3 lg:mb-4">{service.title}</h3>
               <p className="text-sm lg:text-base text-gray-400 mb-4 lg:mb-6 leading-relaxed">{service.description}</p>
+
+              {service.title === 'Noleggio LED Wall' && (
+                <Link
+                  to="/noleggio-ledwall-venezia-eventi"
+                  className="inline-flex items-center gap-2 text-cyan-400 hover:text-cyan-300 font-bold text-sm mb-6 group/link"
+                >
+                  Scopri di più <ExternalLink size={14} className="group-hover/link:translate-x-1 transition-transform" />
+                </Link>
+              )}
 
               <ul className="space-y-3">
                 {service.features.map((feature, idx) => (
