@@ -1,8 +1,8 @@
 export const SOUNDS = {
-  CLICK: '/sounds/click.wav',
-  SUCCESS: '/sounds/success.wav',
-  ERROR: '/sounds/error.wav',
-  TRANSITION: '/sounds/transition.wav',
+  CLICK: '/sounds/click.mp3',
+  SUCCESS: '/sounds/success.mp3',
+  ERROR: '/sounds/error.mp3',
+  TRANSITION: '/sounds/transition.mp3',
 } as const;
 
 class SoundManager {
