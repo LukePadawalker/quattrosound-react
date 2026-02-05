@@ -10,6 +10,7 @@
 - **Mobile Navigation**: Collapsible sidebar with hamburger menu for smaller screens.
 - **Theme Support**: Dark/Light mode toggle.
 - **Hero Carousel**: Replaced the static hero background with an auto-rotating image carousel featuring 7 high-quality technical conference images.
+- **UI Sound Effects**: Added high-quality audio feedback for dashboard interactions, including tab changes, form submissions, and deletions.
 
 ## Technical Changes
 - Created `products` table in Supabase for inventory tracking.
@@ -33,3 +34,5 @@
 - **Sharp Category Cards**: Removed blur effect from category background images for better clarity.
 - **Item Detail View**: Refactored inventory and portfolio forms to support a read-only "View" mode with a toggle to "Edit" mode.
 - **Interactive Tables**: Table rows are now clickable to open the item detail view.
+- **Sound Manager**: Implemented a centralized `SoundManager` utility to handle audio playback and user preferences.
+- **Interface Settings**: Added a new "Interfaccia" section in System Settings to allow users to toggle sound effects on/off.

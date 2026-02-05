@@ -25,6 +25,7 @@ import {
   X
 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import { soundManager, SOUNDS } from '../lib/sounds';
 import PortfolioForm from '../components/PortfolioForm';
 import InventoryForm from '../components/InventoryForm';
 import CategoriesTab from '../components/CategoriesTab';
@@ -71,6 +72,7 @@ export default function AdminDashboard() {
     setSearchQuery('');
     const handleTabChange = async () => {
       setIsTransitioning(true);
+      soundManager.play(SOUNDS.TRANSITION);
       await fetchItems();
       // Give time for state to settle and ensure loader visibility
       setTimeout(() => {
@@ -119,6 +121,7 @@ export default function AdminDashboard() {
   };
 
   const handleLogout = async () => {
+    soundManager.play(SOUNDS.CLICK);
     await supabase.auth.signOut();
     navigate('/login');
   };
@@ -133,10 +136,12 @@ export default function AdminDashboard() {
       .eq('id', id);
 
     if (dbError) {
+      soundManager.play(SOUNDS.ERROR);
       alert(`Errore durante l'eliminazione dal database: ${dbError.message}`);
       return;
     }
 
+    soundManager.play(SOUNDS.SUCCESS);
     if (imageUrl && imageUrl.includes('/storage/v1/object/public/portfolio/')) {
       const filePath = imageUrl.split('/portfolio/')[1];
       if (filePath) {
@@ -149,11 +154,13 @@ export default function AdminDashboard() {
   };
 
   const handleEdit = (item: PortfolioItem) => {
+    soundManager.play(SOUNDS.CLICK);
     setEditingItem(item);
     setIsFormOpen(true);
   };
 
   const handleAddNew = () => {
+    soundManager.play(SOUNDS.CLICK);
     setEditingItem(null);
     setIsFormOpen(true);
   };
@@ -279,7 +286,10 @@ export default function AdminDashboard() {
 
           <div className="flex items-center gap-2 lg:gap-5">
             <button
-              onClick={() => setIsDarkMode(!isDarkMode)}
+              onClick={() => {
+                soundManager.play(SOUNDS.CLICK);
+                setIsDarkMode(!isDarkMode);
+              }}
               className={`p-2 transition-all hover:bg-cyan-500/5 rounded-lg ${isDarkMode ? 'text-gray-400 hover:text-cyan-400' : 'text-gray-500 hover:text-cyan-600'}`}
             >
               {isDarkMode ? <Sun size={20} /> : <Moon size={20} />}

@@ -13,8 +13,10 @@ import {
   CreditCard,
   Cloud,
   CheckCircle,
-  AlertCircle
+  AlertCircle,
+  Volume2
 } from 'lucide-react';
+import { soundManager, SOUNDS } from '../../lib/sounds';
 
 interface SystemSettingsProps {
   isDarkMode: boolean;
@@ -24,6 +26,7 @@ export default function SystemSettings({ isDarkMode }: SystemSettingsProps) {
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [soundEnabled, setSoundEnabled] = useState(soundManager.isEnabled());
   const [settings, setSettings] = useState<any>({
     notifications_email: true,
     notifications_push: false,
@@ -31,6 +34,15 @@ export default function SystemSettings({ isDarkMode }: SystemSettingsProps) {
     gdpr_compliance: true,
     integrations: { stripe: false, whatsapp: false, google: false }
   });
+
+  const toggleSound = () => {
+    const newState = !soundEnabled;
+    soundManager.setEnabled(newState);
+    setSoundEnabled(newState);
+    if (newState) {
+      soundManager.play(SOUNDS.SUCCESS);
+    }
+  };
 
   useEffect(() => {
     fetchSettings();
@@ -60,8 +72,10 @@ export default function SystemSettings({ isDarkMode }: SystemSettingsProps) {
       });
 
     if (error) {
+      soundManager.play(SOUNDS.ERROR);
       setError(error.message);
     } else {
+      soundManager.play(SOUNDS.SUCCESS);
       setSuccess('Impostazioni di sistema salvate!');
     }
     setLoading(false);
@@ -99,7 +113,10 @@ export default function SystemSettings({ isDarkMode }: SystemSettingsProps) {
                 <p className="text-xs text-gray-500">Ricevi avvisi via email per nuovi ordini e messaggi.</p>
               </div>
               <button
-                onClick={() => setSettings({...settings, notifications_email: !settings.notifications_email})}
+                onClick={() => {
+                  soundManager.play(SOUNDS.CLICK);
+                  setSettings({...settings, notifications_email: !settings.notifications_email});
+                }}
                 className={`w-12 h-6 rounded-full relative transition-colors ${settings.notifications_email ? 'bg-cyan-500' : 'bg-gray-600'}`}
               >
                 <div className={`absolute top-1 w-4 h-4 bg-white rounded-full transition-all ${settings.notifications_email ? 'right-1' : 'left-1'}`}></div>
@@ -112,10 +129,38 @@ export default function SystemSettings({ isDarkMode }: SystemSettingsProps) {
                 <p className="text-xs text-gray-500">Notifiche in tempo reale direttamente sul browser.</p>
               </div>
               <button
-                onClick={() => setSettings({...settings, notifications_push: !settings.notifications_push})}
+                onClick={() => {
+                  soundManager.play(SOUNDS.CLICK);
+                  setSettings({...settings, notifications_push: !settings.notifications_push});
+                }}
                 className={`w-12 h-6 rounded-full relative transition-colors ${settings.notifications_push ? 'bg-cyan-500' : 'bg-gray-600'}`}
               >
                 <div className={`absolute top-1 w-4 h-4 bg-white rounded-full transition-all ${settings.notifications_push ? 'right-1' : 'left-1'}`}></div>
+              </button>
+            </div>
+          </div>
+        </section>
+
+        {/* Interface Settings */}
+        <section className={`p-6 rounded-2xl border ${isDarkMode ? 'bg-[#111827]/40 border-gray-800/50' : 'bg-white border-gray-200 shadow-sm'}`}>
+          <div className="flex items-center gap-3 mb-6">
+            <div className="p-2 bg-purple-500/10 rounded-lg text-purple-400">
+              <Volume2 size={20} />
+            </div>
+            <h3 className="text-lg font-bold uppercase tracking-tight audiowide-regular">Interfaccia</h3>
+          </div>
+
+          <div className="space-y-6">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm font-bold">Effetti Sonori</p>
+                <p className="text-xs text-gray-500">Riproduci suoni durante le interazioni nel dashboard.</p>
+              </div>
+              <button
+                onClick={toggleSound}
+                className={`w-12 h-6 rounded-full relative transition-colors ${soundEnabled ? 'bg-cyan-500' : 'bg-gray-600'}`}
+              >
+                <div className={`absolute top-1 w-4 h-4 bg-white rounded-full transition-all ${soundEnabled ? 'right-1' : 'left-1'}`}></div>
               </button>
             </div>
           </div>

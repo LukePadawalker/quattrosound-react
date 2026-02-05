@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { supabase } from '../lib/supabase';
 import { X, Upload, Loader2, Image as ImageIcon } from 'lucide-react';
+import { soundManager, SOUNDS } from '../lib/sounds';
 
 interface PortfolioItem {
   id: string;
@@ -54,6 +55,7 @@ export default function PortfolioForm({ item, isDarkMode, onClose, onSuccess }: 
           .upload(filePath, imageFile);
 
         if (uploadError) {
+          soundManager.play(SOUNDS.ERROR);
           throw new Error('Errore durante il caricamento dell\'immagine: ' + uploadError.message);
         }
 
@@ -88,8 +90,10 @@ export default function PortfolioForm({ item, isDarkMode, onClose, onSuccess }: 
         .eq('id', item.id);
 
       if (error) {
+        soundManager.play(SOUNDS.ERROR);
         alert('Errore durante l\'aggiornamento: ' + error.message);
       } else {
+        soundManager.play(SOUNDS.SUCCESS);
         // If update successful and we have a new image, delete the old one
         if (imageFile && item.image_url && item.image_url.includes('/storage/v1/object/public/portfolio/')) {
           const oldFilePath = item.image_url.split('/portfolio/')[1];
@@ -105,8 +109,13 @@ export default function PortfolioForm({ item, isDarkMode, onClose, onSuccess }: 
         .from('portfolio_items')
         .insert([portfolioData]);
 
-      if (error) alert('Errore durante la creazione: ' + error.message);
-      else onSuccess();
+      if (error) {
+        soundManager.play(SOUNDS.ERROR);
+        alert('Errore durante la creazione: ' + error.message);
+      } else {
+        soundManager.play(SOUNDS.SUCCESS);
+        onSuccess();
+      }
     }
 
     setLoading(false);
@@ -128,14 +137,20 @@ export default function PortfolioForm({ item, isDarkMode, onClose, onSuccess }: 
           </div>
           {item && !isEditing && (
             <button
-              onClick={() => setIsEditing(true)}
+              onClick={() => {
+                soundManager.play(SOUNDS.CLICK);
+                setIsEditing(true);
+              }}
               className="ml-auto mr-4 px-4 py-1.5 bg-cyan-500 text-[#0a0f18] text-[10px] font-black uppercase tracking-widest rounded-lg hover:bg-cyan-400 transition-colors"
             >
               Modifica
             </button>
           )}
           <button
-            onClick={onClose}
+            onClick={() => {
+              soundManager.play(SOUNDS.CLICK);
+              onClose();
+            }}
             className="text-gray-500 hover:text-white transition-all bg-gray-800/50 p-2 rounded-lg"
           >
             <X size={18} />
@@ -257,7 +272,10 @@ export default function PortfolioForm({ item, isDarkMode, onClose, onSuccess }: 
                 </button>
                 <button
                   type="button"
-                  onClick={() => item ? setIsEditing(false) : onClose()}
+                  onClick={() => {
+                    soundManager.play(SOUNDS.CLICK);
+                    item ? setIsEditing(false) : onClose();
+                  }}
                   className="w-full sm:w-auto px-8 py-2.5 text-[10px] font-black text-gray-500 uppercase tracking-widest hover:text-white transition-colors"
                 >
                   {item ? 'Annulla' : 'Chiudi'}
@@ -266,7 +284,10 @@ export default function PortfolioForm({ item, isDarkMode, onClose, onSuccess }: 
             ) : (
               <button
                 type="button"
-                onClick={onClose}
+                onClick={() => {
+                  soundManager.play(SOUNDS.CLICK);
+                  onClose();
+                }}
                 className="w-full sm:w-auto px-8 py-2.5 bg-gray-800 text-gray-300 rounded-lg font-black text-[10px] uppercase tracking-widest hover:bg-gray-700 transition-colors"
               >
                 Chiudi

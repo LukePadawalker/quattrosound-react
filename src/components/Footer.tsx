@@ -1,4 +1,5 @@
 import { Facebook, Instagram, Linkedin, Youtube, Phone, Mail } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 export default function Footer() {
   return (
@@ -74,6 +75,14 @@ export default function Footer() {
                 >
                   Portfolio
                 </button>
+              </li>
+              <li>
+                <Link
+                  to="/noleggio-ledwall-venezia-eventi"
+                  className="text-gray-400 hover:text-cyan-400 transition-colors"
+                >
+                  Noleggio Ledwall
+                </Link>
               </li>
             </ul>
           </div>
