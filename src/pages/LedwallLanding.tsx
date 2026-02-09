@@ -1,7 +1,8 @@
-import { useEffect } from 'react';
-import { Monitor, CheckCircle, MapPin, Settings, HelpCircle, ArrowRight, Phone, Mail, Clock } from 'lucide-react';
+import { useEffect, useState } from 'react';
+import { Monitor, CheckCircle, MapPin, Settings, HelpCircle, ArrowRight, Phone, Mail, Clock, Send } from 'lucide-react';
 import Navigation from '../components/Navigation';
 import Footer from '../components/Footer';
+import { supabase } from '../lib/supabase';
 
 const LedwallLanding = () => {
   useEffect(() => {
@@ -23,6 +24,45 @@ const LedwallLanding = () => {
       document.title = "QuattroSound | Service Audio & Luci";
     };
   }, []);
+
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    service: 'Noleggio Ledwall Venezia',
+    message: ''
+  });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+
+    try {
+      const { error } = await supabase
+        .from('contact_messages')
+        .insert([{
+          name: formData.name,
+          email: formData.email,
+          event_type: formData.service,
+          message: formData.message
+        }]);
+
+      if (error) throw error;
+      setSubmitted(true);
+      setFormData({ name: '', email: '', service: 'Noleggio Ledwall Venezia', message: '' });
+    } catch (err) {
+      console.error("Submission error:", err);
+      alert("Errore durante l'invio. Riprova.");
+    } finally {
+      setIsSubmitting(false);
+      setTimeout(() => setSubmitted(false), 5000);
+    }
+  };
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
 
   const structuredData = {
     "@context": "https://schema.org",
@@ -393,32 +433,77 @@ const LedwallLanding = () => {
             </div>
 
             <div className="bg-gray-800/40 p-8 rounded-3xl border border-gray-700">
-              <form className="space-y-4">
-                <div className="grid grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-[10px] font-black uppercase text-gray-500 mb-2">Nome</label>
-                    <input type="text" className="w-full bg-gray-900 border border-gray-700 rounded-xl p-4 text-sm focus:border-cyan-500 outline-none transition-colors" placeholder="Nome" />
+              {submitted ? (
+                <div className="text-center py-12">
+                  <div className="w-20 h-20 bg-green-500/10 rounded-full flex items-center justify-center mx-auto mb-6">
+                    <CheckCircle className="text-green-400" size={40} />
+                  </div>
+                  <h3 className="text-2xl font-bold text-white mb-4">Messaggio Inviato!</h3>
+                  <p className="text-gray-400">Ti risponderemo al più presto.</p>
+                </div>
+              ) : (
+                <form onSubmit={handleSubmit} className="space-y-4">
+                  <div className="grid grid-cols-2 gap-4">
+                    <div>
+                      <label className="block text-[10px] font-black uppercase text-gray-500 mb-2">Nome</label>
+                      <input
+                        type="text"
+                        name="name"
+                        value={formData.name}
+                        onChange={handleChange}
+                        required
+                        className="w-full bg-gray-900 border border-gray-700 rounded-xl p-4 text-sm focus:border-cyan-500 outline-none transition-colors"
+                        placeholder="Nome"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-[10px] font-black uppercase text-gray-500 mb-2">Email</label>
+                      <input
+                        type="email"
+                        name="email"
+                        value={formData.email}
+                        onChange={handleChange}
+                        required
+                        className="w-full bg-gray-900 border border-gray-700 rounded-xl p-4 text-sm focus:border-cyan-500 outline-none transition-colors"
+                        placeholder="Email"
+                      />
+                    </div>
                   </div>
                   <div>
-                    <label className="block text-[10px] font-black uppercase text-gray-500 mb-2">Email</label>
-                    <input type="email" className="w-full bg-gray-900 border border-gray-700 rounded-xl p-4 text-sm focus:border-cyan-500 outline-none transition-colors" placeholder="Email" />
+                    <label className="block text-[10px] font-black uppercase text-gray-500 mb-2">Servizio di interesse</label>
+                    <select
+                      name="service"
+                      value={formData.service}
+                      onChange={handleChange}
+                      className="w-full bg-gray-900 border border-gray-700 rounded-xl p-4 text-sm focus:border-cyan-500 outline-none transition-colors"
+                    >
+                      <option>Noleggio Ledwall Venezia</option>
+                      <option>Noleggio Ledwall Pordenone</option>
+                      <option>Noleggio Ledwall Fiere</option>
+                      <option>Service Audio Oderzo</option>
+                    </select>
                   </div>
-                </div>
-                <div>
-                  <label className="block text-[10px] font-black uppercase text-gray-500 mb-2">Servizio di interesse</label>
-                  <select className="w-full bg-gray-900 border border-gray-700 rounded-xl p-4 text-sm focus:border-cyan-500 outline-none transition-colors">
-                    <option>Noleggio Ledwall Venezia</option>
-                    <option>Noleggio Ledwall Pordenone</option>
-                    <option>Noleggio Ledwall Fiere</option>
-                    <option>Service Audio Oderzo</option>
-                  </select>
-                </div>
-                <div>
-                  <label className="block text-[10px] font-black uppercase text-gray-500 mb-2">Messaggio</label>
-                  <textarea rows={4} className="w-full bg-gray-900 border border-gray-700 rounded-xl p-4 text-sm focus:border-cyan-500 outline-none transition-colors" placeholder="Descrivi il tuo evento..."></textarea>
-                </div>
-                <button className="w-full bg-cyan-500 hover:bg-cyan-400 text-[#0a0f18] py-4 rounded-xl font-black uppercase tracking-widest text-sm transition-all shadow-lg">Invia Messaggio</button>
-              </form>
+                  <div>
+                    <label className="block text-[10px] font-black uppercase text-gray-500 mb-2">Messaggio</label>
+                    <textarea
+                      name="message"
+                      value={formData.message}
+                      onChange={handleChange}
+                      required
+                      rows={4}
+                      className="w-full bg-gray-900 border border-gray-700 rounded-xl p-4 text-sm focus:border-cyan-500 outline-none transition-colors"
+                      placeholder="Descrivi il tuo evento..."
+                    ></textarea>
+                  </div>
+                  <button
+                    type="submit"
+                    disabled={isSubmitting}
+                    className="w-full bg-cyan-500 hover:bg-cyan-400 disabled:bg-gray-700 text-[#0a0f18] py-4 rounded-xl font-black uppercase tracking-widest text-sm transition-all shadow-lg flex items-center justify-center gap-2"
+                  >
+                    {isSubmitting ? 'Invio...' : <><Send size={16} /> Invia Messaggio</>}
+                  </button>
+                </form>
+              )}
             </div>
           </div>
         </section>

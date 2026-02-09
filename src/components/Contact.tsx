@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Phone, Mail, MapPin, Send, MessageSquare } from 'lucide-react';
+import { supabase } from '../lib/supabase';
 
 export default function Contact() {
   const [formData, setFormData] = useState({
@@ -19,13 +20,29 @@ export default function Contact() {
     setIsSubmitting(true);
 
     try {
+      // Save to Supabase
+      const { error: dbError } = await supabase
+        .from('contact_messages')
+        .insert([{
+          name: formData.name,
+          email: formData.email,
+          phone: formData.phone,
+          event_type: formData.eventType,
+          date: formData.date || null,
+          message: formData.message
+        }]);
+
+      if (dbError) throw dbError;
+
+      // Legacy Google Script submission (optional, but keeping it if they want both)
       await fetch("https://script.google.com/macros/s/AKfycbzThyYaYTkQePH3MdrqZ7dxpARqm2m1mDuqCVY6frN-z-1Of5A2im53AsYMOCbsuiwpvA/exec", {
         method: "POST",
         body: new FormData(e.currentTarget as HTMLFormElement),
-      });
+      }).catch(err => console.error("Google Script error:", err));
 
       setSubmitted(true);
     } catch (error) {
+      console.error("Submission error:", error);
       alert("Errore durante l'invio, riprova.");
     }
 
