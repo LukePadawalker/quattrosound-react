@@ -6,6 +6,7 @@ import {
   Trash2,
   LogOut,
   ExternalLink,
+  Mail,
   Image as ImageIcon,
   LayoutDashboard,
   Package,
@@ -31,6 +32,7 @@ import InventoryForm from '../components/InventoryForm';
 import CategoriesTab from '../components/CategoriesTab';
 import SettingsTab from '../components/SettingsTab';
 import DashboardTab from '../components/DashboardTab';
+import MessagesTab from '../components/MessagesTab';
 import { CATEGORIES } from '../data/categories';
 
 interface PortfolioItem {
@@ -57,6 +59,7 @@ export default function AdminDashboard() {
   const [searchQuery, setSearchQuery] = useState('');
   const [refreshKey, setRefreshKey] = useState(0);
   const [isTransitioning, setIsTransitioning] = useState(false);
+  const [unreadCount, setUnreadCount] = useState(0);
 
   useEffect(() => {
     if (isDarkMode) {
@@ -84,7 +87,33 @@ export default function AdminDashboard() {
 
   useEffect(() => {
     fetchUser();
+    fetchUnreadCount();
+
+    // Subscribe to new messages for the badge
+    const subscription = supabase
+      .channel('dashboard_unread_count')
+      .on('postgres_changes', { event: '*', table: 'contact_messages', schema: 'public' }, () => {
+        fetchUnreadCount();
+      })
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(subscription);
+    };
   }, []);
+
+  const fetchUnreadCount = async () => {
+    try {
+      const { count, error } = await supabase
+        .from('contact_messages')
+        .select('*', { count: 'exact', head: true })
+        .eq('is_read', false);
+
+      if (!error) setUnreadCount(count || 0);
+    } catch (err) {
+      console.error('Error fetching unread count:', err);
+    }
+  };
 
   const filteredItems = items.filter(item =>
     (item.title?.toLowerCase() || '').includes(searchQuery.toLowerCase()) ||
@@ -204,6 +233,7 @@ export default function AdminDashboard() {
               { id: 'inventario', label: 'Inventario', icon: Package },
               { id: 'categorie', label: 'Categorie', icon: Tags },
               { id: 'portfolio', label: 'Portfolio', icon: ImageIcon },
+              { id: 'messaggi', label: 'Messaggi', icon: Mail, badge: unreadCount },
               { id: 'impostazioni', label: 'Impostazioni', icon: Settings },
             ].map((item) => (
               <button
@@ -212,14 +242,19 @@ export default function AdminDashboard() {
                   setActiveTab(item.id);
                   setIsSidebarOpen(false);
                 }}
-                className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all duration-200 ${
+                className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all duration-200 group relative ${
                   activeTab === item.id
                     ? 'bg-cyan-500/10 text-cyan-400 border border-cyan-500/20 shadow-[inset_0_0_10px_rgba(6,182,212,0.05)]'
                     : `text-gray-400 ${isDarkMode ? 'hover:text-white hover:bg-gray-800/30' : 'hover:text-gray-900 hover:bg-gray-100'}`
                 }`}
               >
                 <item.icon size={18} className={activeTab === item.id ? 'text-cyan-400' : 'text-gray-400'} />
-                <span className="text-sm font-medium">{item.label}</span>
+                <span className="text-sm font-medium flex-1 text-left">{item.label}</span>
+                {item.badge !== undefined && item.badge > 0 && (
+                  <span className="absolute right-2 top-1/2 -translate-y-1/2 flex items-center justify-center min-w-[18px] h-[18px] px-1 bg-cyan-500 text-[#0a0f18] text-[10px] font-black rounded-full shadow-[0_0_10px_rgba(6,182,212,0.4)]">
+                    {item.badge}
+                  </span>
+                )}
               </button>
             ))}
           </nav>
@@ -537,6 +572,8 @@ export default function AdminDashboard() {
             />
           ) : activeTab === 'impostazioni' ? (
             <SettingsTab isDarkMode={isDarkMode} />
+          ) : activeTab === 'messaggi' ? (
+            <MessagesTab />
           ) : (
             <DashboardTab
               isDarkMode={isDarkMode}
