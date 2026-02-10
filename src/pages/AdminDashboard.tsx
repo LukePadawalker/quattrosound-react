@@ -109,7 +109,12 @@ export default function AdminDashboard() {
         .select('*', { count: 'exact', head: true })
         .eq('is_read', false);
 
-      if (!error) setUnreadCount(count || 0);
+      if (!error) {
+        setUnreadCount(count || 0);
+      } else if (error.code === '42P01' || error.code === 'PGRST205') {
+        // Table doesn't exist yet, just keep unreadCount at 0
+        setUnreadCount(0);
+      }
     } catch (err) {
       console.error('Error fetching unread count:', err);
     }
