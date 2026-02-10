@@ -18,19 +18,28 @@ interface ContactMessage {
 const MessagesTab = () => {
   const [messages, setMessages] = useState<ContactMessage[]>([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   const [selectedMessage, setSelectedMessage] = useState<ContactMessage | null>(null);
 
   const fetchMessages = async () => {
     try {
+      setError(null);
       const { data, error } = await supabase
         .from('contact_messages')
         .select('*')
         .order('created_at', { ascending: false });
 
-      if (error) throw error;
+      if (error) {
+        if (error.code === '42P01' || error.code === 'PGRST205') { // Table not found
+          setError('MISSING_TABLE');
+          return;
+        }
+        throw error;
+      }
       setMessages(data || []);
     } catch (err) {
       console.error('Error fetching messages:', err);
+      setError('FETCH_ERROR');
     } finally {
       setLoading(false);
     }
@@ -90,6 +99,34 @@ const MessagesTab = () => {
     return (
       <div className="flex items-center justify-center h-64">
         <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-cyan-400"></div>
+      </div>
+    );
+  }
+
+  if (error === 'MISSING_TABLE') {
+    return (
+      <div className="p-8 bg-amber-500/10 border border-amber-500/20 rounded-2xl animate-fade-in">
+        <div className="flex items-center gap-4 mb-4">
+          <div className="p-3 bg-amber-500/20 rounded-xl text-amber-500">
+            <Filter size={24} />
+          </div>
+          <div>
+            <h3 className="text-xl font-bold text-white uppercase tracking-tighter">Configurazione <span className="text-amber-500">Incompleta</span></h3>
+            <p className="text-gray-400 text-sm">La tabella dei messaggi non è ancora presente nel database.</p>
+          </div>
+        </div>
+        <div className="bg-gray-900/50 p-6 rounded-xl border border-gray-700/50 mb-6">
+          <p className="text-gray-300 text-sm leading-relaxed mb-4">
+            Per attivare la gestione dei messaggi, devi eseguire lo script SQL di configurazione nel tuo editor SQL di Supabase.
+          </p>
+          <div className="flex items-center gap-3">
+            <code className="bg-black/50 px-3 py-1 rounded text-cyan-400 text-xs font-mono">supabase_messages.sql</code>
+            <span className="text-gray-600 text-xs">Trovi questo file nella root del progetto.</span>
+          </div>
+        </div>
+        <p className="text-xs text-gray-500">
+          Una volta eseguito lo script, ricarica questa pagina per visualizzare i messaggi ricevuti.
+        </p>
       </div>
     );
   }
