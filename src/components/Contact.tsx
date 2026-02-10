@@ -15,8 +15,9 @@ export default function Contact() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    const formElement = e.currentTarget;
     setIsSubmitting(true);
 
     try {
@@ -34,34 +35,42 @@ export default function Contact() {
 
       if (dbError) throw dbError;
 
-      // Legacy Google Script submission (optional, but keeping it if they want both)
-      await fetch("https://script.google.com/macros/s/AKfycbzThyYaYTkQePH3MdrqZ7dxpARqm2m1mDuqCVY6frN-z-1Of5A2im53AsYMOCbsuiwpvA/exec", {
-        method: "POST",
-        body: new FormData(e.currentTarget as HTMLFormElement),
-      }).catch(err => console.error("Google Script error:", err));
+      // Legacy Google Script submission (optional)
+      // Use the URL from the form action attribute if available, or fallback
+      const scriptUrl = formElement.action || "https://script.google.com/macros/s/AKfycbzThyYaYTkQePH3MdrqZ7dxpARqm2m1mDuqCVY6frN-z-1Of5A2im53AsYMOCbsuiwpvA/exec";
+
+      try {
+        const scriptFormData = new FormData(formElement);
+        await fetch(scriptUrl, {
+          method: "POST",
+          body: scriptFormData,
+          mode: 'no-cors'
+        });
+      } catch (scriptErr) {
+        console.error("Google Script error:", scriptErr);
+      }
 
       setSubmitted(true);
+
+      // Reset form after success
+      setTimeout(() => {
+        setSubmitted(false);
+        setFormData({
+          name: '',
+          email: '',
+          phone: '',
+          eventType: '',
+          date: '',
+          message: ''
+        });
+      }, 5000);
+
     } catch (error) {
       console.error("Submission error:", error);
-      alert("Errore durante l'invio, riprova.");
+      alert("Errore durante l'invio. Si prega di riprovare o contattarci telefonicamente.");
+    } finally {
+      setIsSubmitting(false);
     }
-
-    await new Promise(resolve => setTimeout(resolve, 1000));
-
-    setSubmitted(true);
-    setIsSubmitting(false);
-
-    setTimeout(() => {
-      setSubmitted(false);
-      setFormData({
-        name: '',
-        email: '',
-        phone: '',
-        eventType: '',
-        date: '',
-        message: ''
-      });
-    }, 3000);
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
@@ -156,7 +165,11 @@ export default function Contact() {
           </div>
 
           <div className="lg:col-span-3">
-            <form action="https://script.google.com/macros/s/AKfycbwA-OaXpYf5ho1k8MWTPdFSfE9QFPEfkAcg3nuq6ueb5UPPRO6OlpRP3oXuLITfvt_TtA/exec" onSubmit={handleSubmit} className="bg-gradient-to-r from-blue-800/20 to-cyan-700/20 backdrop-blur rounded-xl p-6 lg:p-8 border border-gray-700">
+            <form
+              action="https://script.google.com/macros/s/AKfycbwA-OaXpYf5ho1k8MWTPdFSfE9QFPEfkAcg3nuq6ueb5UPPRO6OlpRP3oXuLITfvt_TtA/exec"
+              onSubmit={handleSubmit}
+              className="bg-gradient-to-r from-blue-800/20 to-cyan-700/20 backdrop-blur rounded-xl p-6 lg:p-8 border border-gray-700"
+            >
               {submitted ? (
                 <div className="text-center py-12">
                   <div className="w-20 h-20 bg-green-500/10 rounded-full flex items-center justify-center mx-auto mb-6">
