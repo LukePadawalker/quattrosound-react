@@ -34,8 +34,9 @@ const LedwallLanding = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    const formElement = e.currentTarget;
     setIsSubmitting(true);
 
     try {
@@ -49,11 +50,25 @@ const LedwallLanding = () => {
         }]);
 
       if (error) throw error;
+
+      // Optional: Legacy Google Script submission for redundancy
+      try {
+        const scriptUrl = "https://script.google.com/macros/s/AKfycbwA-OaXpYf5ho1k8MWTPdFSfE9QFPEfkAcg3nuq6ueb5UPPRO6OlpRP3oXuLITfvt_TtA/exec";
+        const scriptFormData = new FormData(formElement);
+        await fetch(scriptUrl, {
+          method: "POST",
+          body: scriptFormData,
+          mode: 'no-cors'
+        });
+      } catch (scriptErr) {
+        console.error("Script error:", scriptErr);
+      }
+
       setSubmitted(true);
       setFormData({ name: '', email: '', service: 'Noleggio Ledwall Venezia', message: '' });
     } catch (err) {
       console.error("Submission error:", err);
-      alert("Errore durante l'invio. Riprova.");
+      alert("Errore durante l'invio. Si prega di riprovare o contattarci telefonicamente.");
     } finally {
       setIsSubmitting(false);
       setTimeout(() => setSubmitted(false), 5000);
